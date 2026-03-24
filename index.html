@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spectrum Energy Research Corp</title>
+<meta name="description" content="A unified framework for understanding and engineering energy control across every band of the electromagnetic spectrum — from radio to gamma ray.">
+<meta property="og:title" content="Spectrum Energy Research Corp">
+<meta property="og:description" content="Every energy band gets its own optimal conversion pathway. The framework that asks: can we control gamma radiation as completely as we control electricity?">
+<meta property="og:url" content="https://spectrumenergy.one">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #0A0A14;
+  --surface:   #0F0F1E;
+  --surface2:  #14142A;
+  --border:    rgba(255,255,255,0.07);
+  --border2:   rgba(255,255,255,0.12);
+  --text:      #E8E8F0;
+  --text-dim:  #888898;
+  --text-faint:#44445A;
+  --accent:    #5B8DEE;
+  --accent2:   #D4AF37;
+  --gamma:     #E63946;
+  --green:     #4CAF8A;
+  --purple:    #9B59B6;
+  --orange:    #E67E22;
+  --font-head: 'Syncopate', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── CANVAS BACKGROUND ─────────────────────────────── */
+#bg-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+/* ── NAV ───────────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 3rem;
+  background: linear-gradient(to bottom, rgba(10,10,20,0.95), transparent);
+  backdrop-filter: blur(8px);
+}
+
+.nav-logo {
+  font-family: var(--font-head);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--accent2);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--text); }
+
+.nav-cta {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--accent) !important;
+  border: 1px solid rgba(91,141,238,0.3);
+  padding: 0.4rem 1rem;
+  border-radius: 2px;
+  transition: all 0.2s !important;
+}
+.nav-cta:hover {
+  color: #fff !important;
+  border-color: var(--accent) !important;
+  background: rgba(91,141,238,0.15);
+}
+
+/* ── HERO ──────────────────────────────────────────── */
+.hero {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8rem 3rem 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
+}
+
+.hero-title {
+  font-family: var(--font-head);
+  font-size: clamp(2.4rem, 6vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.4s forwards;
+}
+
+.hero-title span {
+  display: block;
+  color: var(--accent2);
+}
+
+.hero-sub {
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--text-dim);
+  max-width: 560px;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.6s forwards;
+}
+
+.hero-principle {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--accent2);
+  border-left: 2px solid var(--accent2);
+  padding-left: 1rem;
+  max-width: 520px;
+  margin-bottom: 3rem;
+  line-height: 1.6;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.8s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.8s 1s forwards;
+}
+
+.btn {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  padding: 0.75rem 1.8rem;
+  border-radius: 2px;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+  text-transform: uppercase;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-primary:hover { background: #7aa3f0; }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border2);
+}
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── BAND BAR ──────────────────────────────────────── */
+.band-bar {
+  position: relative;
+  z-index: 1;
+  padding: 0 3rem;
+  max-width: 1200px;
+  margin: 0 auto 6rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 1.2s forwards;
+}
+
+.band-bar-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.bands {
+  display: flex;
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  gap: 2px;
+}
+
+.band-seg {
+  flex: 1;
+  border-radius: 1px;
+  transition: flex 0.3s;
+}
+
+.band-labels {
+  display: flex;
+  margin-top: 0.5rem;
+  gap: 2px;
+}
+
+.band-lbl {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  color: var(--text-faint);
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+
+/* ── SECTION BASE ──────────────────────────────────── */
+section {
+  position: relative;
+  z-index: 1;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+.section-head {
+  margin-bottom: 3rem;
+}
+
+.section-tag {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.section-title {
+  font-family: var(--font-head);
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.section-title em {
+  color: var(--accent2);
+  font-style: normal;
+}
+
+.section-body {
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  max-width: 640px;
+  margin-top: 1rem;
+}
+
+/* ── FRAMEWORK SECTION ─────────────────────────────── */
+.framework {
+  padding: 6rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.framework-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 3rem;
+}
+
+.framework-card {
+  background: var(--surface);
+  padding: 2rem;
+  transition: background 0.2s;
+}
+.framework-card:hover { background: var(--surface2); }
+
+.framework-card-icon {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.framework-card-title {
+  font-family: var(--font-head);
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  color: var(--accent2);
+}
+
+.framework-card-body {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  line-height: 1.65;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1.2rem;
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.05);
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+/* ── CHARTS SECTION ────────────────────────────────── */
+.charts {
+  padding: 6rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 3rem;
+}
+
+.chart-card {
+  background: var(--surface);
+  padding: 1.5rem;
+  text-decoration: none;
+  display: block;
+  transition: background 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.chart-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 2px;
+  height: 100%;
+  background: var(--card-accent, var(--accent));
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.chart-card:hover { background: var(--surface2); }
+.chart-card:hover::before { opacity: 1; }
+
+.chart-type {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--card-accent, var(--accent));
+  margin-bottom: 0.5rem;
+}
+
+.chart-name {
+  font-family: var(--font-head);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 0.6rem;
+  line-height: 1.3;
+}
+
+.chart-desc {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.55;
+}
+
+.chart-arrow {
+  position: absolute;
+  bottom: 1rem;
+  right: 1.2rem;
+  font-size: 0.9rem;
+  color: var(--text-faint);
+  transition: color 0.2s, transform 0.2s;
+}
+
+.chart-card:hover .chart-arrow {
+  color: var(--card-accent, var(--accent));
+  transform: translateX(3px);
+}
+
+/* ── DELIVERABLES ──────────────────────────────────── */
+.deliverables {
+  padding: 6rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.deliverables-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.deliv-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.deliv-card::after {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--deliv-color) 0%, transparent 70%);
+  opacity: 0.06;
+}
+
+.deliv-badge {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--deliv-color);
+  border: 1px solid var(--deliv-color);
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+  margin-bottom: 1.2rem;
+  opacity: 0.8;
+}
+
+.deliv-title {
+  font-family: var(--font-head);
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+.deliv-body {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.deliv-specs {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.deliv-specs li {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  padding-left: 1rem;
+  position: relative;
+}
+
+.deliv-specs li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--deliv-color);
+}
+
+/* ── PRINCIPLES ────────────────────────────────────── */
+.principles {
+  padding: 6rem 0;
+  border-top: 1px solid var(--border);
+  background: linear-gradient(to bottom, transparent, rgba(91,141,238,0.03));
+}
+
+.principles-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.principle {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+}
+
+.principle-num {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent);
+  padding-top: 0.2rem;
+  flex-shrink: 0;
+  width: 2rem;
+}
+
+.principle-text {
+  font-size: 0.92rem;
+  color: var(--text-dim);
+  line-height: 1.65;
+}
+
+.principle-text strong {
+  color: var(--text);
+  font-weight: 500;
+  display: block;
+  margin-bottom: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ── ABOUT ─────────────────────────────────────────── */
+.about {
+  padding: 6rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  margin-top: 3rem;
+  align-items: start;
+}
+
+.about-text p {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  line-height: 1.75;
+  margin-bottom: 1.2rem;
+}
+
+.about-text a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.about-text a:hover { text-decoration: underline; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.stat {
+  background: var(--surface);
+  padding: 1.5rem;
+}
+
+.stat-num {
+  font-family: var(--font-head);
+  font-size: 2rem;
+  letter-spacing: 0.05em;
+  color: var(--accent2);
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+}
+
+/* ── GAMMA GAP ─────────────────────────────────────── */
+.gamma-gap {
+  padding: 6rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.gap-table {
+  margin-top: 2.5rem;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.gap-row {
+  display: grid;
+  grid-template-columns: 140px 80px 1fr;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.gap-row:last-child { border-bottom: none; }
+.gap-row:hover { background: var(--surface); }
+
+.gap-row-head {
+  background: var(--surface);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.gap-cell {
+  padding: 0.9rem 1.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+}
+
+.gap-role { color: var(--text); }
+
+.gap-status {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.gap-status.filled { color: var(--green); }
+.gap-status.open   { color: var(--gamma); }
+
+.gap-note { color: var(--text-dim); font-size: 0.72rem; line-height: 1.5; }
+
+/* ── OPEN SOURCE ───────────────────────────────────── */
+.open-source {
+  padding: 6rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.os-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.os-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 1.8rem;
+  text-decoration: none;
+  display: block;
+  transition: border-color 0.2s;
+}
+
+.os-card:hover { border-color: var(--accent); }
+
+.os-icon {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+}
+
+.os-title {
+  font-family: var(--font-head);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 0.6rem;
+}
+
+.os-body {
+  font-size: 0.83rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+/* ── FOOTER ────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-copy {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+}
+
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-links a {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--accent); }
+
+/* ── ANIMATIONS ────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s, transform 0.6s;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── RESPONSIVE ────────────────────────────────────── */
+@media (max-width: 900px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .hero, .container { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .band-bar { padding: 0 1.5rem; }
+  .framework-grid { grid-template-columns: 1fr; }
+  .deliverables-grid { grid-template-columns: 1fr; }
+  .about-grid { grid-template-columns: 1fr; }
+  .principles-list { grid-template-columns: 1fr; }
+  .os-grid { grid-template-columns: 1fr 1fr; }
+  .gap-row { grid-template-columns: 110px 70px 1fr; }
+}
+
+@media (max-width: 600px) {
+  .hero-title { font-size: 2rem; }
+  .os-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .gap-note { display: none; }
+  .gap-row { grid-template-columns: 1fr 1fr; }
+  .gap-row-head .gap-note { display: none; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Spectrum Energy</a>
+  <ul class="nav-links">
+    <li><a href="#framework">Framework</a></li>
+    <li><a href="#charts">Charts</a></li>
+    <li><a href="#deliverables">Deliverables</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="https://github.com/dryoungfreedom/spectrum-energy" target="_blank" class="nav-cta">GitHub →</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">Spectrum Energy Research Corp · Est. 2025</p>
+  <h1 class="hero-title">
+    Every Band.<br>
+    <span>One Framework.</span>
+  </h1>
+  <p class="hero-sub">A unified system for understanding and engineering energy control across every band of the electromagnetic spectrum — from radio to gamma ray.</p>
+  <blockquote class="hero-principle">
+    Every energy band gets its own optimal conversion pathway.<br>
+    This is the core principle.
+  </blockquote>
+  <div class="hero-actions">
+    <a href="#charts" class="btn btn-primary">Explore the Charts</a>
+    <a href="#framework" class="btn btn-secondary">The Framework</a>
+  </div>
+</section>
+
+<!-- BAND BAR -->
+<div class="band-bar">
+  <p class="band-bar-label">The 15 Energy Bands</p>
+  <div class="bands">
+    <div class="band-seg" style="background:#FF6B6B;"></div><!-- Electron -->
+    <div class="band-seg" style="background:#4ECDC4;"></div><!-- Neutron -->
+    <div class="band-seg" style="background:#45B7D1;"></div><!-- Alpha -->
+    <div class="band-seg" style="background:#96CEB4;"></div><!-- Proton -->
+    <div class="band-seg" style="background:#A8E6CF;"></div><!-- Ion -->
+    <div class="band-seg" style="background:#DDA0DD;"></div><!-- Muon -->
+    <div class="band-seg" style="background:#FF8C42;"></div><!-- Thermal -->
+    <div class="band-seg" style="background:#FF4757;"></div><!-- Radio -->
+    <div class="band-seg" style="background:#FF6348;"></div><!-- Microwave -->
+    <div class="band-seg" style="background:#FF7675;"></div><!-- Infrared -->
+    <div class="band-seg" style="background:#FDCB6E;"></div><!-- Visible -->
+    <div class="band-seg" style="background:#A29BFE;"></div><!-- UV -->
+    <div class="band-seg" style="background:#74B9FF;"></div><!-- X-Ray -->
+    <div class="band-seg" style="background:#5B8DEE;"></div><!-- Magnetic -->
+    <div class="band-seg" style="background:#D4AF37;"></div><!-- Gamma -->
+  </div>
+  <div class="band-labels">
+    <div class="band-lbl">electron</div>
+    <div class="band-lbl">neutron</div>
+    <div class="band-lbl">alpha</div>
+    <div class="band-lbl">proton</div>
+    <div class="band-lbl">ion</div>
+    <div class="band-lbl">muon</div>
+    <div class="band-lbl">thermal</div>
+    <div class="band-lbl">radio</div>
+    <div class="band-lbl">micro</div>
+    <div class="band-lbl">infrared</div>
+    <div class="band-lbl">visible</div>
+    <div class="band-lbl">UV</div>
+    <div class="band-lbl">X-ray</div>
+    <div class="band-lbl">magnetic</div>
+    <div class="band-lbl">γ gamma</div>
+  </div>
+</div>
+
+<!-- FRAMEWORK -->
+<section class="framework" id="framework">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="section-tag">The Framework</p>
+      <h2 class="section-title">Start. <em>Change.</em> Stop.</h2>
+      <p class="section-body">Every material interaction with every energy band falls into one of three control functions. This isn't metaphor — it's the operational model that electricity proved and that this framework extends to all energy.</p>
+    </div>
+    <div class="framework-grid reveal">
+      <div class="framework-card">
+        <div class="framework-card-icon">⚡</div>
+        <div class="framework-card-title">Start — Source</div>
+        <div class="framework-card-body">The mechanism that creates energy flow: a fission reactor, a radioactive decay isotope, a turbine, the sun. START is not a material property — it is the origin event. Once energy flows, control begins.</div>
+        <div class="tag-row">
+          <span class="tag">fission</span>
+          <span class="tag">decay</span>
+          <span class="tag">photovoltaic</span>
+          <span class="tag">SE Cell</span>
+        </div>
+      </div>
+      <div class="framework-card">
+        <div class="framework-card-icon">⟳</div>
+        <div class="framework-card-title">Change — Direct</div>
+        <div class="framework-card-body">All material interactions that redirect, convert, or modify energy — conductors, channels, reflectors, refractors, converters, polarizers. The richest category. The degree of control across bands is the primary finding.</div>
+        <div class="tag-row">
+          <span class="tag">conductor</span>
+          <span class="tag">reflector</span>
+          <span class="tag">converter</span>
+          <span class="tag">refractor</span>
+          <span class="tag">channel</span>
+          <span class="tag">polarizer</span>
+        </div>
+      </div>
+      <div class="framework-card">
+        <div class="framework-card-icon">⬛</div>
+        <div class="framework-card-title">Stop — Block</div>
+        <div class="framework-card-body">Materials that block, attenuate, or fully absorb energy. Resistors slow it. Insulators stop it. Absorbers capture it. The STOP layer is where gamma control is most developed — and where harvesting begins.</div>
+        <div class="tag-row">
+          <span class="tag">resistor</span>
+          <span class="tag">insulator</span>
+          <span class="tag">absorber</span>
+          <span class="tag">shielding</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:3rem;"></div>
+
+    <!-- Band categories -->
+    <div class="section-head reveal">
+      <p class="section-tag">Band Categories</p>
+      <h2 class="section-title">Three Domains. <em>Fifteen Bands.</em></h2>
+      <p class="section-body">All energy falls into one of three categories. The nuclear industry built its entire paradigm around one band. This framework treats all fifteen equally.</p>
+    </div>
+    <div class="framework-grid reveal">
+      <div class="framework-card">
+        <div class="framework-card-icon" style="color:#5B8DEE;">∿</div>
+        <div class="framework-card-title" style="color:#5B8DEE;">EM Spectrum — 8 Bands</div>
+        <div class="framework-card-body">Radio, Microwave, Infrared, Visible Light, Ultraviolet, X-Ray, Magnetic, Gamma Ray. All electromagnetic energy. Photons and fields. The most studied — and the most incomplete at the gamma end.</div>
+        <div class="tag-row">
+          <span class="tag">100% control: radio, microwave</span>
+          <span class="tag" style="color:var(--gamma);border-color:var(--gamma);">44% filled: gamma</span>
+        </div>
+      </div>
+      <div class="framework-card">
+        <div class="framework-card-icon" style="color:#FF8C42;">◈</div>
+        <div class="framework-card-title" style="color:#FF8C42;">Thermal — 1 Band</div>
+        <div class="framework-card-body">Conductive heat transfer. Distinct from infrared (radiative heat). Kinetic at the atomic level, transferred through EM field interactions between atoms. The transitional band between EM and kinetic particles.</div>
+        <div class="tag-row">
+          <span class="tag">Seebeck effect</span>
+          <span class="tag">thermoelectric</span>
+          <span class="tag">waste-heat harvest</span>
+        </div>
+      </div>
+      <div class="framework-card">
+        <div class="framework-card-icon" style="color:#4ECDC4;">◉</div>
+        <div class="framework-card-title" style="color:#4ECDC4;">Kinetic Particles — 6 Bands</div>
+        <div class="framework-card-body">Electron flow, Neutron flow, Alpha flow (developed). Proton, Ion, Muon (placeholders). Carrier particles that propagate energy between points. They are the medium, not the energy itself — a critical distinction.</div>
+        <div class="tag-row">
+          <span class="tag">electron</span>
+          <span class="tag">neutron</span>
+          <span class="tag">alpha</span>
+          <span class="tag">+ 3 placeholders</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHARTS -->
+<section class="charts" id="charts">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="section-tag">Interactive Charts</p>
+      <h2 class="section-title">The <em>Complete</em> Dataset</h2>
+      <p class="section-body">118 elements. 79 compounds. 33 isotopes. Each classified across all 15 energy bands. Explore the data through nine interactive tools — each designed to answer a specific research question.</p>
+    </div>
+    <div class="charts-grid reveal">
+
+      <a href="spectrum-energy-chart.html" class="chart-card" style="--card-accent:#5B8DEE;">
+        <div class="chart-type">Reference</div>
+        <div class="chart-name">Energy Band Chart</div>
+        <div class="chart-desc">118 elements classified across all 15 energy bands. The primary reference tool — filter by band, role, or electron configuration.</div>
+        <div class="chart-arrow">→</div>
+      </a>
+
+      <a href="spectrum-control-chart.html" class="chart-card" style="--card-accent:#4CAF8A;">
+        <div class="chart-type">Analysis</div>
+        <div class="chart-name">Control Analysis</div>
+        <div class="chart-desc">Start → Change → Stop mapped across all bands. Where control is complete — and where the gaps are. The core analytical view.</div>
+        <div class="chart-arrow">→</div>
+      </a>
+
+      <a href="spectrum-compounds-chart.html" class="chart-card" style="--card-accent:#D4AF37;">
+        <div class="chart-type">Compounds</div>
+        <div class="chart-name">Compounds Chart</div>
+        <div class="chart-desc">79 engineered compounds across 11 categories: scintillators, thermoelectrics, semiconductors, shielding alloys, nuclear ceramics, and more.</div>
+        <div class="chart-arrow">→</div>
+      </a>
+
+      <a href="spectrum-isotope-chart.html" class="chart-card" style="--card-accent:#E63946;">
+        <div class="chart-type">Nuclear</div>
+        <div class="chart-name">Isotope Chart</div>
+        <div class="chart-desc">33 isotopes including 9 decay source candidates for the SE Cell. Specific power, decay type, emitted bands, and production methods.</div>
+        <div class="chart-arrow">→</div>
+      </a>
+
+      <a href="spectrum-structure-chart.html" class="chart-card" style="--card-accent:#9B59B6;">
+        <div class="chart-type">Structure</div>
+        <div class="chart-name">Structure Chart</div>
+        <div class="chart-desc">Electron configuration correlation — how shell structure drives band behavior. 15 structural groups mapped against all energy classifications.</div>
+        <div class="chart-arrow">→</div>
+      </a>
+
+      <a href="spectrum-energy-cell.html" class="chart-card" style="--card-accent:#EC407A;">
+        <div class="chart-type">Design</div>
+        <div class="chart-name">SE Cell Design</div>
+        <div class="chart-desc">The Spectrum Energy Cell — a decay battery with no moving parts. 8 conversion layers, atmospheric model, three output modes: thermal, light, electrical.</div>
+        <div class="chart-arrow">→</div>
+      </a>
+
+      <a href="spectrum-schematic.html" class="chart-card" style="--card-accent:#FF8C42;">
+        <div class="chart-type">Design</div>
+        <div class="chart-name">Reactor Schematic</div>
+        <div class="chart-desc">The Spectrum Energy Reactor — fission core with active shielding that harvests waste-stream gamma. The proof-of-concept and SE Cell fuel factory.</div>
+        <div class="chart-arrow">→</div>
+      </a>
+
+      <a href="spectrum-active-shielding.html" class="chart-card" style="--card-accent:#E63946;">
+        <div class="chart-type">Design</div>
+        <div class="chart-name">Active Shielding</div>
+        <div class="chart-desc">Layer-by-layer breakdown of the active shielding system. Each layer converts rather than discards — the waste pipeline begins here.</div>
+        <div class="chart-arrow">→</div>
+      </a>
+
+      <a href="spectrum-waste-pipeline.html" class="chart-card" style="--card-accent:#26C6DA;">
+        <div class="chart-type">Integration</div>
+        <div class="chart-name">Waste Pipeline</div>
+        <div class="chart-desc">Three processing tiers for converting reactor waste streams into SE Cell fuel. Bill of materials and cascade flow from fission to decay battery.</div>
+        <div class="chart-arrow">→</div>
+      </a>
+
+      <a href="spectrum-energy-budget.html" class="chart-card" style="--card-accent:#FDCB6E;">
+        <div class="chart-type">Analysis</div>
+        <div class="chart-name">Energy Budget</div>
+        <div class="chart-desc">Where fission energy actually goes. The accounting that exposes what the nuclear industry currently discards — and what active shielding can recover.</div>
+        <div class="chart-arrow">→</div>
+      </a>
+
+      <a href="spectrum-home-integration.html" class="chart-card" style="--card-accent:#8BC34A;">
+        <div class="chart-type">Application</div>
+        <div class="chart-name">Home Integration</div>
+        <div class="chart-desc">SE Cell powering a 2,000 sq ft Florida home. All utilities mapped: HVAC, lighting, hot water, appliances. Real load numbers, real output modes.</div>
+        <div class="chart-arrow">→</div>
+      </a>
+
+      <a href="spectrum-datacenter.html" class="chart-card" style="--card-accent:#5B8DEE;">
+        <div class="chart-type">Application</div>
+        <div class="chart-name">Data Center Integration</div>
+        <div class="chart-desc">Three scales: edge, small, and hyperscale. PUE comparison against conventional power. The SE Cell as AI infrastructure power source.</div>
+        <div class="chart-arrow">→</div>
+      </a>
+
+      <a href="spectrum-glossary.html" class="chart-card" style="--card-accent:#888898;">
+        <div class="chart-type">Reference</div>
+        <div class="chart-name">Glossary</div>
+        <div class="chart-desc">Every term used in the framework defined precisely. Framework-specific language, physics terms, and design principles — searchable and filterable.</div>
+        <div class="chart-arrow">→</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERABLES -->
+<section class="deliverables" id="deliverables">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="section-tag">Two Deliverables</p>
+      <h2 class="section-title">The Reactor. <em>The Cell.</em></h2>
+      <p class="section-body">The framework produces two engineering targets. The reactor proves the concept and manufactures fuel. The cell is the product — and it produces no waste.</p>
+    </div>
+    <div class="deliverables-grid reveal">
+
+      <div class="deliv-card" style="--deliv-color:#E63946;">
+        <span class="deliv-badge">Proof of Concept</span>
+        <div class="deliv-title">Spectrum Energy Reactor</div>
+        <div class="deliv-body">A fission reactor redesigned around the principle that every energy band in the waste stream has an optimal conversion pathway. Active shielding harvests gamma, X-ray, and neutron bands currently discarded as heat. Also functions as the manufacturing facility for SE Cell fuel isotopes.</div>
+        <ul class="deliv-specs">
+          <li>Active shielding replaces passive containment</li>
+          <li>Waste-stream gamma converted, not blocked</li>
+          <li>Harvest from waste — never steal from thermal</li>
+          <li>Produces decay source isotopes for SE Cell production</li>
+          <li>Existing reactor sites: retrofit candidate</li>
+        </ul>
+      </div>
+
+      <div class="deliv-card" style="--deliv-color:#D4AF37;">
+        <span class="deliv-badge">The Product</span>
+        <div class="deliv-title">Spectrum Energy Cell</div>
+        <div class="deliv-body">A decay battery with no moving parts, no combustion, no grid connection. Every energy band emitted by the decay source isotope is converted by a dedicated layer — the atmospheric model. Power output degrades gracefully over decades. End products are stable, non-radioactive metals.</div>
+        <ul class="deliv-specs">
+          <li>8-layer atmospheric conversion stack</li>
+          <li>Three output modes: thermal, light, electrical</li>
+          <li>Cascade model — step down to smaller loads as power drops</li>
+          <li>End state: stable commodity metals, zero waste</li>
+          <li>Century-scale fuel sources available (Am-241, Pu-238)</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN PRINCIPLES -->
+<section class="principles">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="section-tag">Design Principles</p>
+      <h2 class="section-title">Rules That <em>Cannot</em> Be Broken</h2>
+    </div>
+    <div class="principles-list reveal">
+      <div class="principle">
+        <div class="principle-num">01</div>
+        <div class="principle-text">
+          <strong>Harvest from waste, never steal from thermal</strong>
+          At reactor scale, do not divert energy from the 33% steam cycle to a lower-efficiency converter. Only harvest energy currently at 0% utilization. At SE Cell scale, all paths are active.
+        </div>
+      </div>
+      <div class="principle">
+        <div class="principle-num">02</div>
+        <div class="principle-text">
+          <strong>Filter by layer, not by containment</strong>
+          Convert dangerous bands, pass safe ones. The atmospheric model: each layer is tuned to one band. Energy exits as something useful, not as heat to be discarded.
+        </div>
+      </div>
+      <div class="principle">
+        <div class="principle-num">03</div>
+        <div class="principle-text">
+          <strong>Don't convert energy already in useful form</strong>
+          Three output modes exist: direct thermal, direct light, electrical. Match the output mode to the load. Converting thermal to electrical and back is inefficiency, not engineering.
+        </div>
+      </div>
+      <div class="principle">
+        <div class="principle-num">04</div>
+        <div class="principle-text">
+          <strong>Cascade, don't discard</strong>
+          Decay is gradual. Step units down to smaller applications as power drops. End products are stable commodity metals — not waste. Am-241's end product is feedstock for more fuel.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GAMMA GAP -->
+<section class="gamma-gap" id="gamma-gap">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="section-tag">The Research Frontier</p>
+      <h2 class="section-title">The <em>Gamma Gap</em></h2>
+      <p class="section-body">Control completeness erodes predictably as photon energy increases. Radio and microwave: 100% control. Gamma: 44%. Five roles remain open. The framework maps exactly where to look — and why the gaps exist.</p>
+    </div>
+    <div class="gap-table reveal">
+      <div class="gap-row gap-row-head">
+        <div class="gap-cell gap-role">Role</div>
+        <div class="gap-cell gap-status">Status</div>
+        <div class="gap-cell gap-note">Research Direction</div>
+      </div>
+      <div class="gap-row">
+        <div class="gap-cell gap-role">Conductor</div>
+        <div class="gap-cell gap-status open">✗ OPEN</div>
+        <div class="gap-cell gap-note">Field-based gamma guidance; nuclear waveguide concepts. Most speculative gap.</div>
+      </div>
+      <div class="gap-row">
+        <div class="gap-cell gap-role">Channel</div>
+        <div class="gap-cell gap-status open">✗ OPEN</div>
+        <div class="gap-cell gap-note">Dependent on Reflector. Once reflection exists, channel geometry follows.</div>
+      </div>
+      <div class="gap-row">
+        <div class="gap-cell gap-role">Reflector</div>
+        <div class="gap-cell gap-status open" style="color:#FF6B6B;">✗ PRIORITY</div>
+        <div class="gap-cell gap-note">Laue crystal diffraction; Mössbauer resonance arrays; extreme grazing-incidence optics.</div>
+      </div>
+      <div class="gap-row">
+        <div class="gap-cell gap-role">Refractor</div>
+        <div class="gap-cell gap-status open">✗ OPEN</div>
+        <div class="gap-cell gap-note">Compound refractive lenses demonstrated at X-ray. Theoretically extendable to gamma.</div>
+      </div>
+      <div class="gap-row">
+        <div class="gap-cell gap-role">Polarizer</div>
+        <div class="gap-cell gap-status open">✗ OPEN</div>
+        <div class="gap-cell gap-note">Compton scattering is polarization-dependent at gamma energies. Crystal diffraction path.</div>
+      </div>
+      <div class="gap-row">
+        <div class="gap-cell gap-role">Resistor</div>
+        <div class="gap-cell gap-status filled">✓ Filled</div>
+        <div class="gap-cell gap-note">6 elements confirmed.</div>
+      </div>
+      <div class="gap-row">
+        <div class="gap-cell gap-role">Absorber</div>
+        <div class="gap-cell gap-status filled">✓ Filled</div>
+        <div class="gap-cell gap-note">79 elements. High-Z photoelectric absorption — the dominant gamma interaction in matter.</div>
+      </div>
+      <div class="gap-row">
+        <div class="gap-cell gap-role">Converter</div>
+        <div class="gap-cell gap-status filled">✓ Filled</div>
+        <div class="gap-cell gap-note">All gamma absorbers are also converters via gamma→X-ray chain. 79 elements + 11 compounds.</div>
+      </div>
+      <div class="gap-row">
+        <div class="gap-cell gap-role">Insulator</div>
+        <div class="gap-cell gap-status filled">✓ Filled</div>
+        <div class="gap-cell gap-note">2 elements, 4 compounds. True nuclear-level insulation may live at the isotope level.</div>
+      </div>
+    </div>
+    <p style="margin-top:1.5rem; font-family:var(--font-mono); font-size:0.72rem; color:var(--text-faint);">
+      Full analysis: <a href="GAMMA-GAP-ROADMAP.md" style="color:var(--accent); text-decoration:none;">GAMMA-GAP-ROADMAP.md →</a>
+    </p>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="section-tag">About</p>
+      <h2 class="section-title">Forty Years. <em>One Question.</em></h2>
+    </div>
+    <div class="about-grid reveal">
+      <div class="about-text">
+        <p>The Spectrum Energy Research Framework was developed by <strong>David R. Young</strong> through Spectrum Energy Research Corp. The central question — can we control gamma radiation as completely as we control electricity? — has guided the work since its inception.</p>
+        <p>The framework began as a thought experiment: if electricity achieved full control not through better materials alone, but through engineered devices combining simple material properties in the right geometry, could gamma follow the same path? The answer required building the database that didn't exist: every element and engineered compound classified by how it interacts with every energy band.</p>
+        <p>The origin of this work is documented in <a href="Sunshine_on_a_Bad_Nuclear_Day_r.pdf" target="_blank"><em>Sunshine on a Bad Nuclear Day</em></a> — the creative work that started it all.</p>
+        <p>All data, charts, and documentation are open source. The framework is designed to be built upon. Contributions that serve the gamma control chain, the Spectrum Energy Reactor, or the SE Cell are welcome through the GitHub repository.</p>
+        <p style="margin-top:1.5rem;">
+          <a href="https://github.com/dryoungfreedom/spectrum-energy" target="_blank" class="btn btn-secondary" style="display:inline-block;">View on GitHub →</a>
+        </p>
+      </div>
+      <div>
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="stat-num">118</div>
+            <div class="stat-label">Elements Classified</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">79</div>
+            <div class="stat-label">Compounds</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">33</div>
+            <div class="stat-label">Isotopes</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">15</div>
+            <div class="stat-label">Energy Bands</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">9</div>
+            <div class="stat-label">Control Roles</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">44%</div>
+            <div class="stat-label">Gamma Control<br>Completeness</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OPEN SOURCE -->
+<section class="open-source" id="open-source">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="section-tag">Open Source</p>
+      <h2 class="section-title">Built to <em>Last.</em></h2>
+      <p class="section-body">The framework is designed to be resilient, verifiable, and independent of any single point of control.</p>
+    </div>
+    <div class="os-grid reveal">
+      <div class="os-card" href="#">
+        <div class="os-icon">⬡</div>
+        <div class="os-title">One Data File</div>
+        <div class="os-body">All element, compound, and isotope data lives in <code style="font-family:var(--font-mono); font-size:0.8em; color:var(--accent);">spectrum-data.js</code>. One source of truth. Charts load it. Researchers can download it. Contributions go through a defined QC process.</div>
+      </div>
+      <a class="os-card" href="https://github.com/dryoungfreedom/spectrum-energy" target="_blank">
+        <div class="os-icon">◈</div>
+        <div class="os-title">GitHub Repository</div>
+        <div class="os-body">All source files, charts, and documentation are publicly available. Git history provides a verified record of every change. The website is the front door — not the only access.</div>
+      </a>
+      <div class="os-card">
+        <div class="os-icon">◉</div>
+        <div class="os-title">Non-Profit Mission</div>
+        <div class="os-body">Spectrum Energy Research Corp. All proceeds benefit organizations advancing human welfare. The framework exists to be used — by researchers, engineers, developers, and educators worldwide.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-copy">© 2025 David R. Young — Spectrum Energy Research Corp · spectrumenergy.one</span>
+    <div class="footer-links">
+      <a href="spectrum-glossary.html">Glossary</a>
+      <a href="GAMMA-GAP-ROADMAP.md">Gamma Gap</a>
+      <a href="Sunshine_on_a_Bad_Nuclear_Day_r.pdf" target="_blank">Origin Story</a>
+      <a href="https://github.com/dryoungfreedom/spectrum-energy" target="_blank">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── BACKGROUND CANVAS ────────────────────────────────────
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const bandColors = [
+  '#FF6B6B','#4ECDC4','#45B7D1','#FF8C42','#FF4757',
+  '#FF6348','#FDCB6E','#A29BFE','#74B9FF','#5B8DEE','#D4AF37'
+];
+
+const particles = Array.from({length: 60}, () => ({
+  x: Math.random() * window.innerWidth,
+  y: Math.random() * window.innerHeight,
+  vx: (Math.random() - 0.5) * 0.3,
+  vy: (Math.random() - 0.5) * 0.3,
+  r: Math.random() * 1.5 + 0.5,
+  color: bandColors[Math.floor(Math.random() * bandColors.length)],
+  opacity: Math.random() * 0.4 + 0.1
+}));
+
+function drawBg() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Subtle grid
+  ctx.strokeStyle = 'rgba(255,255,255,0.015)';
+  ctx.lineWidth = 1;
+  for (let x = 0; x < canvas.width; x += 80) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, canvas.height);
+    ctx.stroke();
+  }
+  for (let y = 0; y < canvas.height; y += 80) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(canvas.width, y);
+    ctx.stroke();
+  }
+
+  // Particles
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    if (p.x < 0) p.x = canvas.width;
+    if (p.x > canvas.width) p.x = 0;
+    if (p.y < 0) p.y = canvas.height;
+    if (p.y > canvas.height) p.y = 0;
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = p.color + Math.floor(p.opacity * 255).toString(16).padStart(2,'0');
+    ctx.fill();
+  });
+
+  requestAnimationFrame(drawBg);
+}
+drawBg();
+
+// ── SCROLL REVEAL ─────────────────────────────────────────
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+reveals.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
