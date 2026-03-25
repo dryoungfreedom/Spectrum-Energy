@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spectrum Energy Chart — General Reference</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600;700;800&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#0A0A14;color:#E0E0F0;font-family:'Inter','Segoe UI',sans-serif;padding:24px 28px;min-height:100vh;}
+  h1{font-size:28px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(135deg,#E63946,#E9C46A,#2A9D8F,#264653,#6A0572);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .subtitle{font-size:13px;color:#555568;margin-top:4px;}
+  .section-label{font-size:10px;color:#555568;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;}
+  .band-bar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+  .band-btn{background:rgba(255,255,255,0.04);color:#888;border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:8px 16px;cursor:pointer;font-size:13px;font-family:inherit;font-weight:400;transition:all 0.2s ease;}
+  .band-btn:hover{border-color:rgba(255,255,255,0.2);}
+  .band-btn.active{color:#FFF;font-weight:700;}
+  .band-sep{width:1px;height:28px;background:rgba(255,255,255,0.12);margin:0 4px;flex-shrink:0;}
+  .band-info{font-size:11px;color:#555568;margin-top:6px;}
+  .legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:0;}
+  .legend-item{display:flex;align-items:center;gap:4px;}
+  .legend-swatch{width:10px;height:10px;border-radius:2px;}
+  .legend-label{font-size:9px;color:#777790;}
+  .search-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+  .search-input{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:8px 14px;color:#E0E0F0;font-family:inherit;font-size:13px;width:240px;outline:none;}
+  .search-input::placeholder{color:#444;}
+  .search-input:focus{border-color:rgba(255,255,255,0.25);}
+  .element-count{font-size:11px;color:#444458;}
+  .default-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:6px;}
+  .role-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+  .role-column{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:12px;min-height:60px;}
+  .role-header{display:flex;align-items:center;gap:6px;margin-bottom:8px;padding-bottom:6px;}
+  .role-header-name{font-size:13px;font-weight:700;}
+  .role-header-count{font-size:10px;color:#555;margin-left:auto;}
+  .role-desc{font-size:9px;color:#555568;margin-bottom:8px;}
+  .role-empty{font-size:11px;color:#333;font-style:italic;}
+  .role-elements{display:flex;flex-wrap:wrap;gap:4px;}
+  .el-card{background:#1C1C2E;border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:6px 8px;cursor:pointer;transition:all 0.3s ease;min-width:64px;text-align:center;position:relative;}
+  .el-card:hover{border-color:rgba(255,255,255,0.25);}
+  .el-card.selected{border:2px solid #F0F0F0;}
+  .el-card.dimmed{opacity:0.15;}
+  .el-card.predicted{border-style:dashed;}
+  .el-z{font-size:10px;color:rgba(255,255,255,0.4);font-family:'JetBrains Mono',monospace;}
+  .el-symbol{font-size:22px;font-weight:700;font-family:'JetBrains Mono',monospace;line-height:1.1;color:#CCCCDD;}
+  .el-name{font-size:9px;color:rgba(255,255,255,0.5);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .el-secondary-roles{display:flex;gap:2px;justify-content:center;margin-top:3px;flex-wrap:wrap;}
+  .el-sec-badge{font-size:7px;padding:1px 4px;border-radius:3px;text-transform:uppercase;letter-spacing:0.5px;}
+  .el-predicted-marker{position:absolute;top:2px;right:4px;font-size:7px;color:rgba(255,200,50,0.6);}
+  .detail-panel{background:#12121F;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:20px;margin-top:16px;display:none;}
+  .detail-panel.open{display:block;}
+  .detail-top{display:flex;justify-content:space-between;align-items:flex-start;}
+  .detail-symbol{font-size:36px;font-weight:800;color:#E8E8F0;font-family:'JetBrains Mono',monospace;}
+  .detail-name{font-size:18px;color:#8888AA;margin-left:12px;}
+  .detail-z{font-size:14px;color:#555568;margin-left:8px;}
+  .detail-config{font-size:12px;color:#6666AA;margin-top:4px;font-family:'JetBrains Mono',monospace;}
+  .detail-predicted-note{font-size:10px;color:#B7950B;margin-top:6px;font-style:italic;}
+  .close-btn{background:none;border:1px solid rgba(255,255,255,0.15);color:#888;cursor:pointer;border-radius:6px;padding:4px 10px;font-size:13px;font-family:inherit;}
+  .close-btn:hover{border-color:rgba(255,255,255,0.3);}
+  .detail-section-label{font-size:11px;color:#666680;text-transform:uppercase;letter-spacing:1.5px;margin:16px 0 10px 0;}
+  .detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;}
+  .detail-band-card{background:rgba(255,255,255,0.02);border-radius:6px;padding:8px 10px;border:1px solid rgba(255,255,255,0.05);}
+  .detail-band-card.highlighted{background:rgba(255,255,255,0.08);}
+  .detail-band-name{font-size:11px;font-weight:600;margin-bottom:4px;}
+  .detail-role-badge{font-size:10px;padding:2px 6px;border-radius:3px;display:inline-block;margin-right:3px;margin-bottom:2px;}
+  .detail-no-data{font-size:10px;color:#444;}
+  .info-line{font-size:11px;color:#444458;margin-bottom:12px;}
+  .info-highlight{font-weight:600;}
+  .footer{margin-top:28px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.06);font-size:10px;color:#333348;line-height:1.8;}
+  .footer strong{color:#555568;}
+  .footer .copyright{color:#666680;margin-top:8px;font-size:11px;}
+  .predicted-legend{display:flex;align-items:center;gap:6px;font-size:10px;color:#777790;}
+  .predicted-legend-swatch{width:16px;height:12px;border:1px dashed rgba(255,200,50,0.5);border-radius:2px;background:transparent;}
+  .nav-link{font-size:12px;color:#4A90D9;text-decoration:none;border:1px solid #4A90D9;border-radius:6px;padding:6px 14px;transition:all 0.2s;display:inline-block;}
+  .nav-link:hover{background:rgba(74,144,217,0.15);}
+</style>
+</head>
+<body>
+<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:12px">
+  <div>
+    <h1>Spectrum Energy Chart</h1>
+    <p class="subtitle">Interactive Element Classification by Energy Band · 118 Elements · 11 Bands · General Reference</p>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap"><a class="nav-link" href="spectrum-control-chart.html">→ Control Chart</a><a class="nav-link" href="spectrum-structure-chart.html">→ Structure Chart</a></div>
+</div>
+<div style="margin-bottom:20px">
+  <div class="section-label">Select Energy Band <span style="color:#777;text-transform:none;letter-spacing:normal;font-style:italic">(click again to toggle off)</span></div>
+  <div class="band-bar" id="bandBar"></div>
+  <div class="band-info" id="bandInfo"></div>
+</div>
+<div style="display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px">
+  <div class="legend" id="legend"></div>
+  <div class="predicted-legend"><div class="predicted-legend-swatch"></div> <span style="color:rgba(255,200,50,0.7)">★</span> Predicted / inferred</div>
+</div>
+<div class="search-bar">
+  <input type="text" class="search-input" id="searchInput" placeholder="Search elements...">
+  <span class="element-count" id="elementCount"></span>
+</div>
+<div class="info-line" id="infoLine"></div>
+<div id="mainContent"></div>
+<div class="detail-panel" id="detailPanel"></div>
+<div class="footer" id="footer"></div>
+
+<script src="spectrum-data.js"></script>
+<script>
+let selectedBand=null,selectedElement=null,searchText="";
+const RC=ROLE_COLORS;
+
+function getRF(id){return ROLES.find(r=>r.id===id);}
+function getBF(id){return ALL_BANDS.find(b=>b.id===id);}
+function getFiltered(){if(!searchText)return ELEMENTS;const q=searchText.toLowerCase();return ELEMENTS.filter(el=>el.symbol.toLowerCase().includes(q)||el.name.toLowerCase().includes(q)||String(el.Z).includes(q));}
+
+function renderBandBar(){
+  const bar=document.getElementById('bandBar');bar.innerHTML='';
+  function addLabel(text){const l=document.createElement('span');l.style.cssText='font-size:9px;color:#555;letter-spacing:1px;padding:0 4px;align-self:center;';l.textContent=text;bar.appendChild(l);}
+  function addSep(){const s=document.createElement('div');s.className='band-sep';bar.appendChild(s);}
+  function addBtns(bands){bands.forEach(band=>{
+    const btn=document.createElement('button');
+    btn.className='band-btn'+(selectedBand===band.id?' active':'');
+    btn.textContent=band.name;
+    if(selectedBand===band.id){btn.style.background=band.color;btn.style.borderColor=band.color;}
+    btn.onclick=()=>{selectedBand=selectedBand===band.id?null:band.id;selectedElement=null;render();};
+    bar.appendChild(btn);
+  });}
+  addLabel('EM');addBtns(EM_BANDS);addSep();addLabel('THERMAL');addBtns(THERMAL_BANDS);addSep();addLabel('KINETIC');addBtns(KINETIC_BANDS.filter(b=>b.developed));
+  // Band info
+  const info=document.getElementById('bandInfo');
+  if(selectedBand){
+    const b=getBF(selectedBand);
+    if(b.wavelength) info.textContent='Wavelength: '+b.wavelength+' · Frequency: '+b.freq;
+    else info.textContent=b.desc;
+  } else { info.textContent=''; }
+}
+
+function renderLegend(){const leg=document.getElementById('legend');leg.innerHTML='';ROLES.forEach(role=>{const item=document.createElement('div');item.className='legend-item';const sw=document.createElement('div');sw.className='legend-swatch';sw.style.background=RC[role.id].bg;sw.style.border='1px solid '+RC[role.id].text;const lb=document.createElement('span');lb.className='legend-label';lb.textContent=role.icon+' '+role.name;item.appendChild(sw);item.appendChild(lb);leg.appendChild(item);});}
+
+function createCard(el){
+  const roles=selectedBand?(el.bands[selectedBand]||[]):[];
+  const pr=roles[0];
+  const rc=pr?RC[pr]:{bg:'#1C1C2E',text:'#8888AA'};
+  const card=document.createElement('div');
+  let cls='el-card';
+  if(selectedElement&&selectedElement.symbol===el.symbol)cls+=' selected';
+  if(selectedBand&&roles.length===0)cls+=' dimmed';
+  if(el.p)cls+=' predicted';
+  card.className=cls;
+  if(selectedBand&&roles.length>0)card.style.background=rc.bg;
+  card.onclick=()=>{selectedElement=(selectedElement&&selectedElement.symbol===el.symbol)?null:el;render();};
+  if(el.p){const m=document.createElement('div');m.className='el-predicted-marker';m.textContent='★';card.appendChild(m);}
+  const z=document.createElement('div');z.className='el-z';z.textContent=el.Z;
+  const sym=document.createElement('div');sym.className='el-symbol';sym.style.color=selectedBand&&roles.length>0?rc.text:'#CCCCDD';sym.textContent=el.symbol;
+  const nm=document.createElement('div');nm.className='el-name';nm.textContent=el.name;
+  card.appendChild(z);card.appendChild(sym);card.appendChild(nm);
+  if(selectedBand&&roles.length>1){
+    const sd=document.createElement('div');sd.className='el-secondary-roles';
+    roles.slice(1).forEach(r=>{if(!RC[r])return;const b=document.createElement('span');b.className='el-sec-badge';b.style.background=RC[r].bg;b.style.color=RC[r].text;b.textContent=r.slice(0,4);sd.appendChild(b);});
+    card.appendChild(sd);
+  }
+  return card;
+}
+
+function renderMain(){
+  const main=document.getElementById('mainContent');
+  const info=document.getElementById('infoLine');
+  main.innerHTML='';
+  const filtered=getFiltered();
+  document.getElementById('elementCount').textContent=filtered.length+' of '+ELEMENTS.length+' elements';
+
+  if(!selectedBand){
+    info.textContent='All elements — select an energy band above to reorganize by functional role';
+    const grid=document.createElement('div');grid.className='default-grid';
+    [...filtered].sort((a,b)=>a.Z-b.Z).forEach(el=>{grid.appendChild(createCard(el));});
+    main.appendChild(grid);
+  } else {
+    const bo=getBF(selectedBand);
+    info.innerHTML='Elements classified by function for <span class="info-highlight" style="color:'+bo.color+'">'+bo.name+'</span>';
+    const groups={};ROLES.forEach(r=>{groups[r.id]=[];});
+    filtered.forEach(el=>{
+      const roles=el.bands[selectedBand]||[];
+      roles.forEach(r=>{if(groups[r])groups[r].push(el);});
+    });
+    const grid=document.createElement('div');grid.className='role-grid';
+    ROLES.forEach(role=>{
+      const col=document.createElement('div');col.className='role-column';
+      const hdr=document.createElement('div');hdr.className='role-header';hdr.style.borderBottom='2px solid '+RC[role.id].bg;
+      const ic=document.createElement('span');ic.style.fontSize='16px';ic.textContent=role.icon;
+      const nm=document.createElement('span');nm.className='role-header-name';nm.style.color=RC[role.id].text;nm.textContent=role.name;
+      const ct=document.createElement('span');ct.className='role-header-count';ct.textContent=groups[role.id].length;
+      hdr.appendChild(ic);hdr.appendChild(nm);hdr.appendChild(ct);col.appendChild(hdr);
+      const desc=document.createElement('div');desc.className='role-desc';desc.textContent=role.desc;col.appendChild(desc);
+      if(groups[role.id].length===0){
+        const em=document.createElement('div');em.className='role-empty';em.textContent='No elements classified';col.appendChild(em);
+      } else {
+        const ed=document.createElement('div');ed.className='role-elements';
+        groups[role.id].forEach(el=>{ed.appendChild(createCard(el));});
+        col.appendChild(ed);
+      }
+      grid.appendChild(col);
+    });
+    main.appendChild(grid);
+  }
+}
+
+function renderDetail(){
+  const panel=document.getElementById('detailPanel');
+  if(!selectedElement){panel.className='detail-panel';panel.innerHTML='';return;}
+  panel.className='detail-panel open';
+  const el=selectedElement;
+  let h='<div class="detail-top"><div><span class="detail-symbol">'+el.symbol+'</span><span class="detail-name">'+el.name+'</span><span class="detail-z">Z = '+el.Z+'</span></div><button class="close-btn" onclick="selectedElement=null;render();">✕</button></div>';
+  h+='<div class="detail-config">'+el.config+'</div>';
+  if(el.p) h+='<div class="detail-predicted-note">★ EM band behaviors predicted/inferred from atomic structure and group trends.</div>';
+
+  // EM Spectrum
+  h+='<div class="detail-section-label">EM Spectrum</div><div class="detail-grid">';
+  EM_BANDS.forEach(band=>{
+    const roles=el.bands[band.id]||[];
+    const hl=selectedBand===band.id?' highlighted':'';
+    const bs=selectedBand===band.id?'border:1px solid '+band.color:'';
+    h+='<div class="detail-band-card'+hl+'" style="'+bs+'"><div class="detail-band-name" style="color:'+band.color+'">'+band.name+'</div>';
+    if(roles.length>0){roles.forEach(r=>{const ro=getRF(r);if(ro) h+='<span class="detail-role-badge" style="background:'+RC[r].bg+';color:'+RC[r].text+'">'+ro.icon+' '+r+'</span>';});}
+    else h+='<span class="detail-no-data">No data</span>';
+    h+='</div>';
+  });
+  h+='</div>';
+
+  // Thermal
+  h+='<div class="detail-section-label">Thermal</div><div class="detail-grid">';
+  THERMAL_BANDS.forEach(band=>{
+    const roles=el.bands[band.id]||[];
+    const hl=selectedBand===band.id?' highlighted':'';
+    const bs=selectedBand===band.id?'border:1px solid '+band.color:'';
+    h+='<div class="detail-band-card'+hl+'" style="'+bs+'"><div class="detail-band-name" style="color:'+band.color+'">'+band.name+'</div>';
+    if(roles.length>0){roles.forEach(r=>{const ro=getRF(r);if(ro) h+='<span class="detail-role-badge" style="background:'+RC[r].bg+';color:'+RC[r].text+'">'+ro.icon+' '+r+'</span>';});}
+    else h+='<span class="detail-no-data">No data</span>';
+    h+='</div>';
+  });
+  h+='</div>';
+
+  // Kinetic Particles
+  h+='<div class="detail-section-label">Kinetic Particles</div><div class="detail-grid">';
+  KINETIC_BANDS.filter(b=>b.developed).forEach(band=>{
+    const roles=el.bands[band.id]||[];
+    const hl=selectedBand===band.id?' highlighted':'';
+    const bs=selectedBand===band.id?'border:1px solid '+band.color:'';
+    h+='<div class="detail-band-card'+hl+'" style="'+bs+'"><div class="detail-band-name" style="color:'+band.color+'">'+band.name+'</div>';
+    if(roles.length>0){roles.forEach(r=>{const ro=getRF(r);if(ro) h+='<span class="detail-role-badge" style="background:'+RC[r].bg+';color:'+RC[r].text+'">'+ro.icon+' '+r+'</span>';});}
+    else h+='<span class="detail-no-data">No data</span>';
+    h+='</div>';
+  });
+  h+='</div>';
+  panel.innerHTML=h;
+}
+
+function renderFooter(){
+  const pred=ELEMENTS.filter(e=>e.p).length;
+  const meas=ELEMENTS.length-pred;
+  document.getElementById('footer').innerHTML='<strong>Spectrum Energy Chart — General Reference</strong> — '+ELEMENTS.length+' elements, '+ALL_BANDS.length+' energy bands ('+EM_BANDS.length+' EM + '+THERMAL_BANDS.length+' thermal + '+KINETIC_BANDS.filter(b=>b.developed).length+' kinetic), '+ROLES.length+' functional roles. '+meas+' documented, '+pred+' predicted (★).<div class="copyright">© 2025 David R. Young — Spectrum Energy Research Corp<br>Spectrum Energy Research Framework · All Rights Reserved</div>';
+}
+
+function render(){renderBandBar();renderLegend();renderMain();renderDetail();renderFooter();}
+document.getElementById('searchInput').addEventListener('input',function(e){searchText=e.target.value;render();});
+render();
+</script>
+</body>
+</html>

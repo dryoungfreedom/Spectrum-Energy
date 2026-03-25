@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spectrum Control Chart — Start · Change · Stop</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600;700;800&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#0A0A14;color:#E0E0F0;font-family:'Inter','Segoe UI',sans-serif;padding:24px 28px;min-height:100vh;}
+  h1{font-size:28px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(135deg,#4A90D9,#2A9D8F,#E9C46A,#E63946);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .subtitle{font-size:13px;color:#555568;margin-top:4px;}
+  .section-label{font-size:10px;color:#555568;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;}
+  .band-bar{display:flex;gap:6px;flex-wrap:wrap;}
+  .band-btn{background:rgba(255,255,255,0.04);color:#888;border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:8px 16px;cursor:pointer;font-size:13px;font-family:inherit;font-weight:400;transition:all 0.2s ease;}
+  .band-btn:hover{border-color:rgba(255,255,255,0.2);}
+  .band-btn.active{color:#FFF;font-weight:700;}
+  .band-info{font-size:11px;color:#555568;margin-top:6px;}
+  .search-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+  .search-input{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:8px 14px;color:#E0E0F0;font-family:inherit;font-size:13px;width:280px;outline:none;}
+  .search-input::placeholder{color:#444;}
+  .search-input:focus{border-color:rgba(255,255,255,0.25);}
+  .item-count{font-size:11px;color:#444458;}
+  .role-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+  .role-column{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:12px;min-height:60px;}
+  .role-header{display:flex;align-items:center;gap:6px;margin-bottom:8px;padding-bottom:6px;}
+  .role-header-name{font-size:13px;font-weight:700;}
+  .role-header-count{font-size:10px;color:#555;margin-left:auto;}
+  .role-desc{font-size:9px;color:#555568;margin-bottom:8px;}
+  .role-empty{font-size:11px;color:#FF4444;font-style:italic;font-weight:600;}
+  .role-elements{display:flex;flex-wrap:wrap;gap:4px;}
+  /* Element cards */
+  .el-card{background:#1C1C2E;border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:6px 8px;cursor:pointer;transition:all 0.3s ease;min-width:64px;text-align:center;position:relative;}
+  .el-card:hover{border-color:rgba(255,255,255,0.25);}
+  .el-card.selected{border:2px solid #F0F0F0;}
+  .el-card.predicted{border-style:dashed;}
+  .el-z{font-size:10px;color:rgba(255,255,255,0.4);font-family:'JetBrains Mono',monospace;}
+  .el-symbol{font-size:22px;font-weight:700;font-family:'JetBrains Mono',monospace;line-height:1.1;color:#CCCCDD;}
+  .el-name{font-size:9px;color:rgba(255,255,255,0.5);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .el-predicted-marker{position:absolute;top:2px;right:4px;font-size:7px;color:rgba(255,200,50,0.6);}
+  /* Compound cards */
+  .cmp-card{background:#1C1C2E;border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:6px 8px;cursor:pointer;transition:all 0.3s ease;min-width:72px;text-align:center;position:relative;border-left:3px solid;}
+  .cmp-card:hover{border-color:rgba(255,255,255,0.25);}
+  .cmp-card.selected{border:2px solid #F0F0F0;}
+  .cmp-marker{position:absolute;top:2px;right:4px;font-size:7px;color:rgba(212,175,55,0.7);}
+  .cmp-cat{font-size:8px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.5px;}
+  .cmp-formula{font-size:15px;font-weight:700;font-family:'JetBrains Mono',monospace;line-height:1.2;color:#CCCCDD;}
+  .cmp-name{font-size:8px;color:rgba(255,255,255,0.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80px;}
+  /* Isotope cards */
+  .iso-card{background:rgba(233,196,106,0.06);border:1px dashed rgba(233,196,106,0.35);border-radius:6px;padding:6px 8px;cursor:pointer;transition:all 0.3s ease;min-width:68px;text-align:center;position:relative;}
+  .iso-card:hover{border-color:rgba(233,196,106,0.6);}
+  .iso-card.selected{border:2px solid #E9C46A;}
+  .iso-card.candidate{border-color:rgba(233,196,106,0.5);background:rgba(233,196,106,0.04);}
+  .iso-marker{position:absolute;top:2px;right:4px;font-size:8px;color:rgba(233,196,106,0.7);}
+  .iso-symbol{font-size:17px;font-weight:700;font-family:'JetBrains Mono',monospace;line-height:1.2;color:#E9C46A;}
+  .iso-info{font-size:8px;color:rgba(233,196,106,0.5);}
+  .iso-role{font-size:8px;color:rgba(233,196,106,0.7);font-weight:600;}
+  /* Layer dividers within role columns */
+  .layer-divider{width:100%;height:1px;background:rgba(255,255,255,0.06);margin:6px 0;}
+  .layer-label{font-size:8px;color:#444;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+  /* Detail panel */
+  .detail-panel{background:#12121F;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:20px;margin-top:16px;display:none;}
+  .detail-panel.open{display:block;}
+  .detail-top{display:flex;justify-content:space-between;align-items:flex-start;}
+  .detail-symbol{font-size:36px;font-weight:800;color:#E8E8F0;font-family:'JetBrains Mono',monospace;}
+  .detail-name{font-size:18px;color:#8888AA;margin-left:12px;}
+  .detail-z{font-size:14px;color:#555568;margin-left:8px;}
+  .detail-config{font-size:12px;color:#6666AA;margin-top:4px;font-family:'JetBrains Mono',monospace;}
+  .detail-predicted-note{font-size:10px;color:#B7950B;margin-top:6px;font-style:italic;}
+  .close-btn{background:none;border:1px solid rgba(255,255,255,0.15);color:#888;cursor:pointer;border-radius:6px;padding:4px 10px;font-size:13px;font-family:inherit;}
+  .detail-section-label{font-size:11px;color:#666680;text-transform:uppercase;letter-spacing:1.5px;margin:16px 0 10px 0;}
+  .detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;}
+  .detail-band-card{background:rgba(255,255,255,0.02);border-radius:6px;padding:8px 10px;border:1px solid rgba(255,255,255,0.05);}
+  .detail-band-card.highlighted{background:rgba(255,255,255,0.08);}
+  .detail-band-name{font-size:11px;font-weight:600;margin-bottom:4px;}
+  .detail-role-badge{font-size:10px;padding:2px 6px;border-radius:3px;display:inline-block;margin-right:3px;margin-bottom:2px;}
+  .detail-no-data{font-size:10px;color:#444;}
+  .info-line{font-size:11px;color:#444458;margin-bottom:12px;}
+  .info-highlight{font-weight:600;}
+  .group-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .group-label{font-size:13px;font-weight:800;letter-spacing:2px;}
+  .group-desc{font-size:10px;color:#666;font-weight:400;letter-spacing:0;}
+  .group-section{margin-bottom:24px;}
+  .control-panel{background:#12121F;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:20px;margin-top:16px;}
+  .control-title{font-size:11px;color:#666680;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;}
+  .control-grid{display:flex;gap:8px;flex-wrap:wrap;}
+  .control-item{border-radius:6px;padding:8px 12px;min-width:100px;}
+  .control-item-label{font-size:9px;font-weight:700;letter-spacing:1px;}
+  .control-item-name{font-size:12px;font-weight:600;margin-top:2px;}
+  .control-item-status{font-size:10px;margin-top:4px;line-height:1.4;}
+  .no-band-msg{text-align:center;padding:60px 20px;color:#444;font-size:14px;}
+  .footer{margin-top:28px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.06);font-size:10px;color:#333348;line-height:1.8;}
+  .footer strong{color:#555568;}
+  .footer .copyright{color:#666680;margin-top:8px;font-size:11px;}
+  .nav-link{font-size:12px;color:#4A90D9;text-decoration:none;border:1px solid #4A90D9;border-radius:6px;padding:6px 14px;transition:all 0.2s;display:inline-block;}
+  .nav-link:hover{background:rgba(74,144,217,0.15);}
+  /* Layer toggles */
+  .layer-toggles{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+  .layer-toggle{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none;font-size:11px;color:#888;transition:all 0.2s;}
+  .layer-toggle:hover{color:#BBB;}
+  .layer-toggle.active{color:#E0E0F0;}
+  .layer-check{width:16px;height:16px;border:1px solid rgba(255,255,255,0.2);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all 0.2s;}
+  .layer-toggle.active .layer-check{border-color:rgba(255,255,255,0.4);}
+  .layer-swatch{width:10px;height:10px;border-radius:2px;}
+  /* Legend items */
+  .legend-row{display:flex;align-items:center;gap:6px;font-size:10px;color:#777790;}
+  .legend-swatch-el{width:16px;height:12px;border:1px solid rgba(255,255,255,0.2);border-radius:2px;background:#1C1C2E;}
+  .legend-swatch-pred{width:16px;height:12px;border:1px dashed rgba(255,200,50,0.5);border-radius:2px;background:transparent;}
+  .legend-swatch-cmp{width:16px;height:12px;border:1px solid rgba(255,255,255,0.2);border-left:3px solid #D4AF37;border-radius:2px;background:#1C1C2E;}
+  .legend-swatch-iso{width:16px;height:12px;border:1px dashed rgba(233,196,106,0.5);border-radius:2px;background:rgba(233,196,106,0.06);}
+  .thesis-bar{background:rgba(233,196,106,0.05);border-left:3px solid rgba(233,196,106,0.3);padding:10px 14px;margin-bottom:20px;font-size:12px;color:#888;font-style:italic;line-height:1.6;}
+</style>
+</head>
+<body>
+<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:12px">
+  <div>
+    <h1>Spectrum Control Chart</h1>
+    <p class="subtitle">Energy Band Control Analysis · Start → Change → Stop · Research Roadmap</p>
+  </div>
+  <a class="nav-link" href="spectrum-energy-chart.html">→ General Chart</a>
+</div>
+<div class="thesis-bar">"When you can start an energy, change it in predictable ways, and stop it — you have control over that energy."</div>
+<div style="margin-bottom:20px">
+  <div class="section-label">Select Energy Band <span style="color:#777;text-transform:none;letter-spacing:normal;font-style:italic">(click again to toggle off)</span></div>
+  <div class="band-bar" id="bandBar"></div>
+  <div class="band-info" id="bandInfo"></div>
+</div>
+<div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap">
+  <div class="layer-toggles" id="layerToggles"></div>
+  <div style="height:16px;width:1px;background:rgba(255,255,255,0.1)"></div>
+  <div style="display:flex;gap:14px;flex-wrap:wrap">
+    <div class="legend-row"><div class="legend-swatch-el"></div> Element</div>
+    <div class="legend-row"><div class="legend-swatch-pred"></div> <span style="color:rgba(255,200,50,0.7)">★</span> Predicted</div>
+    <div class="legend-row"><div class="legend-swatch-cmp"></div> <span style="color:#D4AF37">⬡</span> Compound</div>
+    <div class="legend-row"><div class="legend-swatch-iso"></div> <span style="color:#E9C46A">⚛</span> Isotope</div>
+  </div>
+</div>
+<div class="search-bar">
+  <input type="text" class="search-input" id="searchInput" placeholder="Search elements, compounds, isotopes...">
+  <span class="item-count" id="itemCount"></span>
+</div>
+<div class="info-line" id="infoLine"></div>
+<div id="mainContent"></div>
+<div id="controlPanel" class="control-panel" style="display:none"></div>
+<div class="detail-panel" id="detailPanel"></div>
+<div class="footer" id="footer"></div>
+
+<script src="spectrum-data.js"></script>
+<script>
+let selectedBand=null, selectedItem=null, selectedItemType=null, searchText="";
+let showElements=true, showCompounds=true, showIsotopes=true;
+const RC=ROLE_COLORS;
+
+/* Isotope gammaRole → framework role mapping
+ * "resonant" = Mössbauer effect: absorb + coherent re-emit at exact energy.
+ *   Research candidate for reflector, refractor, polarizer (see GAMMA-GAP-ROADMAP).
+ *   Shown in those columns as candidates, not confirmed fills.
+ * "absorber"    → absorber
+ * "transparent"  → transparent
+ * "emitter"     → converter (nuclear energy → gamma photons)
+ * "converter"   → converter
+ */
+const ISO_ROLE_MAP = {
+  "resonant":    {roles:["reflector","refractor","polarizer"], candidate:true, label:"Mössbauer resonant — research candidate"},
+  "absorber":    {roles:["absorber"], candidate:false, label:"gamma absorber"},
+  "transparent": {roles:["transparent"], candidate:false, label:"gamma transparent"},
+  "emitter":     {roles:["converter"], candidate:false, label:"gamma emitter → converter"},
+  "converter":   {roles:["converter"], candidate:false, label:"gamma converter"}
+};
+
+function getRF(id){return ROLES.find(r=>r.id===id);}
+function getBF(id){return ALL_BANDS.find(b=>b.id===id);}
+function getCatColor(catId){
+  if(typeof COMPOUND_CATEGORIES!=='undefined'){
+    const c=COMPOUND_CATEGORIES.find(c=>c.id===catId);
+    if(c) return c.color;
+  }
+  return '#888';
+}
+
+function getFilteredElements(){
+  if(!searchText) return ELEMENTS;
+  const q=searchText.toLowerCase();
+  return ELEMENTS.filter(el=>el.symbol.toLowerCase().includes(q)||el.name.toLowerCase().includes(q)||String(el.Z).includes(q));
+}
+function getFilteredCompounds(){
+  if(typeof COMPOUNDS==='undefined') return [];
+  if(!searchText) return COMPOUNDS;
+  const q=searchText.toLowerCase();
+  return COMPOUNDS.filter(c=>c.formula.toLowerCase().includes(q)||c.name.toLowerCase().includes(q)||c.category.toLowerCase().includes(q)||c.elements.some(e=>e.toLowerCase().includes(q)));
+}
+function getFilteredIsotopes(){
+  if(typeof ISOTOPES==='undefined') return [];
+  if(!searchText) return ISOTOPES;
+  const q=searchText.toLowerCase();
+  return ISOTOPES.filter(i=>(i.symbol+'-'+i.A).toLowerCase().includes(q)||i.name.toLowerCase().includes(q)||i.category.toLowerCase().includes(q)||(i.gammaRole&&i.gammaRole.toLowerCase().includes(q)));
+}
+
+function renderLayerToggles(){
+  const ct=document.getElementById('layerToggles');
+  const layers=[
+    {key:'elements', label:'Elements', active:showElements, count:ELEMENTS.length, color:'#AED6F1'},
+    {key:'compounds', label:'Compounds', active:showCompounds, count:typeof COMPOUNDS!=='undefined'?COMPOUNDS.length:0, color:'#D4AF37'},
+    {key:'isotopes', label:'Isotopes', active:showIsotopes, count:typeof ISOTOPES!=='undefined'?ISOTOPES.length:0, color:'#E9C46A'}
+  ];
+  ct.innerHTML='';
+  layers.forEach(l=>{
+    const div=document.createElement('div');
+    div.className='layer-toggle'+(l.active?' active':'');
+    div.innerHTML='<div class="layer-check" style="'+(l.active?'background:rgba(255,255,255,0.1)':'')+'">'+(l.active?'✓':'')+'</div><div class="layer-swatch" style="background:'+l.color+';opacity:'+(l.active?1:0.3)+'"></div>'+l.label+' ('+l.count+')';
+    div.onclick=()=>{
+      if(l.key==='elements') showElements=!showElements;
+      else if(l.key==='compounds') showCompounds=!showCompounds;
+      else if(l.key==='isotopes') showIsotopes=!showIsotopes;
+      render();
+    };
+    ct.appendChild(div);
+  });
+}
+
+function renderBandBar(){
+  const bar=document.getElementById('bandBar');bar.innerHTML='';
+  function addLabel(text){const l=document.createElement('span');l.style.cssText='font-size:9px;color:#555;letter-spacing:1px;padding:0 4px;align-self:center;';l.textContent=text;bar.appendChild(l);}
+  function addSep(){const s=document.createElement('div');s.className='band-sep';bar.appendChild(s);}
+  function addBtns(bands){bands.forEach(band=>{
+    const btn=document.createElement('button');
+    btn.className='band-btn'+(selectedBand===band.id?' active':'');
+    btn.textContent=band.name;
+    if(selectedBand===band.id){btn.style.background=band.color;btn.style.borderColor=band.color;}
+    btn.onclick=()=>{selectedBand=selectedBand===band.id?null:band.id;selectedItem=null;selectedItemType=null;render();};
+    bar.appendChild(btn);
+  });}
+  addLabel('EM');addBtns(EM_BANDS);addSep();addLabel('THERMAL');addBtns(THERMAL_BANDS);addSep();addLabel('KINETIC');addBtns(KINETIC_BANDS.filter(b=>b.developed));
+  const info=document.getElementById('bandInfo');
+  if(selectedBand){const b=getBF(selectedBand);if(b.wavelength)info.textContent='Wavelength: '+b.wavelength+' · Frequency: '+b.freq;else info.textContent=b.desc||'';}
+  else{info.textContent='';}
+}
+
+function createElCard(el,roleId){
+  const rc=roleId?RC[roleId]:{bg:'#1C1C2E',text:'#8888AA'};
+  const card=document.createElement('div');
+  let cls='el-card';
+  if(selectedItem&&selectedItemType==='element'&&selectedItem.symbol===el.symbol&&selectedItem.Z===el.Z) cls+=' selected';
+  if(el.p) cls+=' predicted';
+  card.className=cls;card.style.background=rc.bg;
+  card.onclick=()=>{
+    if(selectedItem&&selectedItemType==='element'&&selectedItem.symbol===el.symbol){selectedItem=null;selectedItemType=null;}
+    else{selectedItem=el;selectedItemType='element';}
+    render();
+  };
+  if(el.p){const m=document.createElement('div');m.className='el-predicted-marker';m.textContent='★';card.appendChild(m);}
+  const z=document.createElement('div');z.className='el-z';z.textContent=el.Z;
+  const sym=document.createElement('div');sym.className='el-symbol';sym.style.color=rc.text;sym.textContent=el.symbol;
+  const nm=document.createElement('div');nm.className='el-name';nm.textContent=el.name;
+  card.appendChild(z);card.appendChild(sym);card.appendChild(nm);
+  return card;
+}
+
+function createCmpCard(cmp,roleId){
+  const rc=roleId?RC[roleId]:{bg:'#1C1C2E',text:'#8888AA'};
+  const catColor=getCatColor(cmp.category);
+  const card=document.createElement('div');
+  let cls='cmp-card';
+  if(selectedItem&&selectedItemType==='compound'&&selectedItem.id===cmp.id) cls+=' selected';
+  card.className=cls;
+  card.style.background=rc.bg;card.style.borderLeftColor=catColor;
+  card.onclick=()=>{
+    if(selectedItem&&selectedItemType==='compound'&&selectedItem.id===cmp.id){selectedItem=null;selectedItemType=null;}
+    else{selectedItem=cmp;selectedItemType='compound';}
+    render();
+  };
+  const mk=document.createElement('div');mk.className='cmp-marker';mk.textContent='⬡';card.appendChild(mk);
+  const cat=document.createElement('div');cat.className='cmp-cat';cat.style.color=catColor;
+  const catObj=typeof COMPOUND_CATEGORIES!=='undefined'?COMPOUND_CATEGORIES.find(c=>c.id===cmp.category):null;
+  cat.textContent=catObj?catObj.name:cmp.category;
+  const formula=document.createElement('div');formula.className='cmp-formula';formula.style.color=rc.text;formula.textContent=cmp.formula;
+  const nm=document.createElement('div');nm.className='cmp-name';nm.textContent=cmp.name;
+  card.appendChild(cat);card.appendChild(formula);card.appendChild(nm);
+  return card;
+}
+
+function createIsoCard(iso,roleId,isCandidate){
+  const card=document.createElement('div');
+  let cls='iso-card';
+  if(isCandidate) cls+=' candidate';
+  if(selectedItem&&selectedItemType==='isotope'&&selectedItem.symbol===iso.symbol&&selectedItem.A===iso.A) cls+=' selected';
+  card.className=cls;
+  card.onclick=()=>{
+    if(selectedItem&&selectedItemType==='isotope'&&selectedItem.symbol===iso.symbol&&selectedItem.A===iso.A){selectedItem=null;selectedItemType=null;}
+    else{selectedItem=iso;selectedItemType='isotope';}
+    render();
+  };
+  const mk=document.createElement('div');mk.className='iso-marker';mk.textContent='⚛';card.appendChild(mk);
+  const sym=document.createElement('div');sym.className='iso-symbol';sym.textContent=iso.symbol+'-'+iso.A;
+  const info=document.createElement('div');info.className='iso-info';
+  info.textContent=iso.mossbauer?iso.mossbauer.energy+' keV':iso.halfLife;
+  const role=document.createElement('div');role.className='iso-role';
+  const mapping=ISO_ROLE_MAP[iso.gammaRole];
+  role.textContent=isCandidate?'★ research candidate':mapping?mapping.label:iso.gammaRole;
+  card.appendChild(sym);card.appendChild(info);card.appendChild(role);
+  return card;
+}
+
+function renderMain(){
+  const main=document.getElementById('mainContent');
+  const info=document.getElementById('infoLine');
+  main.innerHTML='';
+  const filtEl=getFilteredElements();
+  const filtCmp=getFilteredCompounds();
+  const filtIso=getFilteredIsotopes();
+
+  // Update count display
+  const parts=[];
+  if(showElements) parts.push(filtEl.length+' elements');
+  if(showCompounds) parts.push(filtCmp.length+' compounds');
+  if(showIsotopes) parts.push(filtIso.length+' isotopes');
+  document.getElementById('itemCount').textContent=parts.join(' · ');
+
+  if(!selectedBand){
+    info.textContent='Select an energy band above to see control analysis';
+    main.innerHTML='<div class="no-band-msg">Select an energy band to see its Start → Change → Stop breakdown.<br><br>This chart reveals where complete control exists and where research gaps remain.<br>Toggle layers above to compare element-only vs. element + compound + isotope control.</div>';
+    return;
+  }
+
+  const bo=getBF(selectedBand);
+  info.innerHTML='Control analysis for <span class="info-highlight" style="color:'+bo.color+'">'+bo.name+'</span>';
+
+  // Gather roles per role ID — three separate buckets
+  const elGroups={}, cmpGroups={}, isoGroups={}, isoCandidates={};
+  ROLES.forEach(r=>{elGroups[r.id]=[];cmpGroups[r.id]=[];isoGroups[r.id]=[];isoCandidates[r.id]=[];});
+
+  // Elements
+  if(showElements){
+    filtEl.forEach(el=>{
+      const roles=el.bands[selectedBand]||[];
+      roles.forEach(r=>{if(elGroups[r]) elGroups[r].push(el);});
+    });
+  }
+
+  // Compounds
+  if(showCompounds){
+    filtCmp.forEach(cmp=>{
+      const roles=cmp.bands[selectedBand]||[];
+      roles.forEach(r=>{if(cmpGroups[r]) cmpGroups[r].push(cmp);});
+    });
+  }
+
+  // Isotopes — only for gamma band (isotope data is gamma-specific)
+  if(showIsotopes && selectedBand==='gamma'){
+    filtIso.forEach(iso=>{
+      const mapping=ISO_ROLE_MAP[iso.gammaRole];
+      if(!mapping) return;
+      mapping.roles.forEach(rid=>{
+        if(mapping.candidate){
+          if(isoCandidates[rid]) isoCandidates[rid].push(iso);
+        } else {
+          if(isoGroups[rid]) isoGroups[rid].push(iso);
+        }
+      });
+    });
+  }
+
+  // Render groups
+  CONTROL_GROUPS.forEach(gd=>{
+    const section=document.createElement('div');section.className='group-section';
+    const gh=document.createElement('div');gh.className='group-header';
+    const gl=document.createElement('span');gl.className='group-label';gl.style.color=gd.color;gl.textContent=gd.label;
+    const gdesc=document.createElement('span');gdesc.className='group-desc';gdesc.textContent=' — '+gd.desc;
+
+    // Count gaps: a role is "filled" if any layer has entries; "candidate" if only isotope candidates
+    const gapCount=gd.roles.filter(rid=>{
+      const total=elGroups[rid].length+cmpGroups[rid].length+isoGroups[rid].length;
+      return total===0 && isoCandidates[rid].length===0;
+    }).length;
+    const candidateCount=gd.roles.filter(rid=>{
+      const total=elGroups[rid].length+cmpGroups[rid].length+isoGroups[rid].length;
+      return total===0 && isoCandidates[rid].length>0;
+    }).length;
+
+    gh.appendChild(gl);gh.appendChild(gdesc);
+
+    if(gd.id!=='other'){
+      if(gapCount>0){
+        const gb=document.createElement('span');
+        gb.style.cssText='font-size:10px;color:#FF4444;background:rgba(255,50,50,0.15);border:1px solid rgba(255,50,50,0.3);border-radius:4px;padding:2px 8px;margin-left:auto;font-weight:700;';
+        gb.textContent=gapCount+' GAP'+(gapCount>1?'S':'');
+        gh.appendChild(gb);
+      }
+      if(candidateCount>0){
+        const cb=document.createElement('span');
+        cb.style.cssText='font-size:10px;color:#E9C46A;background:rgba(233,196,106,0.1);border:1px solid rgba(233,196,106,0.3);border-radius:4px;padding:2px 8px;'+(gapCount===0?'margin-left:auto;':'margin-left:6px;')+'font-weight:700;';
+        cb.textContent=candidateCount+' CANDIDATE'+(candidateCount>1?'S':'');
+        gh.appendChild(cb);
+      }
+      if(gapCount===0&&candidateCount===0){
+        const fb=document.createElement('span');
+        fb.style.cssText='font-size:10px;color:#2A9D8F;background:rgba(42,157,143,0.1);border:1px solid rgba(42,157,143,0.3);border-radius:4px;padding:2px 8px;margin-left:auto;font-weight:700;';
+        fb.textContent='✓ COMPLETE';
+        gh.appendChild(fb);
+      }
+    }
+    section.appendChild(gh);
+
+    const grid=document.createElement('div');grid.className='role-grid';
+    gd.roles.forEach(rid=>{
+      const role=getRF(rid);if(!role)return;
+      const elCount=elGroups[rid].length;
+      const cmpCount=cmpGroups[rid].length;
+      const isoCount=isoGroups[rid].length;
+      const candCount=isoCandidates[rid].length;
+      const totalFilled=elCount+cmpCount+isoCount;
+      const hasGap=totalFilled===0 && candCount===0;
+      const candidateOnly=totalFilled===0 && candCount>0;
+
+      const col=document.createElement('div');col.className='role-column';
+      if(hasGap&&gd.id!=='other') col.style.border='1px dashed rgba(255,50,50,0.3)';
+      else if(candidateOnly&&gd.id!=='other') col.style.border='1px dashed rgba(233,196,106,0.3)';
+
+      // Header
+      const hdr=document.createElement('div');hdr.className='role-header';
+      const borderColor=hasGap&&gd.id!=='other'?'rgba(255,50,50,0.3)':candidateOnly&&gd.id!=='other'?'rgba(233,196,106,0.3)':RC[rid].bg;
+      hdr.style.borderBottom='2px solid '+borderColor;
+      const ic=document.createElement('span');ic.style.fontSize='16px';ic.textContent=role.icon;
+      const nm=document.createElement('span');nm.className='role-header-name';
+      nm.style.color=hasGap&&gd.id!=='other'?'#FF6666':candidateOnly&&gd.id!=='other'?'#E9C46A':RC[rid].text;
+      nm.textContent=role.name;
+      const ct=document.createElement('span');ct.className='role-header-count';
+      const countParts=[];
+      if(elCount>0) countParts.push(elCount+'E');
+      if(cmpCount>0) countParts.push(cmpCount+'C');
+      if(isoCount>0) countParts.push(isoCount+'I');
+      if(candCount>0) countParts.push(candCount+'★');
+      ct.textContent=countParts.length>0?countParts.join(' · '):'0';
+      hdr.appendChild(ic);hdr.appendChild(nm);hdr.appendChild(ct);col.appendChild(hdr);
+
+      const desc=document.createElement('div');desc.className='role-desc';desc.textContent=role.desc;col.appendChild(desc);
+
+      if(hasGap){
+        const em=document.createElement('div');em.className='role-empty';
+        em.textContent=gd.id==='other'?'None':'⚠ NO KNOWN MATERIALS — Research needed';
+        col.appendChild(em);
+      } else {
+        // Elements
+        if(elCount>0){
+          const lbl=document.createElement('div');lbl.className='layer-label';lbl.textContent='Elements ('+elCount+')';col.appendChild(lbl);
+          const ed=document.createElement('div');ed.className='role-elements';
+          elGroups[rid].forEach(el=>{ed.appendChild(createElCard(el,rid));});
+          col.appendChild(ed);
+        }
+        // Compounds
+        if(cmpCount>0){
+          if(elCount>0){const div=document.createElement('div');div.className='layer-divider';col.appendChild(div);}
+          const lbl=document.createElement('div');lbl.className='layer-label';lbl.textContent='Compounds ('+cmpCount+')';col.appendChild(lbl);
+          const cd=document.createElement('div');cd.className='role-elements';
+          cmpGroups[rid].forEach(cmp=>{cd.appendChild(createCmpCard(cmp,rid));});
+          col.appendChild(cd);
+        }
+        // Isotopes (confirmed)
+        if(isoCount>0){
+          if(elCount>0||cmpCount>0){const div=document.createElement('div');div.className='layer-divider';col.appendChild(div);}
+          const lbl=document.createElement('div');lbl.className='layer-label';lbl.textContent='Isotopes ('+isoCount+')';col.appendChild(lbl);
+          const id2=document.createElement('div');id2.className='role-elements';
+          isoGroups[rid].forEach(iso=>{id2.appendChild(createIsoCard(iso,rid,false));});
+          col.appendChild(id2);
+        }
+        // Isotope candidates
+        if(candCount>0){
+          if(elCount>0||cmpCount>0||isoCount>0){const div=document.createElement('div');div.className='layer-divider';col.appendChild(div);}
+          const lbl=document.createElement('div');lbl.className='layer-label';lbl.style.color='#E9C46A';lbl.textContent='★ Research Candidates ('+candCount+')';col.appendChild(lbl);
+          const cd2=document.createElement('div');cd2.className='role-elements';
+          isoCandidates[rid].forEach(iso=>{cd2.appendChild(createIsoCard(iso,rid,true));});
+          col.appendChild(cd2);
+        }
+      }
+      grid.appendChild(col);
+    });
+    section.appendChild(grid);main.appendChild(section);
+  });
+}
+
+function renderControlPanel(){
+  const panel=document.getElementById('controlPanel');
+  if(!selectedBand){panel.style.display='none';return;}
+  panel.style.display='block';
+  const bo=getBF(selectedBand);
+
+  // Gather all role data
+  const elG={},cmpG={},isoG={},isoC={};
+  ROLES.forEach(r=>{elG[r.id]=[];cmpG[r.id]=[];isoG[r.id]=[];isoC[r.id]=[];});
+  if(showElements) ELEMENTS.forEach(el=>{(el.bands[selectedBand]||[]).forEach(r=>{if(elG[r])elG[r].push(el);});});
+  if(showCompounds&&typeof COMPOUNDS!=='undefined') COMPOUNDS.forEach(c=>{(c.bands[selectedBand]||[]).forEach(r=>{if(cmpG[r])cmpG[r].push(c);});});
+  if(showIsotopes&&selectedBand==='gamma'&&typeof ISOTOPES!=='undefined'){
+    ISOTOPES.forEach(iso=>{
+      const m=ISO_ROLE_MAP[iso.gammaRole];if(!m)return;
+      m.roles.forEach(rid=>{if(m.candidate){if(isoC[rid])isoC[rid].push(iso);}else{if(isoG[rid])isoG[rid].push(iso);}});
+    });
+  }
+
+  const checkRoles=['conductor','reflector','refractor','resistor','polarizer','converter','insulator','absorber'];
+  let total=checkRoles.length;
+  let filled=checkRoles.filter(r=>(elG[r].length+cmpG[r].length+isoG[r].length)>0).length;
+  let candidates=checkRoles.filter(r=>(elG[r].length+cmpG[r].length+isoG[r].length)===0&&isoC[r].length>0).length;
+  const pct=Math.round(filled/total*100);
+  const pctWithCand=Math.round((filled+candidates*0.5)/total*100); // candidates count as half
+
+  let h='<div class="control-title">Control Completeness for <span style="color:'+bo.color+'">'+bo.name+'</span> — '+filled+'/'+total+' roles filled'+(candidates>0?' + '+candidates+' candidate'+(candidates>1?'s':''):'')+' ('+pct+'%)</div>';
+
+  // Progress bar with candidate section
+  h+='<div style="background:rgba(255,255,255,0.05);border-radius:4px;height:8px;margin-bottom:16px;overflow:hidden;display:flex">';
+  h+='<div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,#1E8449,#2A9D8F,#E9C46A);transition:width 0.5s"></div>';
+  if(candidates>0){
+    const candPct=Math.round(candidates*100/total/2);
+    h+='<div style="height:100%;width:'+candPct+'%;background:repeating-linear-gradient(45deg,rgba(233,196,106,0.3),rgba(233,196,106,0.3) 2px,transparent 2px,transparent 4px);transition:width 0.5s"></div>';
+  }
+  h+='</div>';
+
+  h+='<div class="control-grid">';
+  const groupLabels={conductor:'CHANGE',reflector:'CHANGE',refractor:'CHANGE',resistor:'CHANGE',polarizer:'CHANGE',converter:'CHANGE',insulator:'STOP',absorber:'STOP'};
+  checkRoles.forEach(rid=>{
+    const role=getRF(rid);
+    const eC=elG[rid].length, cmC=cmpG[rid].length, iC=isoG[rid].length, cC=isoC[rid].length;
+    const totalF=eC+cmC+iC;
+    const found=totalF>0;
+    const hasCandidate=!found&&cC>0;
+    let bg,border,tc;
+    if(found){bg=RC[rid].bg;border='1px solid '+RC[rid].text;tc=RC[rid].text;}
+    else if(hasCandidate){bg='rgba(233,196,106,0.08)';border='1px dashed rgba(233,196,106,0.4)';tc='#E9C46A';}
+    else{bg='rgba(255,50,50,0.1)';border='1px dashed #FF4444';tc='#FF6666';}
+    const labelColor=found?'rgba(255,255,255,0.4)':hasCandidate?'rgba(233,196,106,0.5)':'#FF4444';
+
+    h+='<div class="control-item" style="background:'+bg+';border:'+border+'">';
+    h+='<div class="control-item-label" style="color:'+labelColor+'">'+groupLabels[rid]+'</div>';
+    h+='<div class="control-item-name" style="color:'+tc+'">'+role.icon+' '+role.name+'</div>';
+    h+='<div class="control-item-status">';
+    if(found){
+      const parts=[];
+      if(eC>0) parts.push(eC+' element'+(eC>1?'s':''));
+      if(cmC>0) parts.push(cmC+' compound'+(cmC>1?'s':''));
+      if(iC>0) parts.push(iC+' isotope'+(iC>1?'s':''));
+      h+='<span style="color:rgba(255,255,255,0.5)">✓ '+parts.join(' + ')+'</span>';
+      if(cC>0) h+='<br><span style="color:rgba(233,196,106,0.6)">+ '+cC+' candidate'+(cC>1?'s':'')+'</span>';
+    } else if(hasCandidate){
+      h+='<span style="color:#E9C46A">★ '+cC+' isotope candidate'+(cC>1?'s':'')+'</span>';
+    } else {
+      h+='<span style="color:#FF6666">✗ GAP</span>';
+    }
+    h+='</div></div>';
+  });
+  h+='</div>';
+  panel.innerHTML=h;
+}
+
+function renderDetail(){
+  const panel=document.getElementById('detailPanel');
+  if(!selectedItem||!selectedItemType){panel.className='detail-panel';panel.innerHTML='';return;}
+  panel.className='detail-panel open';
+
+  let h='';
+  if(selectedItemType==='element'){
+    const el=selectedItem;
+    h+='<div class="detail-top"><div><span class="detail-symbol">'+el.symbol+'</span><span class="detail-name">'+el.name+'</span><span class="detail-z">Z = '+el.Z+'</span></div><button class="close-btn" onclick="selectedItem=null;selectedItemType=null;render();">✕</button></div>';
+    h+='<div class="detail-config">'+el.config+'</div>';
+    if(el.p) h+='<div class="detail-predicted-note">★ EM band behaviors predicted/inferred from atomic structure and group trends.</div>';
+    h+='<div class="detail-section-label">EM Spectrum</div><div class="detail-grid">';
+    EM_BANDS.forEach(band=>{
+      const roles=el.bands[band.id]||[];
+      const hl=selectedBand===band.id?' highlighted':'';
+      const bs=selectedBand===band.id?'border:1px solid '+band.color:'';
+      h+='<div class="detail-band-card'+hl+'" style="'+bs+'"><div class="detail-band-name" style="color:'+band.color+'">'+band.name+'</div>';
+      if(roles.length>0){roles.forEach(r=>{const ro=getRF(r);if(ro) h+='<span class="detail-role-badge" style="background:'+RC[r].bg+';color:'+RC[r].text+'">'+ro.icon+' '+r+'</span>';});}
+      else h+='<span class="detail-no-data">No data</span>';
+      h+='</div>';
+    });
+    h+='</div>';
+    h+='<div class="detail-section-label">Thermal</div><div class="detail-grid">';
+    THERMAL_BANDS.forEach(band=>{const roles=el.bands[band.id]||[];const hl=selectedBand===band.id?' highlighted':'';const bs=selectedBand===band.id?'border:1px solid '+band.color:'';
+      h+='<div class="detail-band-card'+hl+'" style="'+bs+'"><div class="detail-band-name" style="color:'+band.color+'">'+band.name+'</div>';
+      if(roles.length>0){roles.forEach(r=>{const ro=getRF(r);if(ro) h+='<span class="detail-role-badge" style="background:'+RC[r].bg+';color:'+RC[r].text+'">'+ro.icon+' '+r+'</span>';});}
+      else h+='<span class="detail-no-data">No data</span>';h+='</div>';});
+    h+='</div>';
+    h+='<div class="detail-section-label">Kinetic Particles</div><div class="detail-grid">';
+    KINETIC_BANDS.filter(b=>b.developed).forEach(band=>{const roles=el.bands[band.id]||[];const hl=selectedBand===band.id?' highlighted':'';const bs=selectedBand===band.id?'border:1px solid '+band.color:'';
+      h+='<div class="detail-band-card'+hl+'" style="'+bs+'"><div class="detail-band-name" style="color:'+band.color+'">'+band.name+'</div>';
+      if(roles.length>0){roles.forEach(r=>{const ro=getRF(r);if(ro) h+='<span class="detail-role-badge" style="background:'+RC[r].bg+';color:'+RC[r].text+'">'+ro.icon+' '+r+'</span>';});}
+      else h+='<span class="detail-no-data">No data</span>';h+='</div>';});
+    h+='</div>';
+  } else if(selectedItemType==='compound'){
+    const cmp=selectedItem;
+    const catColor=getCatColor(cmp.category);
+    const catObj=typeof COMPOUND_CATEGORIES!=='undefined'?COMPOUND_CATEGORIES.find(c=>c.id===cmp.category):null;
+    h+='<div class="detail-top"><div><span class="detail-symbol" style="font-size:28px">'+cmp.formula+'</span><span class="detail-name">'+cmp.name+'</span></div><button class="close-btn" onclick="selectedItem=null;selectedItemType=null;render();">✕</button></div>';
+    h+='<div style="margin-top:6px"><span style="font-size:10px;padding:2px 8px;border-radius:3px;background:'+catColor+'22;color:'+catColor+';border:1px solid '+catColor+'44">'+(catObj?catObj.name:cmp.category)+'</span>';
+    h+=' <span style="font-size:11px;color:#666;margin-left:8px">ρ = '+cmp.density+' g/cm³</span>';
+    h+=' <span style="font-size:11px;color:#666;margin-left:8px">'+cmp.elements.join(', ')+'</span></div>';
+    if(cmp.notes) h+='<div style="font-size:11px;color:#777;margin-top:8px;line-height:1.5">'+cmp.notes+'</div>';
+    h+='<div class="detail-section-label">EM Spectrum</div><div class="detail-grid">';
+    EM_BANDS.forEach(band=>{
+      const roles=cmp.bands[band.id]||[];
+      const hl=selectedBand===band.id?' highlighted':'';
+      const bs=selectedBand===band.id?'border:1px solid '+band.color:'';
+      h+='<div class="detail-band-card'+hl+'" style="'+bs+'"><div class="detail-band-name" style="color:'+band.color+'">'+band.name+'</div>';
+      if(roles.length>0){roles.forEach(r=>{const ro=getRF(r);if(ro) h+='<span class="detail-role-badge" style="background:'+RC[r].bg+';color:'+RC[r].text+'">'+ro.icon+' '+r+'</span>';});}
+      else h+='<span class="detail-no-data">No data</span>';
+      h+='</div>';
+    });
+    h+='</div>';
+    h+='<div class="detail-section-label">Thermal</div><div class="detail-grid">';
+    THERMAL_BANDS.forEach(band=>{const roles=cmp.bands[band.id]||[];const hl=selectedBand===band.id?' highlighted':'';const bs=selectedBand===band.id?'border:1px solid '+band.color:'';
+      h+='<div class="detail-band-card'+hl+'" style="'+bs+'"><div class="detail-band-name" style="color:'+band.color+'">'+band.name+'</div>';
+      if(roles.length>0){roles.forEach(r=>{const ro=getRF(r);if(ro) h+='<span class="detail-role-badge" style="background:'+RC[r].bg+';color:'+RC[r].text+'">'+ro.icon+' '+r+'</span>';});}
+      else h+='<span class="detail-no-data">No data</span>';h+='</div>';});
+    h+='</div>';
+    h+='<div class="detail-section-label">Kinetic Particles</div><div class="detail-grid">';
+    KINETIC_BANDS.filter(b=>b.developed).forEach(band=>{const roles=cmp.bands[band.id]||[];const hl=selectedBand===band.id?' highlighted':'';const bs=selectedBand===band.id?'border:1px solid '+band.color:'';
+      h+='<div class="detail-band-card'+hl+'" style="'+bs+'"><div class="detail-band-name" style="color:'+band.color+'">'+band.name+'</div>';
+      if(roles.length>0){roles.forEach(r=>{const ro=getRF(r);if(ro) h+='<span class="detail-role-badge" style="background:'+RC[r].bg+';color:'+RC[r].text+'">'+ro.icon+' '+r+'</span>';});}
+      else h+='<span class="detail-no-data">No data</span>';h+='</div>';});
+    h+='</div>';
+  } else if(selectedItemType==='isotope'){
+    const iso=selectedItem;
+    h+='<div class="detail-top"><div><span class="detail-symbol" style="color:#E9C46A">'+iso.symbol+'-'+iso.A+'</span><span class="detail-name">'+iso.name+'</span><span class="detail-z">Z = '+iso.Z+'</span></div><button class="close-btn" onclick="selectedItem=null;selectedItemType=null;render();">✕</button></div>';
+    h+='<div style="margin-top:6px;font-size:11px;color:#666">';
+    h+='Half-life: '+iso.halfLife+' · Spin: '+iso.spin+' · Abundance: '+(iso.abundance>0?iso.abundance+'%':'synthetic');
+    h+=' · σ<sub>n</sub>: '+iso.neutronXS.toLocaleString()+' barns</div>';
+    if(iso.mossbauer) h+='<div style="margin-top:4px;font-size:11px;color:#E9C46A">⚛ Mössbauer resonance at '+iso.mossbauer.energy+' keV — '+iso.mossbauer.note+'</div>';
+    if(iso.notes) h+='<div style="font-size:11px;color:#777;margin-top:8px;line-height:1.5">'+iso.notes+'</div>';
+    const mapping=ISO_ROLE_MAP[iso.gammaRole];
+    if(mapping){
+      h+='<div class="detail-section-label">Gamma Band Role</div>';
+      h+='<div style="display:flex;gap:8px;flex-wrap:wrap">';
+      mapping.roles.forEach(rid=>{
+        const ro=getRF(rid);
+        if(ro){
+          const style=mapping.candidate?'background:rgba(233,196,106,0.1);color:#E9C46A;border:1px dashed rgba(233,196,106,0.3)':'background:'+RC[rid].bg+';color:'+RC[rid].text;
+          h+='<span class="detail-role-badge" style="'+style+';padding:4px 10px;font-size:11px">'+(mapping.candidate?'★ ':'')+ro.icon+' '+ro.name+(mapping.candidate?' (candidate)':'')+'</span>';
+        }
+      });
+      h+='</div>';
+    }
+  }
+  panel.innerHTML=h;
+}
+
+function renderFooter(){
+  const elPred=ELEMENTS.filter(e=>e.p).length;
+  const elMeas=ELEMENTS.length-elPred;
+  const cmpCount=typeof COMPOUNDS!=='undefined'?COMPOUNDS.length:0;
+  const isoCount=typeof ISOTOPES!=='undefined'?ISOTOPES.length:0;
+  const mosCount=typeof ISOTOPES!=='undefined'?ISOTOPES.filter(i=>i.mossbauer).length:0;
+  let txt='<strong>Spectrum Control Chart</strong> — '+ELEMENTS.length+' elements ('+elMeas+' documented, '+elPred+' predicted ★)';
+  if(cmpCount>0) txt+=', '+cmpCount+' compounds';
+  if(isoCount>0) txt+=', '+isoCount+' isotopes ('+mosCount+' Mössbauer-active)';
+  txt+=', '+ALL_BANDS.length+' energy bands ('+EM_BANDS.length+' EM + '+THERMAL_BANDS.length+' thermal + '+KINETIC_BANDS.filter(b=>b.developed).length+' kinetic), '+ROLES.length+' functional roles organized by control function.';
+  txt+=' Three layers show where control comes from: elements (intrinsic), compounds (engineered), isotopes (nuclear).';
+  txt+='<div class="copyright">© 2025 David R. Young — Spectrum Energy Research Corp<br>Spectrum Energy Research Framework · All Rights Reserved</div>';
+  document.getElementById('footer').innerHTML=txt;
+}
+
+function render(){renderLayerToggles();renderBandBar();renderMain();renderControlPanel();renderDetail();renderFooter();}
+document.getElementById('searchInput').addEventListener('input',function(e){searchText=e.target.value;render();});
+render();
+</script>
+</body>
+</html>

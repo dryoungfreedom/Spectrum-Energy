@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spectrum Energy Reactor — Active Shielding</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600;700;800&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#0A0A14;color:#E0E0F0;font-family:'Inter','Segoe UI',sans-serif;padding:24px 28px;min-height:100vh;}
+  h1{font-size:28px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(135deg,#E63946,#E9C46A,#2A9D8F,#7B68EE);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .subtitle{font-size:13px;color:#555568;margin-top:4px;}.copyright{font-size:10px;color:#333;margin-top:2px;}
+  svg text{font-family:'Inter',sans-serif;}svg .mono{font-family:'JetBrains Mono',monospace;}
+  .detail-row{display:flex;gap:16px;margin-top:20px;flex-wrap:wrap;}
+  .detail-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:14px;flex:1;min-width:260px;}
+  .detail-title{font-size:12px;font-weight:700;margin-bottom:8px;}
+  .detail-body{font-size:10px;color:#777;line-height:1.7;}.detail-body strong{color:#AAA;}
+  .comp-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.03);}
+  .comp-label{flex:1;font-size:10px;color:#888;}.comp-old{font-size:10px;color:#E63946;font-family:'JetBrains Mono',monospace;width:60px;text-align:right;}
+  .comp-new{font-size:10px;color:#2A9D8F;font-family:'JetBrains Mono',monospace;width:60px;text-align:right;font-weight:700;}
+  .comp-bar{height:4px;border-radius:2px;flex:1;max-width:80px;}
+  .thesis{font-size:12px;color:#888;font-style:italic;padding:12px;border-left:3px solid rgba(233,196,106,0.3);line-height:1.6;margin-top:20px;}
+  .footnote{font-size:9px;color:#444;margin-top:16px;line-height:1.5;}
+  .nav-link{font-size:12px;color:#4A90D9;text-decoration:none;border:1px solid #4A90D9;border-radius:6px;padding:6px 14px;transition:all 0.2s;display:inline-block;}
+  .nav-link:hover{background:rgba(74,144,217,0.15);}
+  .toggle-row{display:flex;gap:3px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:3px;width:fit-content;margin-top:16px;}
+  .toggle-btn{background:none;color:#666;border:none;border-radius:6px;padding:8px 18px;cursor:pointer;font-size:12px;font-family:inherit;font-weight:600;transition:all 0.2s;}
+  .toggle-btn:hover{color:#AAA;}.toggle-btn.active{background:rgba(255,255,255,0.1);color:#E0E0F0;}
+  .signal-pulse{animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:0.3;}50%{opacity:1;}}
+</style>
+</head>
+<body>
+<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:8px">
+  <div>
+    <h1>Active Shielding — The Reactor Upgrade</h1>
+    <div class="subtitle">Every layer shields AND harvests AND monitors · Retrofit or new-build · No change to thermal cycle</div>
+    <div class="copyright">© 2025 David R. Young — Spectrum Energy Research Corp</div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <a class="nav-link" href="spectrum-schematic.html">← Reactor Overview</a>
+    <a class="nav-link" href="spectrum-energy-cell.html">SE Cell Detail →</a>
+  </div>
+</div>
+
+<div class="toggle-row" id="viewToggle">
+  <button class="toggle-btn active" onclick="setView('compare')">Passive vs Active</button>
+  <button class="toggle-btn" onclick="setView('monitor')">Real-Time Monitoring</button>
+  <button class="toggle-btn" onclick="setView('layers')">Layer Detail</button>
+</div>
+
+<!-- ================================================================ -->
+<!-- VIEW 1: PASSIVE vs ACTIVE COMPARISON -->
+<!-- ================================================================ -->
+<div id="viewCompare" style="margin-top:16px;">
+<svg viewBox="0 0 1100 520" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+  <defs>
+    <pattern id="gr" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.015)" stroke-width="0.5"/></pattern>
+    <marker id="aR" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#E63946" opacity="0.6"/></marker>
+    <marker id="aG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#2A9D8F" opacity="0.6"/></marker>
+  </defs>
+  <rect width="1100" height="520" fill="url(#gr)"/>
+
+  <!-- LEFT: Conventional Reactor -->
+  <rect x="20" y="30" width="510" height="480" rx="10" fill="rgba(230,57,70,0.02)" stroke="rgba(230,57,70,0.15)" stroke-width="1"/>
+  <text x="275" y="55" text-anchor="middle" fill="#E63946" font-size="14" font-weight="800">CONVENTIONAL REACTOR</text>
+  <text x="275" y="72" text-anchor="middle" fill="#666" font-size="9">Passive shielding · single output · limited monitoring</text>
+
+  <!-- Core -->
+  <rect x="195" y="110" width="160" height="160" rx="12" fill="rgba(230,57,70,0.08)" stroke="rgba(230,57,70,0.3)" stroke-width="2"/>
+  <text x="275" y="175" text-anchor="middle" fill="#E63946" font-size="16" font-weight="800">CORE</text>
+  <text x="275" y="195" text-anchor="middle" fill="#888" font-size="9">200 MeV / fission</text>
+  <text x="275" y="210" text-anchor="middle" fill="#666" font-size="8">All bands active</text>
+
+  <!-- Passive shielding (thick, dead) -->
+  <rect x="135" y="85" width="280" height="210" rx="16" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="12" stroke-dasharray="0"/>
+  <text x="145" y="105" fill="#555" font-size="8">PASSIVE SHIELDING</text>
+  <text x="145" y="115" fill="#444" font-size="7">(concrete + steel)</text>
+
+  <!-- Arrows showing energy wasted -->
+  <text x="80" y="165" fill="#E63946" font-size="9" font-weight="600">γ → HEAT</text>
+  <text x="80" y="178" fill="#555" font-size="7">wasted</text>
+  <text x="80" y="215" fill="#E63946" font-size="9" font-weight="600">X-ray → HEAT</text>
+  <text x="80" y="228" fill="#555" font-size="7">wasted</text>
+  <text x="80" y="260" fill="#E63946" font-size="9" font-weight="600">β → HEAT</text>
+  <text x="80" y="273" fill="#555" font-size="7">wasted</text>
+
+  <!-- Single output arrow -->
+  <rect x="195" y="310" width="160" height="40" rx="6" fill="rgba(233,196,106,0.06)" stroke="rgba(233,196,106,0.2)" stroke-width="1"/>
+  <text x="275" y="335" text-anchor="middle" fill="#E9C46A" font-size="10" font-weight="700">⚡ STEAM → TURBINE</text>
+
+  <!-- Output -->
+  <rect x="195" y="365" width="160" height="30" rx="5" fill="rgba(233,196,106,0.04)" stroke="rgba(233,196,106,0.15)" stroke-width="1"/>
+  <text x="275" y="384" text-anchor="middle" fill="#E9C46A" font-size="9" font-weight="600">~62 MeV electricity (33%)</text>
+
+  <!-- Waste bar -->
+  <rect x="195" y="405" width="160" height="30" rx="5" fill="rgba(230,57,70,0.06)" stroke="rgba(230,57,70,0.15)" stroke-width="1"/>
+  <text x="275" y="424" text-anchor="middle" fill="#E63946" font-size="9" font-weight="600">~138 MeV WASTED (67%)</text>
+
+  <!-- Monitoring -->
+  <rect x="60" y="420" width="200" height="60" rx="6" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <text x="70" y="438" fill="#666" font-size="9" font-weight="600">MONITORING</text>
+  <text x="70" y="452" fill="#555" font-size="7">• Few point sensors (thermocouples, flux detectors)</text>
+  <text x="70" y="464" fill="#555" font-size="7">• Blind spots between sensors</text>
+  <text x="70" y="476" fill="#E63946" font-size="7">• Lost with power failure (Fukushima)</text>
+
+  <!-- RIGHT: Spectrum Energy Reactor -->
+  <rect x="570" y="30" width="510" height="480" rx="10" fill="rgba(42,157,143,0.02)" stroke="rgba(42,157,143,0.15)" stroke-width="1.5"/>
+  <text x="825" y="55" text-anchor="middle" fill="#2A9D8F" font-size="14" font-weight="800">SPECTRUM ENERGY REACTOR</text>
+  <text x="825" y="72" text-anchor="middle" fill="#666" font-size="9">Active shielding · three outputs · full-spectrum monitoring</text>
+
+  <!-- Core (same) -->
+  <rect x="745" y="110" width="160" height="160" rx="12" fill="rgba(42,157,143,0.08)" stroke="rgba(42,157,143,0.3)" stroke-width="2"/>
+  <text x="825" y="175" text-anchor="middle" fill="#2A9D8F" font-size="16" font-weight="800">CORE</text>
+  <text x="825" y="195" text-anchor="middle" fill="#888" font-size="9">200 MeV / fission</text>
+  <text x="825" y="210" text-anchor="middle" fill="#666" font-size="8">Same core · same fuel</text>
+
+  <!-- Active shielding layers (concentric, colored) -->
+  <rect x="685" y="85" width="280" height="210" rx="16" fill="none" stroke="rgba(123,104,238,0.3)" stroke-width="3"/>
+  <rect x="693" y="91" width="264" height="198" rx="13" fill="none" stroke="rgba(42,157,143,0.3)" stroke-width="3"/>
+  <rect x="701" y="97" width="248" height="186" rx="10" fill="none" stroke="rgba(233,196,106,0.3)" stroke-width="3"/>
+  <rect x="709" y="103" width="232" height="174" rx="8" fill="none" stroke="rgba(231,111,81,0.3)" stroke-width="3"/>
+
+  <!-- Layer labels -->
+  <text x="990" y="105" fill="#E76F51" font-size="7" font-weight="600">L1: Thermoelectric</text>
+  <text x="990" y="118" fill="#E9C46A" font-size="7" font-weight="600">L2: Scintillator + PV</text>
+  <text x="990" y="131" fill="#2A9D8F" font-size="7" font-weight="600">L3: CdTe/CZT Detector</text>
+  <text x="990" y="144" fill="#7B68EE" font-size="7" font-weight="600">L4: High-Z Absorber/Converter</text>
+
+  <!-- Arrows showing energy HARVESTED -->
+  <text x="620" y="155" fill="#2A9D8F" font-size="9" font-weight="600">γ → ⚡ + 📊</text>
+  <text x="620" y="168" fill="#555" font-size="7">harvested + monitored</text>
+  <text x="620" y="205" fill="#2A9D8F" font-size="9" font-weight="600">X-ray → ⚡ + 📊</text>
+  <text x="620" y="218" fill="#555" font-size="7">harvested + monitored</text>
+  <text x="620" y="255" fill="#2A9D8F" font-size="9" font-weight="600">β → ⚡ + 📊</text>
+  <text x="620" y="268" fill="#555" font-size="7">harvested + monitored</text>
+
+  <!-- Three output arrows -->
+  <rect x="710" y="310" width="105" height="40" rx="6" fill="rgba(233,196,106,0.06)" stroke="rgba(233,196,106,0.2)" stroke-width="1"/>
+  <text x="762" y="328" text-anchor="middle" fill="#E9C46A" font-size="8" font-weight="700">⚡ STEAM CYCLE</text>
+  <text x="762" y="340" text-anchor="middle" fill="#555" font-size="7">untouched</text>
+
+  <rect x="835" y="310" width="105" height="40" rx="6" fill="rgba(42,157,143,0.06)" stroke="rgba(42,157,143,0.2)" stroke-width="1"/>
+  <text x="887" y="328" text-anchor="middle" fill="#2A9D8F" font-size="8" font-weight="700">⚡ FROM SHIELDING</text>
+  <text x="887" y="340" text-anchor="middle" fill="#555" font-size="7">NEW output</text>
+
+  <!-- Outputs -->
+  <rect x="710" y="365" width="105" height="30" rx="5" fill="rgba(233,196,106,0.04)" stroke="rgba(233,196,106,0.15)" stroke-width="1"/>
+  <text x="762" y="384" text-anchor="middle" fill="#E9C46A" font-size="9">~62 MeV (33%)</text>
+
+  <rect x="835" y="365" width="105" height="30" rx="5" fill="rgba(42,157,143,0.06)" stroke="rgba(42,157,143,0.2)" stroke-width="1"/>
+  <text x="887" y="384" text-anchor="middle" fill="#2A9D8F" font-size="9" font-weight="600">+3-10 MeV NEW</text>
+
+  <!-- Total -->
+  <rect x="710" y="405" width="230" height="30" rx="5" fill="rgba(42,157,143,0.06)" stroke="rgba(42,157,143,0.2)" stroke-width="1"/>
+  <text x="825" y="424" text-anchor="middle" fill="#2A9D8F" font-size="10" font-weight="700">~65-72 MeV (35-36%) + monitoring</text>
+
+  <!-- Monitoring -->
+  <rect x="620" y="420" width="280" height="80" rx="6" fill="rgba(123,104,238,0.04)" stroke="rgba(123,104,238,0.2)" stroke-width="1"/>
+  <text x="630" y="438" fill="#7B68EE" font-size="9" font-weight="700">REAL-TIME FULL-SPECTRUM MONITORING</text>
+  <text x="630" y="452" fill="#666" font-size="7">• Every cm² of shielding is a sensor</text>
+  <text x="630" y="464" fill="#666" font-size="7">• Gamma spectrum resolved by energy — see isotope signatures</text>
+  <text x="630" y="476" fill="#666" font-size="7">• Thermal profile mapped across entire containment surface</text>
+  <text x="630" y="488" fill="#2A9D8F" font-size="7" font-weight="600">• Passive — no external power needed. Radiation IS the signal.</text>
+
+  <!-- VS arrow -->
+  <text x="550" y="260" text-anchor="middle" fill="#555" font-size="24" font-weight="800">→</text>
+
+</svg>
+</div>
+
+<!-- ================================================================ -->
+<!-- VIEW 2: REAL-TIME MONITORING -->
+<!-- ================================================================ -->
+<div id="viewMonitor" style="margin-top:16px;display:none;">
+<svg viewBox="0 0 1100 560" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+  <defs>
+    <pattern id="gr2" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.015)" stroke-width="0.5"/></pattern>
+  </defs>
+  <rect width="1100" height="560" fill="url(#gr2)"/>
+
+  <text x="550" y="25" text-anchor="middle" fill="#555" font-size="9" letter-spacing="3">REAL-TIME FULL-SPECTRUM REACTOR MONITORING</text>
+
+  <!-- Central core -->
+  <circle cx="550" cy="280" r="70" fill="rgba(230,57,70,0.06)" stroke="rgba(230,57,70,0.3)" stroke-width="2"/>
+  <text x="550" y="275" text-anchor="middle" fill="#E63946" font-size="14" font-weight="800">CORE</text>
+  <text x="550" y="295" text-anchor="middle" fill="#666" font-size="8">Fission events</text>
+
+  <!-- Concentric converter/sensor rings -->
+  <circle cx="550" cy="280" r="100" fill="none" stroke="rgba(231,111,81,0.3)" stroke-width="4"/>
+  <circle cx="550" cy="280" r="130" fill="none" stroke="rgba(233,196,106,0.3)" stroke-width="4"/>
+  <circle cx="550" cy="280" r="160" fill="none" stroke="rgba(42,157,143,0.3)" stroke-width="4"/>
+  <circle cx="550" cy="280" r="190" fill="none" stroke="rgba(123,104,238,0.3)" stroke-width="4"/>
+
+  <!-- Ring labels -->
+  <text x="550" y="170" text-anchor="middle" fill="#E76F51" font-size="8" font-weight="600">Thermoelectric Ring</text>
+  <text x="550" y="140" text-anchor="middle" fill="#E9C46A" font-size="8" font-weight="600">Scintillator + PV Ring</text>
+  <text x="550" y="112" text-anchor="middle" fill="#2A9D8F" font-size="8" font-weight="600">CdTe Detector Ring</text>
+  <text x="550" y="82" text-anchor="middle" fill="#7B68EE" font-size="8" font-weight="600">High-Z Converter Ring</text>
+
+  <!-- Sensor data streams (four quadrants) -->
+
+  <!-- TOP: Gamma Spectrum -->
+  <rect x="350" y="35" width="400" height="45" rx="6" fill="rgba(42,157,143,0.04)" stroke="rgba(42,157,143,0.15)" stroke-width="1"/>
+  <text x="360" y="53" fill="#2A9D8F" font-size="10" font-weight="700">📊 GAMMA SPECTRUM (CdTe/CZT ring)</text>
+  <text x="360" y="70" fill="#666" font-size="8">Energy-resolved gamma flux. Every photon counted and classified. See individual isotope signatures in real time.</text>
+
+  <!-- LEFT: Thermal Map -->
+  <rect x="20" y="140" width="280" height="110" rx="6" fill="rgba(231,111,81,0.04)" stroke="rgba(231,111,81,0.15)" stroke-width="1"/>
+  <text x="30" y="160" fill="#E76F51" font-size="10" font-weight="700">🌡 THERMAL MAP (Thermoelectric ring)</text>
+  <text x="30" y="178" fill="#666" font-size="8">Continuous temperature gradient across entire</text>
+  <text x="30" y="190" fill="#666" font-size="8">shielding surface. Hot spots visible instantly.</text>
+  <text x="30" y="206" fill="#888" font-size="8" font-weight="600">Detects:</text>
+  <text x="30" y="218" fill="#666" font-size="7">• Fuel rod hot spots / coolant flow anomalies</text>
+  <text x="30" y="230" fill="#666" font-size="7">• Local power excursions</text>
+  <text x="30" y="242" fill="#666" font-size="7">• Asymmetric core behavior</text>
+
+  <!-- RIGHT: Radiation Camera -->
+  <rect x="800" y="140" width="280" height="110" rx="6" fill="rgba(233,196,106,0.04)" stroke="rgba(233,196,106,0.15)" stroke-width="1"/>
+  <text x="810" y="160" fill="#E9C46A" font-size="10" font-weight="700">📸 RADIATION CAMERA (Scintillator ring)</text>
+  <text x="810" y="178" fill="#666" font-size="8">Every gamma photon → flash of light → intensity</text>
+  <text x="810" y="190" fill="#666" font-size="8">and position mapped. Spatial resolution.</text>
+  <text x="810" y="206" fill="#888" font-size="8" font-weight="600">Detects:</text>
+  <text x="810" y="218" fill="#666" font-size="7">• Fuel cladding cracks (fission product leaks)</text>
+  <text x="810" y="230" fill="#666" font-size="7">• Control rod position verification</text>
+  <text x="810" y="242" fill="#666" font-size="7">• Localized flux tilts</text>
+
+  <!-- BOTTOM LEFT: Beta Monitor -->
+  <rect x="20" y="360" width="280" height="90" rx="6" fill="rgba(74,144,217,0.04)" stroke="rgba(74,144,217,0.15)" stroke-width="1"/>
+  <text x="30" y="380" fill="#4A90D9" font-size="10" font-weight="700">⚡ BETA / ELECTRON FLUX (Betavoltaic)</text>
+  <text x="30" y="398" fill="#666" font-size="8">Current output proportional to beta particle flux.</text>
+  <text x="30" y="414" fill="#888" font-size="8" font-weight="600">Detects:</text>
+  <text x="30" y="426" fill="#666" font-size="7">• Fission product migration (beta emitters leaving fuel)</text>
+  <text x="30" y="438" fill="#666" font-size="7">• Activation product buildup in structural materials</text>
+
+  <!-- BOTTOM RIGHT: Neutron Monitor -->
+  <rect x="800" y="360" width="280" height="90" rx="6" fill="rgba(26,188,156,0.04)" stroke="rgba(26,188,156,0.15)" stroke-width="1"/>
+  <text x="810" y="380" fill="#1ABC9C" font-size="10" font-weight="700">🔵 NEUTRON FIELD (Moderator response)</text>
+  <text x="810" y="398" fill="#666" font-size="8">Outer layer neutron interactions map the leakage</text>
+  <text x="810" y="414" fill="#888" font-size="8" font-weight="600">Detects:</text>
+  <text x="810" y="426" fill="#666" font-size="7">• Xenon-135 buildup (neutron absorption signature)</text>
+  <text x="810" y="438" fill="#666" font-size="7">• Reactivity changes before they reach power instruments</text>
+
+  <!-- KEY INSIGHT BOX -->
+  <rect x="100" y="480" width="900" height="60" rx="8" fill="rgba(123,104,238,0.04)" stroke="rgba(123,104,238,0.2)" stroke-width="1.5"/>
+  <text x="550" y="500" text-anchor="middle" fill="#7B68EE" font-size="11" font-weight="800">THE KEY INSIGHT</text>
+  <text x="550" y="518" text-anchor="middle" fill="#888" font-size="9">The converter layers generate electrical signals proportional to the radiation passing through them. Monitoring is a byproduct of harvesting.</text>
+  <text x="550" y="532" text-anchor="middle" fill="#2A9D8F" font-size="9" font-weight="600">No external power needed. Radiation IS the signal. The system monitors itself even if all other power fails.</text>
+</svg>
+</div>
+
+<!-- ================================================================ -->
+<!-- VIEW 3: LAYER DETAIL -->
+<!-- ================================================================ -->
+<div id="viewLayers" style="margin-top:16px;display:none;">
+<svg viewBox="0 0 1100 480" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+  <defs>
+    <pattern id="gr3" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.015)" stroke-width="0.5"/></pattern>
+  </defs>
+  <rect width="1100" height="480" fill="url(#gr3)"/>
+
+  <text x="550" y="25" text-anchor="middle" fill="#555" font-size="9" letter-spacing="3">ACTIVE SHIELDING — LAYER BY LAYER (CORE → OUTSIDE)</text>
+
+  <!-- Layer boxes left to right = core to outside -->
+
+  <!-- Core -->
+  <rect x="20" y="50" width="120" height="400" rx="8" fill="rgba(230,57,70,0.06)" stroke="rgba(230,57,70,0.25)" stroke-width="2"/>
+  <text x="80" y="75" text-anchor="middle" fill="#E63946" font-size="12" font-weight="800">CORE</text>
+  <text x="80" y="95" text-anchor="middle" fill="#888" font-size="8">Fission events</text>
+  <text x="80" y="115" text-anchor="middle" fill="#666" font-size="7" class="mono">200 MeV each</text>
+  <text x="80" y="150" text-anchor="middle" fill="#888" font-size="8" font-weight="600">Emits:</text>
+  <text x="80" y="168" text-anchor="middle" fill="#E63946" font-size="7">Gamma (prompt)</text>
+  <text x="80" y="182" text-anchor="middle" fill="#E63946" font-size="7">Neutrons</text>
+  <text x="80" y="196" text-anchor="middle" fill="#E63946" font-size="7">Beta (delayed)</text>
+  <text x="80" y="210" text-anchor="middle" fill="#E63946" font-size="7">X-rays</text>
+  <text x="80" y="224" text-anchor="middle" fill="#E63946" font-size="7">Kinetic fragments</text>
+  <text x="80" y="238" text-anchor="middle" fill="#E63946" font-size="7">Heat</text>
+  <text x="80" y="252" text-anchor="middle" fill="#E63946" font-size="7">Light (Cherenkov)</text>
+
+  <!-- Arrow -->
+  <text x="155" y="250" fill="#555" font-size="18">→</text>
+
+  <!-- Layer 1: High-Z Absorber/Converter -->
+  <rect x="175" y="50" width="180" height="400" rx="8" fill="rgba(123,104,238,0.04)" stroke="rgba(123,104,238,0.25)" stroke-width="1.5"/>
+  <text x="265" y="72" text-anchor="middle" fill="#7B68EE" font-size="11" font-weight="800">L1: HIGH-Z CONVERTER</text>
+  <text x="265" y="88" text-anchor="middle" fill="#888" font-size="8">Tungsten alloy · Lead · Bismuth oxide</text>
+  <text x="265" y="102" text-anchor="middle" fill="#666" font-size="7" class="mono">17.5 g/cm³ · 5-15 cm thick</text>
+
+  <text x="185" y="130" fill="#888" font-size="8" font-weight="600">Function:</text>
+  <text x="185" y="145" fill="#666" font-size="7">Absorbs gamma via photoelectric effect</text>
+  <text x="185" y="158" fill="#666" font-size="7">Converts gamma → characteristic X-rays</text>
+  <text x="185" y="171" fill="#666" font-size="7">X-rays downshift to lower energies</text>
+
+  <text x="185" y="195" fill="#888" font-size="8" font-weight="600">Shields:</text>
+  <text x="185" y="210" fill="#2A9D8F" font-size="7">Stops >90% of prompt gamma</text>
+  <text x="185" y="223" fill="#2A9D8F" font-size="7">Primary biological shield function</text>
+
+  <text x="185" y="250" fill="#888" font-size="8" font-weight="600">Harvests:</text>
+  <text x="185" y="265" fill="#E9C46A" font-size="7">Heat from absorption → thermoelectric</text>
+  <text x="185" y="278" fill="#E9C46A" font-size="7">X-rays passed inward to detector layer</text>
+
+  <text x="185" y="305" fill="#888" font-size="8" font-weight="600">Monitors:</text>
+  <text x="185" y="320" fill="#7B68EE" font-size="7">Temperature gradient = thermal map</text>
+  <text x="185" y="333" fill="#7B68EE" font-size="7">X-ray output spectrum = core state</text>
+
+  <!-- Arrow -->
+  <text x="370" y="250" fill="#555" font-size="18">→</text>
+
+  <!-- Layer 2: CdTe/CZT Semiconductor Detector -->
+  <rect x="390" y="50" width="180" height="400" rx="8" fill="rgba(42,157,143,0.04)" stroke="rgba(42,157,143,0.25)" stroke-width="1.5"/>
+  <text x="480" y="72" text-anchor="middle" fill="#2A9D8F" font-size="11" font-weight="800">L2: CdTe DETECTOR</text>
+  <text x="480" y="88" text-anchor="middle" fill="#888" font-size="8">Cadmium Telluride · CZT</text>
+  <text x="480" y="102" text-anchor="middle" fill="#666" font-size="7" class="mono">5.85 g/cm³ · 2-5 mm tiles</text>
+
+  <text x="400" y="130" fill="#888" font-size="8" font-weight="600">Function:</text>
+  <text x="400" y="145" fill="#666" font-size="7">Each X-ray/gamma photon → electrical pulse</text>
+  <text x="400" y="158" fill="#666" font-size="7">Pulse height = photon energy</text>
+  <text x="400" y="171" fill="#666" font-size="7">Energy resolution: ~1% at 662 keV</text>
+
+  <text x="400" y="195" fill="#888" font-size="8" font-weight="600">Shields:</text>
+  <text x="400" y="210" fill="#2A9D8F" font-size="7">Absorbs remaining X-rays and soft gamma</text>
+
+  <text x="400" y="237" fill="#888" font-size="8" font-weight="600">Harvests:</text>
+  <text x="400" y="252" fill="#E9C46A" font-size="7">Every photon absorbed → electricity</text>
+  <text x="400" y="265" fill="#E9C46A" font-size="7">Direct conversion, no thermal step</text>
+
+  <text x="400" y="292" fill="#888" font-size="8" font-weight="600">Monitors:</text>
+  <text x="400" y="307" fill="#7B68EE" font-size="7" font-weight="600">★ THE GAMMA SPECTROMETER</text>
+  <text x="400" y="322" fill="#7B68EE" font-size="7">Identifies WHICH isotopes are present</text>
+  <text x="400" y="335" fill="#7B68EE" font-size="7">Fuel rod crack → Cs-137 signature appears</text>
+  <text x="400" y="348" fill="#7B68EE" font-size="7">Xe-135 buildup → neutron absorption shifts</text>
+  <text x="400" y="361" fill="#7B68EE" font-size="7">Power distribution → spatial flux map</text>
+
+  <!-- Arrow -->
+  <text x="585" y="250" fill="#555" font-size="18">→</text>
+
+  <!-- Layer 3: Scintillator + PV -->
+  <rect x="605" y="50" width="180" height="400" rx="8" fill="rgba(233,196,106,0.04)" stroke="rgba(233,196,106,0.25)" stroke-width="1.5"/>
+  <text x="695" y="72" text-anchor="middle" fill="#E9C46A" font-size="11" font-weight="800">L3: SCINTILLATOR + PV</text>
+  <text x="695" y="88" text-anchor="middle" fill="#888" font-size="8">NaI(Tl) or LYSO:Ce + GaAs PV</text>
+  <text x="695" y="102" text-anchor="middle" fill="#666" font-size="7" class="mono">3.67-7.1 g/cm³ · 1-5 cm</text>
+
+  <text x="615" y="130" fill="#888" font-size="8" font-weight="600">Function:</text>
+  <text x="615" y="145" fill="#666" font-size="7">Remaining X-rays → visible light flashes</text>
+  <text x="615" y="158" fill="#666" font-size="7">PV cells convert light → electricity</text>
+  <text x="615" y="171" fill="#666" font-size="7">Two-step: radiation → light → electricity</text>
+
+  <text x="615" y="195" fill="#888" font-size="8" font-weight="600">Shields:</text>
+  <text x="615" y="210" fill="#2A9D8F" font-size="7">Catches anything L1-L2 missed</text>
+  <text x="615" y="223" fill="#2A9D8F" font-size="7">Also catches beta particles</text>
+
+  <text x="615" y="250" fill="#888" font-size="8" font-weight="600">Harvests:</text>
+  <text x="615" y="265" fill="#E9C46A" font-size="7">Light → PV → electricity</text>
+  <text x="615" y="278" fill="#E9C46A" font-size="7">Handles energy range CdTe misses</text>
+
+  <text x="615" y="305" fill="#888" font-size="8" font-weight="600">Monitors:</text>
+  <text x="615" y="320" fill="#7B68EE" font-size="7">Flash rate = radiation intensity</text>
+  <text x="615" y="333" fill="#7B68EE" font-size="7">Flash brightness = photon energy</text>
+  <text x="615" y="346" fill="#7B68EE" font-size="7">Position-sensitive → radiation camera</text>
+
+  <!-- Arrow -->
+  <text x="800" y="250" fill="#555" font-size="18">→</text>
+
+  <!-- Layer 4: Thermoelectric + Outer Shell -->
+  <rect x="820" y="50" width="260" height="400" rx="8" fill="rgba(231,111,81,0.04)" stroke="rgba(231,111,81,0.25)" stroke-width="1.5"/>
+  <text x="950" y="72" text-anchor="middle" fill="#E76F51" font-size="11" font-weight="800">L4: THERMOELECTRIC + SHELL</text>
+  <text x="950" y="88" text-anchor="middle" fill="#888" font-size="8">PbTe or SiGe + steel outer</text>
+  <text x="950" y="102" text-anchor="middle" fill="#666" font-size="7" class="mono">Converts residual heat gradient</text>
+
+  <text x="830" y="130" fill="#888" font-size="8" font-weight="600">Function:</text>
+  <text x="830" y="145" fill="#666" font-size="7">Temperature difference across shielding → voltage</text>
+  <text x="830" y="158" fill="#666" font-size="7">Harvests heat that would be wasted anyway</text>
+  <text x="830" y="171" fill="#666" font-size="7">Rule: never steal from the steam cycle</text>
+
+  <text x="830" y="195" fill="#888" font-size="8" font-weight="600">Shields:</text>
+  <text x="830" y="210" fill="#2A9D8F" font-size="7">Outer shell = biological shield boundary</text>
+  <text x="830" y="223" fill="#2A9D8F" font-size="7">Nothing radiologically dangerous passes L4</text>
+
+  <text x="830" y="250" fill="#888" font-size="8" font-weight="600">Harvests:</text>
+  <text x="830" y="265" fill="#E9C46A" font-size="7">Residual thermal gradient → electricity</text>
+  <text x="830" y="278" fill="#E9C46A" font-size="7">Small per unit area, large total surface</text>
+
+  <text x="830" y="305" fill="#888" font-size="8" font-weight="600">Monitors:</text>
+  <text x="830" y="320" fill="#7B68EE" font-size="7">Continuous thermal map of entire surface</text>
+  <text x="830" y="333" fill="#7B68EE" font-size="7">Voltage output = local temperature</text>
+  <text x="830" y="346" fill="#7B68EE" font-size="7">Anomaly detection: coolant loss, hot spots</text>
+
+  <rect x="830" y="370" width="240" height="60" rx="5" fill="rgba(42,157,143,0.06)" stroke="rgba(42,157,143,0.15)" stroke-width="1"/>
+  <text x="950" y="390" text-anchor="middle" fill="#2A9D8F" font-size="9" font-weight="700">OUTSIDE IS SAFE</text>
+  <text x="950" y="405" text-anchor="middle" fill="#666" font-size="7">Radiologically clean · walk-up accessible</text>
+  <text x="950" y="418" text-anchor="middle" fill="#666" font-size="7">Data ports · power connections · thermal conduit</text>
+
+</svg>
+</div>
+
+<!-- ================================================================ -->
+<!-- DETAIL CARDS -->
+<!-- ================================================================ -->
+<div class="detail-row">
+  <div class="detail-card">
+    <div class="detail-title" style="color:#E9C46A;">What Changes, What Stays</div>
+    <div class="detail-body">
+      <strong style="color:#2A9D8F;">UNCHANGED:</strong><br>
+      • Core design and fuel<br>
+      • Coolant system<br>
+      • Steam cycle and turbine<br>
+      • Control rod system<br>
+      • 33% thermal efficiency<br>
+      • All safety systems<br><br>
+      <strong style="color:#E9C46A;">CHANGED:</strong><br>
+      • Passive shielding → active converter layers<br>
+      • Same mass, same stopping power<br>
+      • Adds 2-5% efficiency from waste stream<br>
+      • Adds full-spectrum monitoring for free<br>
+      • Adds Spectrum Energy Cell fuel production<br><br>
+      <strong>The thermal cycle is sacred. Don't touch it. Harvest only what's currently at 0% utilization.</strong>
+    </div>
+  </div>
+
+  <div class="detail-card" style="border-color:rgba(123,104,238,0.2);">
+    <div class="detail-title" style="color:#7B68EE;">What an Engineer Gets</div>
+    <div class="detail-body">
+      <strong style="color:#7B68EE;">1. See inside the core without opening it.</strong><br>
+      The gamma spectrum tells you which isotopes are active, where they are, and how they're changing. No other system does this continuously.<br><br>
+      <strong style="color:#7B68EE;">2. Detect fuel failure before it propagates.</strong><br>
+      A cracked fuel cladding leaks specific fission products with specific gamma signatures. The CdTe layer sees the signature appear at the location of the crack. Minutes, not hours.<br><br>
+      <strong style="color:#7B68EE;">3. Monitor without power.</strong><br>
+      The radiation IS the power source for the sensors. If you lose all electrical systems — grid, diesel, battery — the monitoring still works. The only thing that can stop it is the reactor itself stopping. Fukushima operators would have had real-time core data throughout the entire event.<br><br>
+      <strong style="color:#7B68EE;">4. Map Xenon-135 directly.</strong><br>
+      The reactor poison that caused Chernobyl's operators to make fatal decisions is visible in the neutron absorption signature. Not calculated. Observed.<br><br>
+      <strong style="color:#7B68EE;">5. Produce revenue beyond electricity.</strong><br>
+      The active shielding produces additional electricity. The reactor produces Spectrum Energy Cell fuel (Cobalt-60, Cesium-137 extraction). The monitoring data has commercial value for safety regulators and researchers.
+    </div>
+  </div>
+
+  <div class="detail-card">
+    <div class="detail-title" style="color:#2A9D8F;">Retrofit vs New Build</div>
+    <div class="detail-body">
+      <strong style="color:#E9C46A;">RETROFIT (existing reactors):</strong><br>
+      Replace biological shield sections during scheduled outages. No core modifications. No coolant system changes. The converter layers are the same mass and thickness as the concrete they replace — structural load unchanged. Phased installation: start with one section, prove it, expand.<br><br>
+      <strong style="color:#2A9D8F;">NEW BUILD (future reactors):</strong><br>
+      Design the containment from the start with active converter layers. Optimize layer thicknesses for the specific reactor's gamma spectrum. Integrate the monitoring data bus into the plant control system. Include Cobalt-59 activation targets in the neutron reflector for intentional Spectrum Energy Cell fuel production.<br><br>
+      <strong>The retrofit path proves the concept. The new-build path realizes the full potential.</strong><br><br>
+      <strong style="color:#888;">Estimated cost:</strong> Converter materials (scintillator crystals, CdTe tiles, thermoelectric modules) are commercially available today. The engineering is integration, not invention.
+    </div>
+  </div>
+</div>
+
+<div class="thesis">"Every reactor on Earth wraps its core in hundreds of tons of shielding. That shielding is doing exactly what the Spectrum Energy framework describes — absorbing gamma, converting it to X-rays, dissipating the energy as heat. It's been doing this since the first reactor went critical. The only thing that changes is whether you harvest that energy and read the signals it produces — or throw it all away as waste heat and fly blind."</div>
+
+<div class="footnote">
+  <strong>Materials used in active shielding are commercially available today:</strong> CdTe and CZT detectors are manufactured by Redlen Technologies, Kromek, and others for medical imaging and security screening. NaI(Tl) scintillator crystals are standard in nuclear medicine. PbTe and SiGe thermoelectrics are used in spacecraft (RTGs) and industrial waste heat recovery. Tungsten heavy alloys are standard reactor shielding. No new materials need to be invented.<br><br>
+  <strong>Monitoring resolution:</strong> CdTe detectors achieve ~1% energy resolution at 662 keV (Cesium-137 line). Position-sensitive arrays can map gamma flux with centimeter-scale spatial resolution. This is higher resolution than any current reactor monitoring system.<br><br>
+  <strong>Power independence:</strong> The active shielding layers generate electricity from the radiation they absorb. This means the monitoring system is self-powered by the very radiation it measures. No external power source can be lost because none is needed. This addresses the single most critical failure mode in reactor safety — loss of monitoring during loss of power events.<br><br>
+  © 2025 David R. Young — Spectrum Energy Research Corp · Spectrum Energy Research Framework · All Rights Reserved
+</div>
+
+<script>
+function setView(v){
+  document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('viewCompare').style.display=v==='compare'?'block':'none';
+  document.getElementById('viewMonitor').style.display=v==='monitor'?'block':'none';
+  document.getElementById('viewLayers').style.display=v==='layers'?'block':'none';
+}
+</script>
+</body>
+</html>

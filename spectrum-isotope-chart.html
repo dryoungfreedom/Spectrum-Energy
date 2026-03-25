@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spectrum Isotope Chart — Nuclear-Level Gamma Interaction</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600;700;800&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#0A0A14;color:#E0E0F0;font-family:'Inter','Segoe UI',sans-serif;padding:24px 28px;min-height:100vh;}
+  h1{font-size:28px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(135deg,#E9C46A,#E63946,#2A9D8F,#7B68EE);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .subtitle{font-size:13px;color:#555568;margin-top:4px;}
+  .section-label{font-size:10px;color:#555568;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;}
+
+  .view-toggle{display:flex;gap:2px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:3px;width:fit-content;}
+  .view-btn{background:none;color:#666;border:none;border-radius:6px;padding:8px 18px;cursor:pointer;font-size:12px;font-family:inherit;font-weight:600;transition:all 0.2s;letter-spacing:0.3px;}
+  .view-btn:hover{color:#AAA;}
+  .view-btn.active{background:rgba(255,255,255,0.1);color:#E0E0F0;}
+
+  .cat-bar{display:flex;gap:6px;flex-wrap:wrap;}
+  .cat-btn{background:rgba(255,255,255,0.04);color:#888;border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:8px 16px;cursor:pointer;font-size:13px;font-family:inherit;font-weight:400;transition:all 0.2s ease;}
+  .cat-btn:hover{border-color:rgba(255,255,255,0.2);}
+  .cat-btn.active{color:#FFF;font-weight:700;}
+
+  .search-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+  .search-input{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:8px 14px;color:#E0E0F0;font-family:inherit;font-size:13px;width:240px;outline:none;}
+  .search-input::placeholder{color:#444;}
+  .iso-count{font-size:11px;color:#444458;}
+  .info-line{font-size:11px;color:#444458;margin-bottom:12px;}
+
+  /* Isotope cards */
+  .iso-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;}
+  .iso-card{background:#1C1C2E;border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:10px 12px;cursor:pointer;transition:all 0.3s ease;position:relative;}
+  .iso-card:hover{border-color:rgba(255,255,255,0.25);}
+  .iso-card.selected{border:2px solid #F0F0F0;}
+  .iso-card.dimmed{opacity:0.15;}
+  .iso-symbol{font-size:24px;font-weight:800;font-family:'JetBrains Mono',monospace;line-height:1.1;}
+  .iso-mass{font-size:12px;color:rgba(255,255,255,0.4);font-family:'JetBrains Mono',monospace;position:absolute;top:8px;right:10px;}
+  .iso-name{font-size:9px;color:rgba(255,255,255,0.45);margin-top:2px;}
+  .iso-props{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;}
+  .iso-badge{font-size:8px;padding:2px 6px;border-radius:3px;letter-spacing:0.3px;}
+  .iso-role{font-size:9px;margin-top:4px;font-family:'JetBrains Mono',monospace;}
+
+  /* Energy scale view */
+  .energy-scale{position:relative;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:20px;margin-bottom:20px;}
+  .energy-axis{position:relative;height:80px;margin:20px 0;}
+  .energy-line{position:absolute;top:40px;left:40px;right:40px;height:2px;background:linear-gradient(90deg,#2A9D8F,#E9C46A,#E63946,#6A0572);}
+  .energy-tick{position:absolute;top:30px;width:1px;height:22px;background:rgba(255,255,255,0.2);}
+  .energy-label{position:absolute;top:56px;font-size:9px;color:#555;font-family:'JetBrains Mono',monospace;transform:translateX(-50%);}
+  .energy-marker{position:absolute;top:24px;transform:translateX(-50%);cursor:pointer;text-align:center;z-index:2;}
+  .energy-dot{width:12px;height:12px;border-radius:50%;margin:0 auto;border:2px solid;}
+  .energy-marker-label{font-size:8px;font-family:'JetBrains Mono',monospace;margin-top:24px;white-space:nowrap;}
+  .energy-title{font-size:11px;color:#666680;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;}
+  .energy-range-label{font-size:10px;color:#444;position:absolute;top:8px;}
+  .fission-band{position:absolute;top:32px;height:18px;background:rgba(230,57,70,0.1);border:1px dashed rgba(230,57,70,0.3);border-radius:3px;}
+  .fission-band-label{position:absolute;top:14px;font-size:8px;color:#E63946;letter-spacing:0.5px;}
+
+  /* Detail panel */
+  .detail-panel{background:#12121F;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:20px;margin-top:16px;display:none;}
+  .detail-panel.open{display:block;}
+  .detail-top{display:flex;justify-content:space-between;align-items:flex-start;}
+  .detail-symbol{font-size:36px;font-weight:800;font-family:'JetBrains Mono',monospace;}
+  .detail-name{font-size:18px;color:#8888AA;margin-left:12px;}
+  .detail-mass{font-size:14px;color:#555568;margin-left:8px;}
+  .close-btn{background:none;border:1px solid rgba(255,255,255,0.15);color:#888;cursor:pointer;border-radius:6px;padding:4px 10px;font-size:13px;font-family:inherit;}
+  .close-btn:hover{border-color:rgba(255,255,255,0.3);}
+  .detail-section-label{font-size:11px;color:#666680;text-transform:uppercase;letter-spacing:1.5px;margin:16px 0 10px 0;}
+  .detail-props{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-top:10px;}
+  .detail-prop{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:8px 10px;}
+  .detail-prop-label{font-size:9px;color:#555568;text-transform:uppercase;letter-spacing:1px;}
+  .detail-prop-value{font-size:14px;font-weight:600;margin-top:2px;font-family:'JetBrains Mono',monospace;}
+  .detail-notes{font-size:11px;color:#888899;margin-top:12px;line-height:1.6;max-width:800px;}
+
+  /* Contrast pairs view */
+  .pair-container{display:grid;grid-template-columns:1fr auto 1fr;gap:0;margin-bottom:16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:10px;overflow:hidden;}
+  .pair-side{padding:16px;cursor:pointer;transition:background 0.2s;}
+  .pair-side:hover{background:rgba(255,255,255,0.03);}
+  .pair-vs{display:flex;align-items:center;justify-content:center;padding:0 12px;font-size:12px;font-weight:800;color:#555;background:rgba(255,255,255,0.02);border-left:1px solid rgba(255,255,255,0.06);border-right:1px solid rgba(255,255,255,0.06);}
+  .pair-symbol{font-size:22px;font-weight:800;font-family:'JetBrains Mono',monospace;}
+  .pair-name{font-size:10px;color:rgba(255,255,255,0.45);margin-top:2px;}
+  .pair-stat{font-size:10px;margin-top:6px;font-family:'JetBrains Mono',monospace;}
+  .pair-stat-label{color:#555;font-size:9px;}
+  .pair-diff{font-size:10px;color:#E9C46A;margin-top:8px;font-weight:600;}
+
+  .footer{margin-top:28px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.06);font-size:10px;color:#333348;line-height:1.8;}
+  .footer strong{color:#555568;}
+  .footer .copyright{color:#666680;margin-top:8px;font-size:11px;}
+  .nav-link{font-size:12px;color:#4A90D9;text-decoration:none;border:1px solid #4A90D9;border-radius:6px;padding:6px 14px;transition:all 0.2s;display:inline-block;}
+  .nav-link:hover{background:rgba(74,144,217,0.15);}
+  .nav-links{display:flex;gap:8px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:12px">
+  <div>
+    <h1>Spectrum Isotope Chart</h1>
+    <p class="subtitle">Nuclear-Level Gamma Interaction · Mössbauer Resonances · Decay Sources · Contrasting Pairs</p>
+  </div>
+  <div class="nav-links">
+    <a class="nav-link" href="spectrum-compounds-chart.html">← Compounds Chart</a>
+    <a class="nav-link" href="spectrum-control-chart.html">→ Control Chart</a>
+  </div>
+</div>
+
+<div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap">
+  <div class="view-toggle" id="viewToggle">
+    <button class="view-btn" data-view="energy">ENERGY SCALE</button>
+    <button class="view-btn active" data-view="cards">ALL ISOTOPES</button>
+    <button class="view-btn" data-view="pairs">CONTRASTING PAIRS</button>
+  </div>
+  <span style="font-size:10px;color:#444458" id="viewDesc">All isotopes by category with nuclear properties</span>
+</div>
+
+<div style="margin-bottom:20px">
+  <div class="section-label">Filter by Category</div>
+  <div class="cat-bar" id="catBar"></div>
+</div>
+
+<div class="search-bar">
+  <input type="text" class="search-input" id="searchInput" placeholder="Search isotopes...">
+  <span class="iso-count" id="isoCount"></span>
+</div>
+<div class="info-line" id="infoLine"></div>
+<div id="mainContent"></div>
+<div class="detail-panel" id="detailPanel"></div>
+<div class="footer" id="footer"></div>
+
+<script src="spectrum-data.js"></script>
+<script>
+let selectedCat=null,selectedIso=null,searchText="",currentView="cards";
+
+const GAMMA_ROLE_COLORS={
+  resonant:{bg:"#B7950B",text:"#F9E79F"},
+  absorber:{bg:"#6C3483",text:"#D7BDE2"},
+  transparent:{bg:"#2E4053",text:"#AEB6BF"},
+  emitter:{bg:"#922B21",text:"#F5B7B1"},
+  converter:{bg:"#1E8449",text:"#A9DFBF"}
+};
+
+function getCat(id){return ISOTOPE_CATEGORIES.find(c=>c.id===id);}
+function getFiltered(){
+  let arr=ISOTOPES;
+  if(selectedCat)arr=arr.filter(i=>i.category===selectedCat);
+  if(!searchText)return arr;
+  const q=searchText.toLowerCase();
+  return arr.filter(i=>i.name.toLowerCase().includes(q)||i.symbol.toLowerCase().includes(q)||(i.symbol+'-'+i.A).toLowerCase().includes(q));
+}
+
+function renderCatBar(){
+  const bar=document.getElementById('catBar');bar.innerHTML='';
+  const allBtn=document.createElement('button');
+  allBtn.className='cat-btn'+(!selectedCat?' active':'');allBtn.textContent='All';
+  if(!selectedCat){allBtn.style.background='rgba(255,255,255,0.12)';allBtn.style.borderColor='rgba(255,255,255,0.2)';}
+  allBtn.onclick=()=>{selectedCat=null;selectedIso=null;render();};bar.appendChild(allBtn);
+  ISOTOPE_CATEGORIES.forEach(cat=>{
+    const btn=document.createElement('button');btn.className='cat-btn'+(selectedCat===cat.id?' active':'');btn.textContent=cat.name;
+    if(selectedCat===cat.id){btn.style.background=cat.color;btn.style.borderColor=cat.color;btn.style.color='#000';}
+    btn.onclick=()=>{selectedCat=selectedCat===cat.id?null:cat.id;selectedIso=null;render();};bar.appendChild(btn);
+  });
+}
+
+function createCard(iso){
+  const card=document.createElement('div');
+  let cls='iso-card';
+  if(selectedIso&&selectedIso.name===iso.name)cls+=' selected';
+  card.className=cls;
+  const cat=getCat(iso.category);
+  card.style.borderLeftColor=cat?cat.color:'#555';card.style.borderLeftWidth='3px';
+  card.onclick=()=>{selectedIso=(selectedIso&&selectedIso.name===iso.name)?null:iso;render();};
+  const mass=document.createElement('div');mass.className='iso-mass';mass.textContent=iso.A;
+  const sym=document.createElement('div');sym.className='iso-symbol';
+  const rc=GAMMA_ROLE_COLORS[iso.gammaRole]||{text:'#AAA'};
+  sym.style.color=rc.text;sym.textContent=iso.symbol;
+  const nm=document.createElement('div');nm.className='iso-name';nm.textContent=iso.name;
+  card.appendChild(mass);card.appendChild(sym);card.appendChild(nm);
+
+  const props=document.createElement('div');props.className='iso-props';
+  // Gamma role badge
+  const rb=document.createElement('span');rb.className='iso-badge';
+  rb.style.background=rc.bg;rb.style.color=rc.text;rb.textContent='γ '+iso.gammaRole;props.appendChild(rb);
+  // Mössbauer badge
+  if(iso.mossbauer){
+    const mb=document.createElement('span');mb.className='iso-badge';
+    mb.style.background='rgba(233,196,106,0.2)';mb.style.color='#E9C46A';
+    mb.textContent='Möss '+iso.mossbauer.energy+' keV';props.appendChild(mb);
+  }
+  if(iso.decay){
+    const db=document.createElement('span');db.className='iso-badge';
+    db.style.background='rgba(231,111,81,0.2)';db.style.color='#E76F51';
+    db.textContent=iso.decay.type;props.appendChild(db);
+  }
+  card.appendChild(props);
+
+  // Key stat
+  const role=document.createElement('div');role.className='iso-role';
+  if(iso.decay)role.textContent=iso.decay.specificPower+' W/g · '+iso.halfLife;
+  else if(iso.neutronXS>=1000)role.textContent='nσ: '+iso.neutronXS.toLocaleString()+' b';
+  else if(iso.abundance>0)role.textContent=iso.abundance+'% natural';
+  else role.textContent=iso.halfLife;
+  role.style.color='rgba(255,255,255,0.3)';
+  card.appendChild(role);
+  return card;
+}
+
+function renderEnergyScale(){
+  const main=document.getElementById('mainContent');main.innerHTML='';
+  const info=document.getElementById('infoLine');
+  const filtered=getFiltered();
+  document.getElementById('isoCount').textContent=filtered.length+' of '+ISOTOPES.length+' isotopes';
+
+  const mossIsotopes=filtered.filter(i=>i.mossbauer);
+  if(mossIsotopes.length===0){
+    info.textContent='No Mössbauer isotopes in current filter — switch to All Isotopes view or change category';
+    main.innerHTML='<div style="text-align:center;padding:60px 20px;color:#444;font-size:14px">No Mössbauer-active isotopes in current selection.<br>Select "Mössbauer Active" category or "All" to see the energy scale.</div>';
+    return;
+  }
+
+  info.innerHTML='Mössbauer nuclear resonance energies — <span style="color:#E63946;font-weight:600">red band</span> shows typical fission gamma energy range';
+
+  const scale=document.createElement('div');scale.className='energy-scale';
+
+  const title=document.createElement('div');title.className='energy-title';title.textContent='Nuclear Resonance Energy Map (keV)';
+  scale.appendChild(title);
+
+  const axis=document.createElement('div');axis.className='energy-axis';
+
+  // Energy line
+  const line=document.createElement('div');line.className='energy-line';axis.appendChild(line);
+
+  // Scale: 0 to 1200 keV (covers Mössbauer range through low fission gamma)
+  const minE=0,maxE=1200,axisLeft=40,axisRight=40;
+
+  function eToPercent(e){return ((e-minE)/(maxE-minE))*100;}
+
+  // Fission gamma band (~100 keV to 10 MeV, but we show 100-1200 on this scale)
+  const fBand=document.createElement('div');fBand.className='fission-band';
+  fBand.style.left='calc('+axisLeft+'px + '+eToPercent(100)+'% * (100% - '+(axisLeft+axisRight)+'px) / 100)';
+  fBand.style.right=axisRight+'px';
+  const fLabel=document.createElement('div');fLabel.className='fission-band-label';
+  fLabel.style.left='calc('+axisLeft+'px + '+eToPercent(200)+'% * (100% - '+(axisLeft+axisRight)+'px) / 100)';
+  fLabel.textContent='FISSION GAMMA RANGE →';
+  axis.appendChild(fBand);axis.appendChild(fLabel);
+
+  // Tick marks
+  [0,50,100,200,300,500,800,1000].forEach(e=>{
+    const pct=eToPercent(e);
+    const tick=document.createElement('div');tick.className='energy-tick';
+    tick.style.left='calc('+axisLeft+'px + '+pct+'% * (100% - '+(axisLeft+axisRight)+'px) / 100)';
+    const label=document.createElement('div');label.className='energy-label';
+    label.style.left='calc('+axisLeft+'px + '+pct+'% * (100% - '+(axisLeft+axisRight)+'px) / 100)';
+    label.textContent=e>=1000?(e/1000)+'MeV':e+'';
+    axis.appendChild(tick);axis.appendChild(label);
+  });
+
+  // Mössbauer markers
+  mossIsotopes.sort((a,b)=>a.mossbauer.energy-b.mossbauer.energy).forEach(iso=>{
+    const e=iso.mossbauer.energy;
+    const pct=eToPercent(e);
+    const marker=document.createElement('div');marker.className='energy-marker';
+    marker.style.left='calc('+axisLeft+'px + '+pct+'% * (100% - '+(axisLeft+axisRight)+'px) / 100)';
+    marker.onclick=()=>{selectedIso=(selectedIso&&selectedIso.name===iso.name)?null:iso;render();};
+
+    const dot=document.createElement('div');dot.className='energy-dot';
+    const cat=getCat(iso.category);
+    dot.style.background=selectedIso&&selectedIso.name===iso.name?'#FFF':(cat?cat.color:'#E9C46A');
+    dot.style.borderColor=cat?cat.color:'#E9C46A';
+
+    const label=document.createElement('div');label.className='energy-marker-label';
+    label.style.color=selectedIso&&selectedIso.name===iso.name?'#FFF':'#999';
+    label.textContent=iso.symbol+'-'+iso.A;
+
+    marker.appendChild(dot);marker.appendChild(label);axis.appendChild(marker);
+  });
+
+  scale.appendChild(axis);
+
+  // Legend
+  const legend=document.createElement('div');
+  legend.style.cssText='display:flex;gap:16px;margin-top:8px;flex-wrap:wrap;font-size:10px;color:#666;';
+  legend.innerHTML='<span>● Mössbauer resonance energy</span><span style="color:#E63946">▬ ▬ Fission gamma range (100 keV → 10+ MeV)</span><span style="color:#555">Higher energy → closer to fission gamma → more relevant for gamma control</span>';
+  scale.appendChild(legend);
+
+  main.appendChild(scale);
+
+  // Show cards below energy scale for filtered isotopes
+  const grid=document.createElement('div');grid.className='iso-grid';
+  filtered.forEach(iso=>{grid.appendChild(createCard(iso));});
+  main.appendChild(grid);
+}
+
+function renderCards(){
+  const main=document.getElementById('mainContent');main.innerHTML='';
+  const info=document.getElementById('infoLine');
+  const filtered=getFiltered();
+  document.getElementById('isoCount').textContent=filtered.length+' of '+ISOTOPES.length+' isotopes';
+
+  if(selectedCat){
+    const cat=getCat(selectedCat);
+    info.innerHTML='<span style="color:'+cat.color+';font-weight:600">'+cat.name+'</span> — '+cat.desc;
+  }else{
+    info.textContent='All isotopes — select a category above to filter';
+  }
+
+  const grid=document.createElement('div');grid.className='iso-grid';
+  filtered.forEach(iso=>{grid.appendChild(createCard(iso));});
+  main.appendChild(grid);
+}
+
+function renderPairs(){
+  const main=document.getElementById('mainContent');main.innerHTML='';
+  const info=document.getElementById('infoLine');
+  document.getElementById('isoCount').textContent=ISOTOPES.length+' isotopes';
+  info.textContent='Same element, different neutron count — dramatically different nuclear behavior';
+
+  const pairs=[
+    {a:'B-10',b:'B-11',diff:'Neutron capture: 3,840 vs 0.005 barns (768,000× difference). One neutron changes everything.'},
+    {a:'Fe-57',b:'Fe-56',diff:'Fe-57 resonantly absorbs/re-emits 14.4 keV gamma (Mössbauer). Fe-56 does not. One neutron enables nuclear resonance.'},
+    {a:'Sn-119',b:'Sn-118',diff:'Sn-119 has Mössbauer resonance at 23.9 keV. Sn-118 has no nuclear resonance. One neutron creates the excited state.'},
+    {a:'Gd-155',b:'Gd-157',diff:'Both extreme neutron absorbers, but Gd-157 is 4× stronger (259,000 vs 61,000 barns). Gd-155 also has Mössbauer resonance.'},
+    {a:'U-235',b:'U-238',diff:'U-235 fissions with thermal neutrons (585 barn σf). U-238 does not. 3 fewer neutrons = fissile vs fertile. Different gamma emission spectra.'},
+    {a:'H-1',b:'H-2',diff:'Neutron capture: 0.332 vs 0.000519 barns (640× difference). One neutron enables the natural uranium fuel cycle (heavy water reactors).'},
+  ];
+
+  pairs.forEach(pair=>{
+    const isoA=ISOTOPES.find(i=>(i.symbol+'-'+i.A)===pair.a);
+    const isoB=ISOTOPES.find(i=>(i.symbol+'-'+i.A)===pair.b);
+    if(!isoA||!isoB)return;
+
+    const container=document.createElement('div');container.className='pair-container';
+
+    [isoA,isoB].forEach((iso,idx)=>{
+      const side=document.createElement('div');side.className='pair-side';
+      side.onclick=()=>{selectedIso=(selectedIso&&selectedIso.name===iso.name)?null:iso;render();};
+      const rc=GAMMA_ROLE_COLORS[iso.gammaRole]||{text:'#AAA',bg:'#333'};
+
+      let h='<div class="pair-symbol" style="color:'+rc.text+'">'+iso.symbol+'<sup style="font-size:12px">'+iso.A+'</sup></div>';
+      h+='<div class="pair-name">'+iso.name+'</div>';
+      h+='<div class="pair-stat"><span class="pair-stat-label">Neutrons:</span> '+(iso.A-iso.Z)+'</div>';
+      h+='<div class="pair-stat"><span class="pair-stat-label">nσ capture:</span> '+iso.neutronXS.toLocaleString()+' barns</div>';
+      h+='<div class="pair-stat"><span class="pair-stat-label">γ role:</span> <span style="color:'+rc.text+'">'+iso.gammaRole+'</span></div>';
+      if(iso.mossbauer)h+='<div class="pair-stat"><span class="pair-stat-label">Mössbauer:</span> <span style="color:#E9C46A">'+iso.mossbauer.energy+' keV</span></div>';
+      h+='<div class="pair-stat"><span class="pair-stat-label">Abundance:</span> '+iso.abundance+'%</div>';
+      side.innerHTML=h;
+      container.appendChild(side);
+
+      if(idx===0){
+        const vs=document.createElement('div');vs.className='pair-vs';vs.textContent='VS';
+        container.appendChild(vs);
+      }
+    });
+
+    main.appendChild(container);
+
+    const diff=document.createElement('div');
+    diff.style.cssText='font-size:11px;color:#E9C46A;margin:-8px 0 20px 16px;line-height:1.5;max-width:700px;';
+    diff.textContent='↳ '+pair.diff;
+    main.appendChild(diff);
+  });
+}
+
+function renderDetail(){
+  const panel=document.getElementById('detailPanel');
+  if(!selectedIso){panel.className='detail-panel';panel.innerHTML='';return;}
+  panel.className='detail-panel open';
+  const iso=selectedIso;
+  const rc=GAMMA_ROLE_COLORS[iso.gammaRole]||{text:'#AAA',bg:'#333'};
+  const cat=getCat(iso.category);
+
+  let h='<div class="detail-top"><div>';
+  h+='<span class="detail-symbol" style="color:'+rc.text+'">'+iso.symbol+'</span>';
+  h+='<span class="detail-name">'+iso.name+'</span>';
+  h+='<span class="detail-mass">A = '+iso.A+'</span>';
+  h+='</div><button class="close-btn" onclick="selectedIso=null;render();">✕</button></div>';
+
+  h+='<div style="margin-top:6px;font-size:10px;color:'+(cat?cat.color:'#888')+'">'+( cat?cat.name:'')+'</div>';
+
+  h+='<div class="detail-props">';
+  h+='<div class="detail-prop"><div class="detail-prop-label">Protons (Z)</div><div class="detail-prop-value">'+iso.Z+'</div></div>';
+  h+='<div class="detail-prop"><div class="detail-prop-label">Neutrons (N)</div><div class="detail-prop-value">'+(iso.A-iso.Z)+'</div></div>';
+  h+='<div class="detail-prop"><div class="detail-prop-label">Mass Number (A)</div><div class="detail-prop-value">'+iso.A+'</div></div>';
+  h+='<div class="detail-prop"><div class="detail-prop-label">Nuclear Spin</div><div class="detail-prop-value">'+iso.spin+'</div></div>';
+  h+='<div class="detail-prop"><div class="detail-prop-label">Half-Life</div><div class="detail-prop-value">'+iso.halfLife+'</div></div>';
+  h+='<div class="detail-prop"><div class="detail-prop-label">Natural Abundance</div><div class="detail-prop-value">'+iso.abundance+'%</div></div>';
+  h+='<div class="detail-prop"><div class="detail-prop-label">Neutron Capture σ</div><div class="detail-prop-value">'+iso.neutronXS.toLocaleString()+' barns</div></div>';
+  h+='<div class="detail-prop"><div class="detail-prop-label">Gamma Role</div><div class="detail-prop-value" style="color:'+rc.text+'">'+iso.gammaRole+'</div></div>';
+
+  if(iso.mossbauer){
+    h+='<div class="detail-prop" style="border-color:rgba(233,196,106,0.3)"><div class="detail-prop-label" style="color:#E9C46A">Mössbauer Resonance</div><div class="detail-prop-value" style="color:#E9C46A">'+iso.mossbauer.energy+' keV</div></div>';
+  }
+  if(iso.decay){
+    h+='<div class="detail-prop" style="border-color:rgba(231,111,81,0.3)"><div class="detail-prop-label" style="color:#E76F51">Decay Type</div><div class="detail-prop-value" style="color:#E76F51">'+iso.decay.type+'</div></div>';
+    h+='<div class="detail-prop" style="border-color:rgba(231,111,81,0.3)"><div class="detail-prop-label" style="color:#E76F51">Specific Power</div><div class="detail-prop-value" style="color:#E76F51">'+iso.decay.specificPower+' W/g</div></div>';
+    h+='<div class="detail-prop" style="border-color:rgba(231,111,81,0.3)"><div class="detail-prop-label" style="color:#E76F51">Emitted Bands</div><div class="detail-prop-value" style="color:#E76F51;font-size:11px">'+iso.decay.emittedBands.join(', ')+'</div></div>';
+    h+='<div class="detail-prop" style="border-color:rgba(231,111,81,0.3)"><div class="detail-prop-label" style="color:#E76F51">Production</div><div class="detail-prop-value" style="color:#E76F51;font-size:10px">'+iso.decay.production+'</div></div>';
+  }
+  h+='</div>';
+
+  if(iso.mossbauer){
+    h+='<div style="margin-top:12px;font-size:10px;color:#888;font-style:italic">'+iso.mossbauer.note+'</div>';
+  }
+
+  h+='<div class="detail-notes">'+iso.notes+'</div>';
+  panel.innerHTML=h;
+}
+
+function renderFooter(){
+  const moss=ISOTOPES.filter(i=>i.mossbauer).length;
+  document.getElementById('footer').innerHTML='<strong>Spectrum Isotope Chart</strong> — '+ISOTOPES.length+' isotopes ('+moss+' Mössbauer-active), '+ISOTOPE_CATEGORIES.length+' categories. Nuclear-level gamma interaction: where the answers to the gamma gaps may live.<div class="copyright">© 2025 David R. Young — Spectrum Energy Research Corp<br>Spectrum Energy Research Framework · All Rights Reserved</div>';
+}
+
+function render(){
+  renderCatBar();
+  if(currentView==='energy')renderEnergyScale();
+  else if(currentView==='cards')renderCards();
+  else if(currentView==='pairs')renderPairs();
+  renderDetail();renderFooter();
+}
+
+document.getElementById('viewToggle').addEventListener('click',function(e){
+  if(!e.target.classList.contains('view-btn'))return;
+  const view=e.target.dataset.view;currentView=view;
+  document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  const descs={energy:'Mössbauer resonance energies mapped against fission gamma range',cards:'All isotopes by category with nuclear properties',pairs:'Same element, different neutron count — how one neutron changes everything'};
+  document.getElementById('viewDesc').textContent=descs[view]||'';
+  selectedIso=null;render();
+});
+
+document.getElementById('searchInput').addEventListener('input',function(e){searchText=e.target.value;render();});
+render();
+</script>
+</body>
+</html>

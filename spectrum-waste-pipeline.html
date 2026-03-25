@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spectrum Energy Cell — Waste to Cell Pipeline</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600;700;800&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#0A0A14;color:#E0E0F0;font-family:'Inter','Segoe UI',sans-serif;padding:24px 28px;min-height:100vh;}
+  h1{font-size:28px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(135deg,#E63946,#E9C46A,#2A9D8F,#7B68EE);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .subtitle{font-size:13px;color:#555568;margin-top:4px;}.copyright{font-size:10px;color:#333;margin-top:2px;}
+  svg text{font-family:'Inter',sans-serif;}svg .mono{font-family:'JetBrains Mono',monospace;}
+  .section-wrap{margin-top:20px;}
+  .detail-row{display:flex;gap:16px;margin-top:20px;flex-wrap:wrap;}
+  .detail-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:14px;flex:1;min-width:250px;}
+  .detail-title{font-size:12px;font-weight:700;margin-bottom:6px;}
+  .detail-body{font-size:10px;color:#777;line-height:1.6;}.detail-body strong{color:#AAA;}
+  .mat-row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:10px;}
+  .mat-name{color:#888;}.mat-val{color:#E9C46A;font-family:'JetBrains Mono',monospace;}
+  .mat-note{color:#555;font-size:9px;font-style:italic;}
+  .thesis{font-size:12px;color:#888;font-style:italic;padding:12px;border-left:3px solid rgba(233,196,106,0.3);line-height:1.6;margin-top:20px;}
+  .footnote{font-size:9px;color:#444;margin-top:16px;line-height:1.5;}
+  .nav-link{font-size:12px;color:#4A90D9;text-decoration:none;border:1px solid #4A90D9;border-radius:6px;padding:6px 14px;transition:all 0.2s;display:inline-block;}
+  .nav-link:hover{background:rgba(74,144,217,0.15);}
+</style>
+</head>
+<body>
+<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:8px">
+  <div>
+    <h1>Waste to Cell Pipeline</h1>
+    <div class="subtitle">From reactor spent fuel to completed Spectrum Energy Cell · Three processing tiers · Bill of materials</div>
+    <div class="copyright">© 2025 David R. Young — Spectrum Energy Research Corp</div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <a class="nav-link" href="spectrum-energy-cell.html">← SE Cell Detail</a>
+    <a class="nav-link" href="spectrum-home-integration.html">Home Integration →</a>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- MAIN PIPELINE DIAGRAM -->
+<!-- ================================================================ -->
+<div class="section-wrap">
+  <svg viewBox="0 0 1100 520" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+    <defs>
+      <marker id="aR" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#E63946" opacity="0.6"/></marker>
+      <marker id="aY" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#E9C46A" opacity="0.6"/></marker>
+      <marker id="aG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#2A9D8F" opacity="0.6"/></marker>
+      <pattern id="gr" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.015)" stroke-width="0.5"/></pattern>
+      <filter id="gl"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <rect width="1100" height="520" fill="url(#gr)"/>
+
+    <!-- Phase labels across top -->
+    <text x="550" y="22" text-anchor="middle" fill="#555" font-size="9" letter-spacing="3">WASTE → FUEL → CELL → HOME</text>
+
+    <!-- ================================================================ -->
+    <!-- PHASE 1: SPENT FUEL SOURCE -->
+    <!-- ================================================================ -->
+    <rect x="20" y="45" width="200" height="200" rx="10" fill="rgba(230,57,70,0.04)" stroke="rgba(230,57,70,0.25)" stroke-width="1.5"/>
+    <text x="120" y="68" text-anchor="middle" fill="#E63946" font-size="12" font-weight="800">SPENT FUEL</text>
+    <text x="120" y="82" text-anchor="middle" fill="#888" font-size="8">Cooling pools · Dry casks</text>
+    <text x="120" y="96" text-anchor="middle" fill="#555" font-size="7">~86,000 metric tons in US storage</text>
+
+    <!-- Fuel rod icon -->
+    <rect x="55" y="110" width="12" height="60" rx="2" fill="rgba(230,57,70,0.2)" stroke="rgba(230,57,70,0.4)" stroke-width="1"/>
+    <rect x="75" y="110" width="12" height="60" rx="2" fill="rgba(230,57,70,0.2)" stroke="rgba(230,57,70,0.4)" stroke-width="1"/>
+    <rect x="95" y="110" width="12" height="60" rx="2" fill="rgba(230,57,70,0.2)" stroke="rgba(230,57,70,0.4)" stroke-width="1"/>
+    <rect x="115" y="110" width="12" height="60" rx="2" fill="rgba(230,57,70,0.2)" stroke="rgba(230,57,70,0.4)" stroke-width="1"/>
+    <rect x="135" y="110" width="12" height="60" rx="2" fill="rgba(230,57,70,0.2)" stroke="rgba(230,57,70,0.4)" stroke-width="1"/>
+    <rect x="155" y="110" width="12" height="60" rx="2" fill="rgba(230,57,70,0.15)" stroke="rgba(230,57,70,0.3)" stroke-width="1"/>
+    <rect x="175" y="110" width="12" height="60" rx="2" fill="rgba(230,57,70,0.15)" stroke="rgba(230,57,70,0.3)" stroke-width="1"/>
+
+    <!-- Composition breakdown -->
+    <text x="40" y="190" fill="#888" font-size="8" font-weight="600">Composition:</text>
+    <text x="40" y="203" fill="#666" font-size="7">~95% U-238 (inert bulk)</text>
+    <text x="40" y="214" fill="#E63946" font-size="7" font-weight="600">~3% fission products (the fuel)</text>
+    <text x="40" y="225" fill="#666" font-size="7">~1% Pu + minor actinides</text>
+    <text x="40" y="236" fill="#555" font-size="7">~1% remaining U-235</text>
+
+    <!-- ================================================================ -->
+    <!-- PHASE 2: THREE PROCESSING TIERS -->
+    <!-- ================================================================ -->
+
+    <!-- Arrow: spent fuel → processing -->
+    <line x1="220" y1="145" x2="270" y2="145" stroke="#E63946" stroke-width="2" marker-end="url(#aR)"/>
+
+    <!-- Tier container -->
+    <rect x="280" y="45" width="240" height="430" rx="10" fill="rgba(233,196,106,0.02)" stroke="rgba(233,196,106,0.15)" stroke-width="1"/>
+    <text x="400" y="68" text-anchor="middle" fill="#E9C46A" font-size="12" font-weight="800">PROCESSING</text>
+    <text x="400" y="82" text-anchor="middle" fill="#888" font-size="8">Three tiers — choose cost vs size</text>
+
+    <!-- Tier A: Raw -->
+    <rect x="295" y="95" width="210" height="100" rx="8" fill="rgba(230,57,70,0.04)" stroke="rgba(230,57,70,0.15)" stroke-width="1"/>
+    <text x="305" y="112" fill="#E63946" font-size="10" font-weight="800">TIER A — Raw Spent Fuel</text>
+    <text x="305" y="126" fill="#888" font-size="8">Minimal processing · chop + encapsulate</text>
+    <text x="305" y="140" fill="#666" font-size="7" class="mono">Source: ~5-10 kg spent fuel</text>
+    <text x="305" y="152" fill="#666" font-size="7" class="mono">Unit size: shipping container</text>
+    <text x="305" y="164" fill="#2A9D8F" font-size="7" font-weight="600">Cost: lowest (fuel = negative cost)</text>
+    <text x="305" y="177" fill="#E63946" font-size="7">⚠ Needs criticality-safe geometry</text>
+    <text x="305" y="188" fill="#555" font-size="7">Best for: industrial, agricultural, district</text>
+
+    <!-- Tier B: Concentrated -->
+    <rect x="295" y="205" width="210" height="100" rx="8" fill="rgba(233,196,106,0.04)" stroke="rgba(233,196,106,0.2)" stroke-width="1"/>
+    <text x="305" y="222" fill="#E9C46A" font-size="10" font-weight="800">TIER B — Concentrated FP</text>
+    <text x="305" y="236" fill="#888" font-size="8">Separate fission products from U-238 bulk</text>
+    <text x="305" y="250" fill="#666" font-size="7" class="mono">Source: ~300-500g concentrated FP</text>
+    <text x="305" y="262" fill="#666" font-size="7" class="mono">Unit size: large chest freezer</text>
+    <text x="305" y="274" fill="#2A9D8F" font-size="7" font-weight="600">Cost: moderate (bulk separation)</text>
+    <text x="305" y="287" fill="#E9C46A" font-size="7">★ Best balance: cost vs size</text>
+    <text x="305" y="298" fill="#555" font-size="7">Best for: residential, commercial</text>
+
+    <!-- Tier C: Pure Isotope -->
+    <rect x="295" y="315" width="210" height="100" rx="8" fill="rgba(42,157,143,0.04)" stroke="rgba(42,157,143,0.2)" stroke-width="1"/>
+    <text x="305" y="332" fill="#2A9D8F" font-size="10" font-weight="800">TIER C — Pure Isotope</text>
+    <text x="305" y="346" fill="#888" font-size="8">Full separation: Cs-137, Sr-90, or Am-241</text>
+    <text x="305" y="360" fill="#666" font-size="7" class="mono">Source: ~120g Cs-137 or equivalent</text>
+    <text x="305" y="372" fill="#666" font-size="7" class="mono">Unit size: mini fridge (w/ conduit)</text>
+    <text x="305" y="384" fill="#2A9D8F" font-size="7" font-weight="600">Cost: highest (PUREX chemistry)</text>
+    <text x="305" y="397" fill="#555" font-size="7">Cleanest operation · no criticality concern</text>
+    <text x="305" y="408" fill="#555" font-size="7">Best for: residential, portable, marine</text>
+
+    <!-- Remaining waste note -->
+    <rect x="295" y="425" width="210" height="40" rx="6" fill="rgba(42,157,143,0.06)" stroke="rgba(42,157,143,0.15)" stroke-width="1"/>
+    <text x="400" y="443" text-anchor="middle" fill="#2A9D8F" font-size="8" font-weight="700">REMAINING WASTE</text>
+    <text x="400" y="456" text-anchor="middle" fill="#666" font-size="7">Without Cs/Sr: cooler, shorter-lived, easier to store</text>
+
+    <!-- ================================================================ -->
+    <!-- PHASE 3: SE CELL ASSEMBLY -->
+    <!-- ================================================================ -->
+
+    <!-- Arrow: processing → assembly -->
+    <line x1="520" y1="255" x2="570" y2="255" stroke="#E9C46A" stroke-width="2" marker-end="url(#aY)"/>
+
+    <rect x="580" y="45" width="230" height="430" rx="10" fill="rgba(123,104,238,0.02)" stroke="rgba(123,104,238,0.15)" stroke-width="1"/>
+    <text x="695" y="68" text-anchor="middle" fill="#7B68EE" font-size="12" font-weight="800">SE CELL ASSEMBLY</text>
+    <text x="695" y="82" text-anchor="middle" fill="#888" font-size="8">Concentric layers · atmospheric model</text>
+
+    <!-- Layer-by-layer bill of materials -->
+    <!-- Source -->
+    <rect x="595" y="95" width="200" height="36" rx="5" fill="rgba(230,57,70,0.06)" stroke="rgba(230,57,70,0.2)" stroke-width="1"/>
+    <text x="605" y="110" fill="#E63946" font-size="9" font-weight="700">L1 · SOURCE CAPSULE</text>
+    <text x="605" y="122" fill="#666" font-size="7" class="mono">Cs-137 / Sr-90 / mixed FP · sealed</text>
+
+    <!-- SiC Betavoltaic -->
+    <rect x="595" y="138" width="200" height="36" rx="5" fill="rgba(91,141,238,0.06)" stroke="rgba(91,141,238,0.2)" stroke-width="1"/>
+    <text x="605" y="153" fill="#5B8DEE" font-size="9" font-weight="700">L2 · SiC BETAVOLTAIC</text>
+    <text x="605" y="165" fill="#666" font-size="7" class="mono">SiC · 3.21 g/cm³ · ~50-100g</text>
+
+    <!-- High-Z absorber -->
+    <rect x="595" y="181" width="200" height="36" rx="5" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+    <text x="605" y="196" fill="#AAA" font-size="9" font-weight="700">L3 · HIGH-Z ABSORBER</text>
+    <text x="605" y="208" fill="#666" font-size="7" class="mono">W-Ni-Fe 17.5 g/cm³ · 50-150 kg</text>
+
+    <!-- CdTe -->
+    <rect x="595" y="224" width="200" height="36" rx="5" fill="rgba(123,104,238,0.06)" stroke="rgba(123,104,238,0.2)" stroke-width="1"/>
+    <text x="605" y="239" fill="#7B68EE" font-size="9" font-weight="700">L4 · CdTe / CZT DETECTOR</text>
+    <text x="605" y="251" fill="#666" font-size="7" class="mono">CdTe 5.85 g/cm³ · ~200-500g</text>
+
+    <!-- Scintillator -->
+    <rect x="595" y="267" width="200" height="36" rx="5" fill="rgba(212,175,55,0.06)" stroke="rgba(212,175,55,0.2)" stroke-width="1"/>
+    <text x="605" y="282" fill="#D4AF37" font-size="9" font-weight="700">L5 · SCINTILLATOR</text>
+    <text x="605" y="294" fill="#666" font-size="7" class="mono">NaI(Tl) or LYSO:Ce · ~1-3 kg</text>
+
+    <!-- PV -->
+    <rect x="595" y="310" width="200" height="36" rx="5" fill="rgba(42,157,143,0.06)" stroke="rgba(42,157,143,0.2)" stroke-width="1"/>
+    <text x="605" y="325" fill="#2A9D8F" font-size="9" font-weight="700">L6 · PHOTOVOLTAIC</text>
+    <text x="605" y="337" fill="#666" font-size="7" class="mono">InGaP/GaAs · ~200-500g</text>
+
+    <!-- Thermoelectric -->
+    <rect x="595" y="353" width="200" height="36" rx="5" fill="rgba(231,111,81,0.06)" stroke="rgba(231,111,81,0.2)" stroke-width="1"/>
+    <text x="605" y="368" fill="#E76F51" font-size="9" font-weight="700">L7 · THERMOELECTRIC</text>
+    <text x="605" y="380" fill="#666" font-size="7" class="mono">PbTe or SiGe · ~300-800g</text>
+
+    <!-- Outer shell -->
+    <rect x="595" y="396" width="200" height="36" rx="5" fill="rgba(42,157,143,0.06)" stroke="rgba(42,157,143,0.15)" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="605" y="411" fill="#2A9D8F" font-size="9" font-weight="700">L8 · SAFE OUTER SHELL</text>
+    <text x="605" y="423" fill="#666" font-size="7" class="mono">Steel housing · thermal ports · fiber ports</text>
+
+    <!-- Dominant mass note -->
+    <rect x="595" y="440" width="200" height="28" rx="4" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+    <text x="695" y="458" text-anchor="middle" fill="#888" font-size="8" font-weight="600">L3 shielding = 95%+ of total mass</text>
+
+    <!-- ================================================================ -->
+    <!-- PHASE 4: DEPLOYED PRODUCT -->
+    <!-- ================================================================ -->
+
+    <!-- Arrow: assembly → deployed -->
+    <line x1="810" y1="255" x2="855" y2="255" stroke="#2A9D8F" stroke-width="2" marker-end="url(#aG)"/>
+
+    <rect x="865" y="45" width="220" height="430" rx="10" fill="rgba(42,157,143,0.02)" stroke="rgba(42,157,143,0.15)" stroke-width="1"/>
+    <text x="975" y="68" text-anchor="middle" fill="#2A9D8F" font-size="12" font-weight="800">DEPLOYED</text>
+    <text x="975" y="82" text-anchor="middle" fill="#888" font-size="8">Installed · producing · off-grid</text>
+
+    <!-- Unit icon -->
+    <rect x="930" y="100" width="90" height="70" rx="8" fill="rgba(42,157,143,0.06)" stroke="rgba(42,157,143,0.25)" stroke-width="1.5"/>
+    <text x="975" y="125" text-anchor="middle" fill="#E0E0F0" font-size="11" font-weight="800">SE CELL</text>
+    <text x="975" y="140" text-anchor="middle" fill="#888" font-size="8">Utility closet</text>
+    <text x="975" y="155" text-anchor="middle" fill="#555" font-size="7" class="mono">chest freezer size</text>
+
+    <!-- Three outputs -->
+    <rect x="880" y="185" width="195" height="40" rx="6" fill="rgba(233,196,106,0.04)" stroke="rgba(233,196,106,0.15)" stroke-width="1"/>
+    <text x="890" y="202" fill="#E9C46A" font-size="10" font-weight="700">⚡ ~650W electrical</text>
+    <text x="890" y="215" fill="#666" font-size="7">Battery · appliances · cooking peaks</text>
+
+    <rect x="880" y="233" width="195" height="40" rx="6" fill="rgba(231,111,81,0.04)" stroke="rgba(231,111,81,0.15)" stroke-width="1"/>
+    <text x="890" y="250" fill="#E76F51" font-size="10" font-weight="700">🔥 ~500W thermal</text>
+    <text x="890" y="263" fill="#666" font-size="7">AC · hot water · heating · fridge</text>
+
+    <rect x="880" y="281" width="195" height="40" rx="6" fill="rgba(42,157,143,0.04)" stroke="rgba(42,157,143,0.15)" stroke-width="1"/>
+    <text x="890" y="298" fill="#2A9D8F" font-size="10" font-weight="700">💡 visible light</text>
+    <text x="890" y="311" fill="#666" font-size="7">Fiber optic to all rooms</text>
+
+    <!-- Lifecycle -->
+    <rect x="880" y="335" width="195" height="60" rx="6" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+    <text x="890" y="352" fill="#888" font-size="9" font-weight="700">LIFECYCLE</text>
+    <text x="890" y="366" fill="#666" font-size="7">Cs-137: runs 30 years, lower power</text>
+    <text x="890" y="378" fill="#666" font-size="7">Co-60: runs 5 years, higher power</text>
+    <text x="890" y="390" fill="#555" font-size="7">Swap capsule · keep the cell forever</text>
+
+    <!-- End state -->
+    <rect x="880" y="405" width="195" height="60" rx="6" fill="rgba(42,157,143,0.06)" stroke="rgba(42,157,143,0.2)" stroke-width="1"/>
+    <text x="890" y="422" fill="#2A9D8F" font-size="9" font-weight="700">END STATE</text>
+    <text x="890" y="436" fill="#666" font-size="7">Cs-137 → Ba-137 (stable barium)</text>
+    <text x="890" y="448" fill="#666" font-size="7">Sr-90 → Zr-90 (stable zirconium)</text>
+    <text x="890" y="460" fill="#2A9D8F" font-size="7" font-weight="600">Waste becomes inert. Problem solved.</text>
+
+    <!-- ================================================================ -->
+    <!-- BOTTOM: KEY INSIGHT -->
+    <!-- ================================================================ -->
+    <rect x="20" y="488" width="1060" height="25" rx="6" fill="rgba(233,196,106,0.04)" stroke="rgba(233,196,106,0.1)" stroke-width="1"/>
+    <text x="550" y="505" text-anchor="middle" fill="#E9C46A" font-size="9" font-weight="600">The fuel already exists · it's already refined · someone is already paying to store it · the SE Cell turns a liability into an asset</text>
+
+  </svg>
+</div>
+
+<!-- ================================================================ -->
+<!-- BILL OF MATERIALS DETAIL -->
+<!-- ================================================================ -->
+<div class="detail-row">
+  <div class="detail-card">
+    <div class="detail-title" style="color:#E9C46A;">Bill of Materials — Tier B Home Unit</div>
+    <div class="detail-body" style="margin-bottom:8px;">Concentrated fission product source · ~850W total · chest freezer size</div>
+    <div class="mat-row"><span class="mat-name">L1 · Source capsule</span><span class="mat-val">~300-500g conc. FP</span></div>
+    <div class="mat-row"><span class="mat-name">L2 · SiC betavoltaic wafers</span><span class="mat-val">~50-100g</span></div>
+    <div class="mat-row"><span class="mat-name">L3 · W-Ni-Fe shielding</span><span class="mat-val">~100-150 kg</span></div>
+    <div class="mat-row"><span class="mat-name">L4 · CdTe detector array</span><span class="mat-val">~200-500g</span></div>
+    <div class="mat-row"><span class="mat-name">L5 · NaI(Tl) scintillator</span><span class="mat-val">~1-3 kg</span></div>
+    <div class="mat-row"><span class="mat-name">L6 · InGaP/GaAs PV cells</span><span class="mat-val">~200-500g</span></div>
+    <div class="mat-row"><span class="mat-name">L7 · PbTe or SiGe thermoelectric</span><span class="mat-val">~300-800g</span></div>
+    <div class="mat-row"><span class="mat-name">L8 · Steel housing + ports</span><span class="mat-val">~10-20 kg</span></div>
+    <div class="mat-row"><span class="mat-name">Heat exchanger + hydronic</span><span class="mat-val">~5-10 kg</span></div>
+    <div class="mat-row"><span class="mat-name">Fiber optic bundles</span><span class="mat-val">~0.5-1 kg</span></div>
+    <div class="mat-row"><span class="mat-name">Electronics + inverter</span><span class="mat-val">~2-5 kg</span></div>
+    <div class="mat-row" style="border-top:2px solid rgba(233,196,106,0.2);margin-top:4px;padding-top:6px;"><span class="mat-name" style="color:#E9C46A;font-weight:700;">TOTAL UNIT MASS</span><span class="mat-val">~120-190 kg</span></div>
+    <div class="mat-note" style="margin-top:6px;">Shielding (L3) dominates. With crystal conduit: ~60-95 kg total.</div>
+  </div>
+
+  <div class="detail-card">
+    <div class="detail-title" style="color:#E63946;">Spent Fuel Available in US</div>
+    <div class="detail-body">
+      <strong>Total stored:</strong> ~86,000 metric tons<br><br>
+      <strong>Fission product fraction:</strong> ~3% = ~2,580 tons<br><br>
+      <strong>Cs-137 content:</strong> ~6.1% of FP = ~157 tons<br><br>
+      <strong>Sr-90 content:</strong> ~5.7% of FP = ~147 tons<br><br>
+      <strong>SE Cells from existing waste:</strong><br>
+      At 120g Cs-137 per home unit:<br>
+      157,000 kg ÷ 0.12 kg = <strong style="color:#E9C46A;">~1.3 million home units</strong><br><br>
+      At 500g concentrated FP per unit:<br>
+      2,580,000 kg ÷ 0.5 kg = <strong style="color:#E9C46A;">~5 million home units</strong><br><br>
+      <strong style="color:#2A9D8F;">Existing US waste could power millions of homes while eliminating the storage problem.</strong>
+    </div>
+  </div>
+
+  <div class="detail-card">
+    <div class="detail-title" style="color:#2A9D8F;">Three Tiers Compared</div>
+    <div class="detail-body">
+      <table style="width:100%;font-size:9px;border-collapse:collapse;">
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+          <td style="padding:4px 0;color:#666;"></td>
+          <td style="color:#E63946;font-weight:700;">Tier A</td>
+          <td style="color:#E9C46A;font-weight:700;">Tier B</td>
+          <td style="color:#2A9D8F;font-weight:700;">Tier C</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+          <td style="padding:3px 0;color:#888;">Processing</td>
+          <td style="color:#666;">Chop + seal</td>
+          <td style="color:#666;">Bulk separate</td>
+          <td style="color:#666;">Full PUREX</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+          <td style="padding:3px 0;color:#888;">Source mass</td>
+          <td style="color:#666;">5-10 kg</td>
+          <td style="color:#666;">300-500g</td>
+          <td style="color:#666;">120g</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+          <td style="padding:3px 0;color:#888;">Unit size</td>
+          <td style="color:#666;">Container</td>
+          <td style="color:#666;">Chest freezer</td>
+          <td style="color:#666;">Mini fridge*</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+          <td style="padding:3px 0;color:#888;">Shielding</td>
+          <td style="color:#666;">~500+ kg</td>
+          <td style="color:#666;">~100-150 kg</td>
+          <td style="color:#666;">~50-80 kg</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+          <td style="padding:3px 0;color:#888;">Fuel cost</td>
+          <td style="color:#2A9D8F;">Negative</td>
+          <td style="color:#E9C46A;">Low</td>
+          <td style="color:#E63946;">Highest</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+          <td style="padding:3px 0;color:#888;">Criticality</td>
+          <td style="color:#E63946;">Must manage</td>
+          <td style="color:#E9C46A;">Minimal risk</td>
+          <td style="color:#2A9D8F;">None</td>
+        </tr>
+        <tr>
+          <td style="padding:3px 0;color:#888;">Best for</td>
+          <td style="color:#666;">Industrial</td>
+          <td style="color:#E9C46A;font-weight:600;">Residential</td>
+          <td style="color:#666;">Portable</td>
+        </tr>
+      </table>
+      <div style="font-size:8px;color:#555;margin-top:6px;">* With crystal conduit (future)</div>
+    </div>
+  </div>
+</div>
+
+<div class="thesis">"86,000 metric tons of spent fuel sit in storage across the United States. Someone is paying billions to keep it cool and contained. That fuel contains the Cs-137, Sr-90, and Am-241 that the Spectrum Energy Cell needs. Extracting them solves two problems at once: the waste becomes safer to store, and millions of homes get perpetual, grid-free power. The fuel is already mined, already refined, and already paid for. The SE Cell turns a national liability into a national asset."</div>
+
+<div class="footnote">
+  <strong>Separation technology:</strong> PUREX (Plutonium Uranium Reduction Extraction) and variants are well-established reprocessing methods. France, UK, Russia, Japan, and India operate commercial reprocessing facilities. The US suspended civilian reprocessing in 1977 (Carter administration) but the technology exists and is used for defense purposes.<br><br>
+  <strong>Cs-137 yield:</strong> ~6.1% of fission products by mass. One of the most abundant and problematic isotopes in spent fuel. Half-life 30.17 years. Decays to stable Ba-137. Gamma emitter — ideal for the scintillator conversion chain.<br><br>
+  <strong>Sr-90 yield:</strong> ~5.7% of fission products by mass. Half-life 28.8 years. Pure beta emitter (no gamma — less shielding needed). Daughter Y-90 provides additional high-energy beta. Decays to stable Zr-90.<br><br>
+  <strong>Material estimates:</strong> Masses are engineering approximations for a home-scale unit producing ~850W total. Shielding mass varies significantly with source activity, geometry, and crystal conduit availability. Converter layer masses are small — the technology exists at these scales today in medical and industrial detectors.<br><br>
+  © 2025 David R. Young — Spectrum Energy Research Corp · Spectrum Energy Research Framework · All Rights Reserved
+</div>
+</body>
+</html>

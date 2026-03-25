@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spectrum Glossary — Key Terms & Definitions</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600;700;800&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#0A0A14;color:#E0E0F0;font-family:'Inter','Segoe UI',sans-serif;padding:24px 28px;min-height:100vh;}
+  h1{font-size:28px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(135deg,#E9C46A,#2A9D8F,#E63946,#5B8DEE);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .subtitle{font-size:13px;color:#555568;margin-top:4px;}
+
+  .search-bar{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
+  .search-input{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:10px 16px;color:#E0E0F0;font-family:inherit;font-size:14px;width:100%;max-width:400px;outline:none;}
+  .search-input::placeholder{color:#444;}
+  .search-input:focus{border-color:rgba(255,255,255,0.25);}
+  .match-count{font-size:11px;color:#444458;}
+
+  .toc{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px;}
+  .toc-btn{background:rgba(255,255,255,0.04);color:#888;border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:6px 14px;cursor:pointer;font-size:12px;font-family:inherit;transition:all 0.2s;}
+  .toc-btn:hover{border-color:rgba(255,255,255,0.2);color:#CCC;}
+
+  .section{margin-bottom:28px;}
+  .section-header{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:14px;cursor:pointer;}
+  .section-header:hover .section-title{color:#FFF;}
+  .section-icon{font-size:18px;width:24px;text-align:center;}
+  .section-title{font-size:15px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#AAAACC;transition:color 0.2s;}
+  .section-count{font-size:10px;color:#444;margin-left:auto;}
+
+  .term{padding:10px 14px;margin-bottom:6px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);transition:all 0.2s;}
+  .term:hover{border-color:rgba(255,255,255,0.1);background:rgba(255,255,255,0.035);}
+  .term.highlight{border-color:rgba(233,196,106,0.3);background:rgba(233,196,106,0.05);}
+  .term-name{font-size:14px;font-weight:700;color:#E9C46A;font-family:'JetBrains Mono',monospace;}
+  .term-def{font-size:13px;color:#AAAABC;margin-top:4px;line-height:1.6;}
+  .term.hidden{display:none;}
+
+  .footer{margin-top:28px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.06);font-size:10px;color:#333348;line-height:1.8;}
+  .footer strong{color:#555568;}
+  .footer .copyright{color:#666680;margin-top:8px;font-size:11px;}
+  .nav-link{font-size:12px;color:#4A90D9;text-decoration:none;border:1px solid #4A90D9;border-radius:6px;padding:6px 14px;transition:all 0.2s;display:inline-block;}
+  .nav-link:hover{background:rgba(74,144,217,0.15);}
+  .nav-links{display:flex;gap:8px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:12px">
+  <div>
+    <h1>Spectrum Glossary</h1>
+    <p class="subtitle">Key Terms & Definitions — Spectrum Energy Research Framework</p>
+  </div>
+  <div class="nav-links">
+    <a class="nav-link" href="spectrum-energy-chart.html">General Chart</a>
+    <a class="nav-link" href="spectrum-control-chart.html">Control Chart</a>
+    <a class="nav-link" href="spectrum-compounds-chart.html">Compounds</a>
+    <a class="nav-link" href="spectrum-isotope-chart.html">Isotopes</a>
+  </div>
+</div>
+
+<div class="search-bar">
+  <input type="text" class="search-input" id="searchInput" placeholder="Search terms...">
+  <span class="match-count" id="matchCount"></span>
+</div>
+
+<div class="toc" id="toc"></div>
+<div id="content"></div>
+
+<div class="footer" id="footer">
+  <strong>Spectrum Glossary</strong> — Quick reference for all charts in the Spectrum Energy Research Framework.
+  <div class="copyright">© 2025 David R. Young — Spectrum Energy Research Corp<br>Spectrum Energy Research Framework · All Rights Reserved</div>
+</div>
+
+<script>
+const GLOSSARY = [
+  { section:"Energy Bands", icon:"〰", color:"#E63946", terms:[
+    {name:"Electromagnetic (EM) Radiation", def:"Energy that travels as waves through space. Includes radio, microwave, infrared, visible light, ultraviolet, X-ray, and gamma ray. All are the same phenomenon at different energies and wavelengths."},
+    {name:"Wavelength", def:"The distance between wave peaks. Longer wavelength = lower energy. Radio waves are meters long; gamma rays are smaller than atoms."},
+    {name:"Frequency", def:"How many wave cycles pass a point per second. Higher frequency = higher energy. Measured in Hertz (Hz). Prefixes: MHz (million), GHz (billion), THz (trillion)."},
+    {name:"Photon", def:"A single \"packet\" of electromagnetic energy. Light, X-rays, and gamma rays are all photons — just at different energies."},
+    {name:"keV (kilo-electron-volt)", def:"A unit of energy used for X-rays and gamma rays. 1 keV = 1,000 electron-volts. Fission gamma rays are typically 100 keV to 10 MeV."},
+    {name:"MeV (mega-electron-volt)", def:"1,000 keV. Fission gamma rays average around 1 MeV."},
+    {name:"Bandgap", def:"The energy gap between a material's resting state and its conducting state. Measured in eV. Determines what wavelengths a material absorbs or transmits. A 3.2 eV bandgap means the material absorbs UV but transmits visible light."},
+    {name:"Non-EM Band", def:"An energy form that is not electromagnetic radiation but still requires material control. The framework tracks four: electricity (electron flow), thermal (conductive heat), magnetic (field interaction), and neutron (particle radiation). Non-EM bands use the same 10 functional roles as EM bands, proving the Start→Change→Stop model applies universally."},
+  ]},
+  { section:"Functional Roles", icon:"⚡", color:"#2A9D8F", terms:[
+    {name:"Conductor →", def:"Transmits energy through the material. Copper conducts electricity; fiber optic glass conducts light."},
+    {name:"Channel ⇥", def:"A path for energy to travel through, using walls that contain it. A copper pipe for electricity; a mirror-lined tube for light. For high-energy bands, the channel is often vacuum with reflective walls."},
+    {name:"Reflector ↩", def:"Bounces energy back. A mirror reflects light; aluminum reflects radio waves."},
+    {name:"Refractor ◠", def:"Bends energy as it passes through. A glass lens refracts light; a prism separates colors by refracting different wavelengths at different angles."},
+    {name:"Resistor ≋", def:"Partially reduces energy intensity without fully blocking it. A dimmer for light; a thin metal sheet that weakens but doesn't stop X-rays."},
+    {name:"Polarizer ⫽", def:"Filters the wave orientation. Polarized sunglasses block horizontally-oriented light while passing vertical. Only applies to wave-based energy."},
+    {name:"Converter ⚡", def:"Transforms energy from one form to another. A solar cell converts light to electricity. A scintillator converts gamma rays to visible light. This is the key role for the gamma control chain."},
+    {name:"Insulator ⊘", def:"Completely blocks energy. Rubber blocks electricity; lead blocks gamma rays (though for gamma, this is really absorption — see the roadmap discussion on this distinction)."},
+    {name:"Absorber ●", def:"Captures energy, usually converting it to heat. Black paint absorbs visible light; lead absorbs gamma rays."},
+    {name:"Transparent ◇", def:"Energy passes through with no interaction. Glass is transparent to visible light; air is transparent to radio waves."},
+  ]},
+  { section:"Control Groups", icon:"◎", color:"#E9C46A", terms:[
+    {name:"Start", def:"The control group for energy sources. START is not a material property — it is the energy source itself. Every energy source is a conversion: fission converts nuclear binding energy, the sun converts hydrogen mass, a turbine converts steam pressure, a decay isotope converts nuclear potential energy. Energy is never created, only converted from one form to another. Every conversion creates a new START for the resulting energy band."},
+    {name:"Change", def:"Roles that redirect, modify, or convert energy: Conductor, Reflector, Refractor, Resistor, Polarizer, and Converter."},
+    {name:"Stop", def:"Roles that block or capture energy: Insulator and Absorber."},
+    {name:"Gap", def:"A missing role for a specific energy band — no known material fills that function. The gamma band has 5 gaps. These are the central research targets."},
+    {name:"Control Completeness", def:"The percentage of functional roles filled for a given energy band. Radio and microwave are 100%. Gamma is 44%."},
+  ]},
+  { section:"Nuclear Terms", icon:"⚛", color:"#E63946", terms:[
+    {name:"Atomic Number (Z)", def:"The number of protons in an atom's nucleus. Defines the element. Hydrogen = 1, Lead = 82, Uranium = 92."},
+    {name:"Mass Number (A)", def:"Total protons + neutrons in a nucleus. Different mass numbers of the same element = different isotopes."},
+    {name:"Isotope", def:"Same element (same proton count), different number of neutrons. U-235 and U-238 are both uranium but behave very differently in reactors. One extra neutron can transform nuclear behavior completely."},
+    {name:"Neutron", def:"An uncharged particle in the nucleus. Neutron count determines nuclear stability, radioactivity, and gamma behavior. The nuclear equivalent of an electron in determining energy interaction."},
+    {name:"Nuclear Energy Level", def:"Just as electrons orbit in specific energy shells, protons and neutrons inside a nucleus occupy specific energy states. When a nucleus drops from a higher state to a lower one, it emits a gamma ray."},
+    {name:"Fission", def:"Splitting a heavy nucleus (like U-235) into two lighter nuclei. Releases enormous energy as kinetic energy of fragments, neutrons, and gamma rays."},
+    {name:"Fissile", def:"An isotope that can sustain a chain reaction with slow (thermal) neutrons. U-235 and Pu-239 are fissile."},
+    {name:"Fertile", def:"An isotope that can absorb a neutron and transform into a fissile isotope. U-238 absorbs a neutron and eventually becomes Pu-239."},
+    {name:"Cross-section (σ)", def:"A measure of how likely a nuclear reaction is. Measured in barns. Higher barns = more likely to interact. B-10 has a neutron capture cross-section of 3,840 barns (very high). B-11 has 0.005 barns (nearly zero)."},
+    {name:"Barn", def:"Unit of nuclear cross-section (10⁻²⁴ cm²). Named as a joke — \"as big as a barn\" compared to the actual size of a nucleus."},
+    {name:"Thermal Neutron", def:"A slow neutron at about room temperature energy (~0.025 eV). Most reactor fission uses thermal neutrons because fission cross-sections are highest at low energies."},
+    {name:"Neutron Moderator", def:"A material that slows fast neutrons to thermal energies. Water and heavy water are moderators. Light atoms slow neutrons most efficiently — like a billiard ball transferring the most energy when it hits one of equal mass."},
+    {name:"Alpha Particle (α)", def:"A helium-4 nucleus (2 protons + 2 neutrons) emitted during radioactive decay. Stopped by a sheet of paper. Named before its identity was known — simply the first type of radiation discovered."},
+    {name:"Beta Particle (β)", def:"An electron emitted from a nucleus during radioactive decay, when a neutron converts to a proton. Identical to any other electron — the name indicates nuclear origin, not a different particle. β⁻ = electron; β⁺ = positron. MeV energies vs. millielectronvolt in a circuit. Historical naming from Becquerel/Rutherford (1890s)."},
+    {name:"Gamma Ray (as particle)", def:"A high-energy photon emitted from a nucleus dropping to a lower energy state. Named as the third type of radiation discovered. Same phenomenon as visible light but at millions of times higher energy. No charge, no mass — pure energy."},
+    {name:"Betavoltaic", def:"A device that converts beta particles (nuclear-decay electrons) directly to electricity using a semiconductor junction. The nuclear equivalent of a solar cell. Diamond and SiC are candidate materials. Used in the SE Cell to harvest the beta emission band."},
+    {name:"Radiation-hard", def:"A material that maintains its properties after significant ionizing radiation exposure. Measured in Gray (Gy). Kapton survives >10 MGy; most polymers fail below 10 kGy. Critical for anything operating near a nuclear source."},
+    {name:"Burnable Poison", def:"A neutron-absorbing material deliberately loaded into reactor fuel that burns away during operation. Controls excess reactivity at start of fuel life. Gd₂O₃ is common — its extreme neutron cross-section decreases as Gd is transmuted."},
+    {name:"Specific Power", def:"The thermal power output per unit mass of a radioactive isotope, measured in watts per gram (W/g). Determined by half-life and decay energy — shorter half-life means higher specific power. Po-210 leads at 141 W/g (138-day half-life). Pu-238 at 0.57 W/g lasts 87.7 years. The SE Cell design balances specific power against mission lifetime."},
+    {name:"Decay Source", def:"An isotope category in the framework for SE Cell fuel candidates. Each decay source is characterized by decay type (α, β⁻, β⁻+γ), specific power, emitted energy bands, and production method. Nine are tracked, from Po-210 (highest power density) to Ni-63 (lowest power, zero shielding needed)."},
+  ]},
+  { section:"Mössbauer Effect & Nuclear Resonance", icon:"◉", color:"#7B68EE", terms:[
+    {name:"Mössbauer Effect", def:"The recoil-free emission and absorption of gamma rays by nuclei locked in a crystal lattice. Discovered by Rudolf Mössbauer in 1958. The nucleus absorbs a gamma photon at a very specific energy and re-emits it — essentially a nuclear-level echo of the incoming gamma."},
+    {name:"Why it matters here", def:"The Mössbauer effect is the closest thing to gamma \"reflection\" that currently exists. A nucleus absorbs gamma at one exact energy and re-emits it. If this could be controlled directionally, it approaches the reflector role — the highest-priority gamma gap."},
+    {name:"Resonance", def:"When incoming energy exactly matches a natural frequency of the absorber. Like pushing a swing at exactly the right moment — maximum energy transfer. Nuclear resonance means the gamma photon energy exactly matches a nuclear transition energy."},
+    {name:"Recoil-free", def:"Normally when a nucleus emits or absorbs a photon, it recoils like a gun firing a bullet, which shifts the energy and breaks resonance. In a solid crystal, the recoil is absorbed by the entire lattice (billions of atoms), so the shift becomes negligible. This is why the Mössbauer effect only works in solids."},
+    {name:"Linewidth", def:"How precisely tuned a resonance is. Mössbauer resonances have extraordinarily narrow linewidths (~5 neV for Fe-57), meaning the energy must match to parts per trillion. Extreme precision — both a strength and a limitation."},
+  ]},
+  { section:"Compound & Material Terms", icon:"⬡", color:"#1ABC9C", terms:[
+    {name:"Scintillator", def:"A material that flashes visible light when hit by high-energy radiation. From Latin \"scintilla\" (spark). NaI(Tl) converts gamma to blue-violet light. This is gamma-to-visible conversion — the key working role in the energy control chain."},
+    {name:"Piezoelectric", def:"A material that generates electricity when squeezed, and deforms when voltage is applied. Converts mechanical↔electrical energy. BaTiO₃ and PZT are examples."},
+    {name:"Ferroelectric", def:"A material with a permanent electric polarization that can be reversed by an applied electric field. All ferroelectrics are piezoelectric, but not vice versa."},
+    {name:"Ferrite", def:"A ceramic containing iron oxide with magnetic properties. Used in radio/microwave absorbers, transformer cores, and permanent magnets. From \"ferrum\" (Latin for iron)."},
+    {name:"Dielectric", def:"An electrical insulator that can be polarized by an electric field. Used in capacitors. Dielectric constant measures how strongly a material responds to electric fields."},
+    {name:"Refractive Index", def:"How much a material slows light compared to vacuum. Higher index = more bending. Glass ~1.5, diamond ~2.4, vacuum = exactly 1. For gamma rays, all materials have index almost exactly 1 — which is why gamma refraction barely exists."},
+    {name:"Density", def:"Mass per unit volume (g/cm³). Higher density generally means better gamma shielding — more atoms per centimeter to interact with the photon."},
+    {name:"Effective Atomic Number (Zeff)", def:"For compounds, a weighted average of the component elements' atomic numbers. Higher Zeff = better gamma absorption."},
+    {name:"Hygroscopic", def:"Absorbs moisture from air. Many scintillator crystals (NaI, LaBr₃) must be sealed in airtight housings to prevent degradation."},
+    {name:"Thermoelectric", def:"A material that converts thermal gradients to electricity via the Seebeck effect. Bi₂Te₃ for near room temperature, PbTe for mid-range, SiGe for high temperature. The thermal band converter in the SE Cell."},
+    {name:"Skutterudite", def:"A crystal structure (named after Skutterud, Norway) with open cages that trap guest atoms. CoSb₃ is the prototype. Filling cages with rare-earth atoms scatters heat-carrying phonons without affecting electrical conduction — an engineered route to better thermoelectric efficiency."},
+    {name:"Half-Heusler", def:"An intermetallic crystal structure where half the atomic sites are deliberately empty. TiNiSn is the prototype thermoelectric. Vacancies scatter phonons while the ordered metal framework maintains electrical conductivity. Mechanically robust — survives reactor environments where layered materials fail."},
+    {name:"Topological Insulator", def:"A material that insulates in its bulk but conducts on its surface via quantum-protected states. Bi₂Te₃ and Bi₂Se₃ are topological insulators. Surface conduction is dissipationless and robust against impurities. May enable new conversion mechanisms beyond conventional Seebeck effect."},
+    {name:"Shape Memory Alloy", def:"A metal that remembers its shape: deform it cold, heat past a transition temperature, and it snaps back. NiTi (Nitinol) is the prototype. Converts thermal energy directly to mechanical motion with no electronics. In the SE Cell: passive thermal actuators for self-regulating systems."},
+    {name:"Phase-Change Material", def:"A material that switches reversibly between crystal and amorphous states, dramatically changing optical and electrical properties. GeTe is both thermoelectric and phase-change. The switchability means one material can toggle between transparent and absorbing states."},
+    {name:"Conformal Coating", def:"A thin protective layer applied uniformly over a surface, following every contour. Parylene is vapor-deposited and pinhole-free at 1 μm. Protects electronics and detector surfaces from moisture and corrosion in radiation environments."},
+    {name:"Superalloy", def:"A metal alloy (typically Ni-based) that maintains strength at temperatures where ordinary steel fails (>500°C). Inconel 718 and Hastelloy C-276 are superalloys. Used in reactor internals, jet engines, and high-temp/high-stress applications."},
+    {name:"Refractory", def:"A material that withstands extremely high temperatures without melting or degrading. Tungsten (3422°C), ZrB₂ (3246°C), HfO₂ (2758°C). Used in the hottest zones of reactor designs."},
+  ]},
+  { section:"Thermoelectric & Conversion Terms", icon:"△", color:"#EC407A", terms:[
+    {name:"Seebeck Effect", def:"When two ends of a material are at different temperatures, a voltage appears. This is how thermoelectric generators work — thermal gradient in, electricity out. Discovered by Thomas Seebeck in 1821. The reverse (Peltier effect) pumps heat when current flows."},
+    {name:"ZT (Figure of Merit)", def:"The dimensionless number measuring thermoelectric efficiency. ZT = S²σT/κ. ZT ≥ 1 is useful; ZT ≥ 2 is excellent. The fundamental challenge: high electrical conductivity and low thermal conductivity are needed simultaneously, but in most materials they track together."},
+    {name:"TEG (Thermoelectric Generator)", def:"A device that converts a temperature difference directly to electricity using the Seebeck effect. No moving parts. Used in RTGs, waste heat recovery, and remote power. In the SE Cell: the thermal band converter."},
+    {name:"RTG (Radioisotope Thermoelectric Generator)", def:"A nuclear decay battery using thermoelectric conversion. Pu-238 provides heat; SiGe or PbTe thermoelectrics convert to electricity. Powers Voyager (launched 1977, still operating), Curiosity, Perseverance. The SE Cell extends this concept to harvest ALL bands, not just thermal."},
+    {name:"Peltier Effect", def:"The reverse of the Seebeck effect — running current through a thermoelectric creates a temperature difference. Used in solid-state coolers (no compressor, no refrigerant). Same materials work in both directions."},
+  ]},
+  { section:"Chart-Specific Terms", icon:"▦", color:"#E76F51", terms:[
+    {name:"Predicted (★)", def:"An element's behavior in a band that is inferred from atomic structure and group trends rather than directly measured. Shown with dashed borders and a star symbol."},
+    {name:"Structural Group", def:"Elements grouped by electron configuration pattern (e.g., all metals with half-filled d-shells). Used on the Structure Chart to find behavior correlations."},
+    {name:"Gap Analysis", def:"The comparison view on the Compounds Chart showing which roles have materials and which remain empty. Red = open gap. Gold = filled by compounds."},
+    {name:"Energy Scale (Isotope Chart)", def:"Logarithmic plot of Mössbauer resonance energies against the fission gamma range. Shows how close nuclear resonance research is to fission-relevant energies."},
+    {name:"Contrasting Pairs", def:"Isotope pairs from the same element with dramatically different nuclear behavior. Demonstrates how neutron count transforms energy interaction. Example: B-10 (3,840 barn neutron capture) vs B-11 (0.005 barns)."},
+  ]},
+  { section:"The Big Picture", icon:"◈", color:"#D4AF37", terms:[
+    {name:"Spectrum Energy Theory", def:"David R. Young's framework: every form of energy can be classified by how materials Start, Change, and Stop it. Complete classification reveals where control exists and where research gaps remain."},
+    {name:"Spectrum Energy Reactor", def:"Fission reactor designed using Spectrum Energy principles. Active shielding harvests waste-stream gamma and neutron energy that conventional reactors dump as heat. The 33% thermal→steam cycle is untouched — only energy currently at 0% utilization is harvested. Both the proof of concept and the fuel factory for the SE Cell."},
+    {name:"Spectrum Energy Cell (SE Cell)", def:"Decay battery with no fission, no moving parts, and no thermal cycle. Every energy band emitted by a decaying isotope gets its own optimized conversion pathway — gamma→scintillator→PV, thermal→thermoelectric, beta→betavoltaic. All paths active simultaneously. The product."},
+    {name:"Harvest from Waste, Never Steal from Thermal", def:"The core design rule. At reactor scale, don't divert steam cycle energy to lower-efficiency converters. Only harvest energy currently at 0% utilization. At SE Cell scale, there is no thermal cycle, so all conversion paths are active."},
+    {name:"The Gamma Problem", def:"Fission produces gamma rays as a primary energy output, but we have almost no ability to direct, shape, or convert gamma efficiently. Five of nine control roles are missing. Current nuclear power works around this by converting gamma to heat (boiling water) rather than controlling it directly."},
+    {name:"The Electricity Analogy", def:"Electricity was once as uncontrolled as gamma is now. Full control came from discovering and combining materials with specific roles (conductors, insulators, resistors, converters) into engineered devices (circuits). The theory proposes gamma control will follow the same path."},
+    {name:"The Nuclear-Level Insight", def:"Gamma originates in the nucleus and primarily interacts with inner electrons and nuclear fields. A true gamma insulator would need nuclei \"full\" at the nuclear level — no available energy states for gamma to couple to. Neutron count determines this, which is why different isotopes of the same element interact with gamma differently. The Isotope Chart maps this."},
+    {name:"The Reflector is the Linchpin", def:"Of the five missing gamma roles, the reflector is the highest priority. Solving gamma reflection enables channel (needs walls), polarizer (needs directional control), and helps refraction. Laue crystal lenses, nuclear resonance scattering, and extreme grazing-incidence optics are the current research directions."},
+    {name:"The Atmospheric Model", def:"Earth's atmosphere is a natural, working multilayer energy filter. Upper layers absorb/convert gamma and X-ray. Middle layers handle UV (ozone). Only safe bands (visible, IR, radio) reach the surface. The SE Cell follows the same architecture — concentric converter layers ordered by energy, with the outer shell radiologically safe. Shielding IS the converter: each layer protects AND harvests."},
+    {name:"Filter by Layer, Not by Containment", def:"SE Cell design principle derived from the atmospheric model. Instead of containing all radiation in a sealed box, arrange converter layers so dangerous bands are absorbed and converted in inner layers, and only safe, useful bands pass through to the outer surface. The energy doesn't stop — it changes form at each layer."},
+    {name:"Three Output Modes", def:"The SE Cell produces three forms of useful energy simultaneously: (1) Direct thermal — conducted via hydronic loops to heating, hot water, frost prevention. (2) Direct light — visible light from scintillator conversion conducted via fiber optics to homes and workspaces. (3) Electrical — from photovoltaic, betavoltaic, and thermoelectric conversion. Only convert to electricity what needs to be electricity. Every unnecessary conversion step loses energy."},
+    {name:"Cascade, Don\u2019t Discard", def:"Decay is gradual \u2014 Co-60 drops to half power every 5.27 years, not to zero. Instead of discarding a spent source, step it down: home \u2192 workshop \u2192 sensors \u2192 beacon \u2192 stable metal. Every decay source ends as a non-radioactive commodity metal (Co-60\u2192nickel, Cs-137\u2192barium, Sr-90\u2192zirconium). Am-241\u2019s decay product can return to a reactor and become more SE Cell fuel. At no point does it become waste again."},
+    {name:"Closed Fuel Cycle", def:"The complete SE Cell lifecycle: nuclear waste extracted from spent fuel storage \u2192 processed into source capsules \u2192 installed in SE Cell \u2192 produces power for years across cascading applications \u2192 decays to stable commodity metals \u2192 recycled. Starting material was waste. End product is nickel, barium, or zirconium. The word \u2018waste\u2019 stops applying at every stage."},
+  ]},
+];
+
+let searchText="";
+
+function renderTOC(){
+  const toc=document.getElementById('toc');toc.innerHTML='';
+  GLOSSARY.forEach(sec=>{
+    const btn=document.createElement('button');btn.className='toc-btn';
+    btn.style.borderLeftColor=sec.color;btn.style.borderLeftWidth='3px';
+    btn.textContent=sec.icon+' '+sec.section;
+    btn.onclick=()=>{document.getElementById('sec-'+sec.section.replace(/\s/g,'-')).scrollIntoView({behavior:'smooth',block:'start'});};
+    toc.appendChild(btn);
+  });
+}
+
+function renderContent(){
+  const content=document.getElementById('content');content.innerHTML='';
+  const q=searchText.toLowerCase();
+  let totalMatches=0,totalTerms=0;
+
+  GLOSSARY.forEach(sec=>{
+    const secDiv=document.createElement('div');secDiv.className='section';
+    secDiv.id='sec-'+sec.section.replace(/\s/g,'-');
+
+    const matchingTerms=sec.terms.filter(t=>!q||t.name.toLowerCase().includes(q)||t.def.toLowerCase().includes(q));
+    totalTerms+=sec.terms.length;
+    totalMatches+=matchingTerms.length;
+
+    const header=document.createElement('div');header.className='section-header';
+    const icon=document.createElement('span');icon.className='section-icon';icon.textContent=sec.icon;
+    const title=document.createElement('span');title.className='section-title';title.style.color=sec.color;title.textContent=sec.section;
+    const count=document.createElement('span');count.className='section-count';count.textContent=matchingTerms.length+' of '+sec.terms.length+' terms';
+    header.appendChild(icon);header.appendChild(title);header.appendChild(count);
+    secDiv.appendChild(header);
+
+    sec.terms.forEach(term=>{
+      const isMatch=!q||term.name.toLowerCase().includes(q)||term.def.toLowerCase().includes(q);
+      const div=document.createElement('div');
+      div.className='term'+(isMatch?'':' hidden')+(q&&isMatch?' highlight':'');
+      const nm=document.createElement('div');nm.className='term-name';nm.textContent=term.name;
+      const df=document.createElement('div');df.className='term-def';df.textContent=term.def;
+      div.appendChild(nm);div.appendChild(df);
+      secDiv.appendChild(div);
+    });
+
+    if(matchingTerms.length>0||!q)content.appendChild(secDiv);
+  });
+
+  document.getElementById('matchCount').textContent=q?totalMatches+' of '+totalTerms+' terms match':totalTerms+' terms';
+}
+
+function render(){renderTOC();renderContent();}
+
+document.getElementById('searchInput').addEventListener('input',function(e){searchText=e.target.value;renderContent();});
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spectrum Energy Budget — Full-Spectrum Fission Accounting</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600;700;800&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#0A0A14;color:#E0E0F0;font-family:'Inter','Segoe UI',sans-serif;padding:24px 28px;min-height:100vh;}
+  h1{font-size:28px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(135deg,#E9C46A,#E63946,#2A9D8F,#7B68EE);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .subtitle{font-size:13px;color:#555568;margin-top:4px;}.copyright{font-size:10px;color:#333;margin-top:2px;}
+  .view-toggle{display:flex;gap:2px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:3px;width:fit-content;margin:16px 0;flex-wrap:wrap;}
+  .view-btn{background:none;color:#666;border:none;border-radius:6px;padding:8px 18px;cursor:pointer;font-size:12px;font-family:inherit;font-weight:600;transition:all 0.2s;letter-spacing:0.3px;}
+  .view-btn:hover{color:#AAA;}.view-btn.active{background:rgba(255,255,255,0.1);color:#E0E0F0;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .shdr{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#555568;margin:16px 0 8px 0;padding-left:4px;}
+  .spec-bar{width:100%;display:flex;border-radius:6px;overflow:hidden;margin:6px 0;}
+  .spec-seg{display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:'JetBrains Mono',monospace;min-width:0;overflow:hidden;padding:2px 4px;}
+  .b-thermal{background:rgba(244,162,97,0.6);color:#FFF;}.b-gamma{background:rgba(106,5,114,0.7);color:#FFF;}.b-neutron{background:rgba(42,157,143,0.6);color:#FFF;}.b-beta{background:rgba(91,141,238,0.6);color:#FFF;}.b-neutrino{background:rgba(60,60,60,0.6);color:#666;}.b-elec{background:rgba(233,196,106,0.8);color:#000;}.b-waste{background:rgba(60,60,60,0.6);color:#666;}
+  .cols{display:flex;gap:28px;flex-wrap:wrap;}.col{flex:1;min-width:400px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px;position:relative;overflow:hidden;}
+  .col.old::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#784212,#E63946);}
+  .col.new::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#2A9D8F,#E9C46A,#7B68EE);}
+  .col-title{font-size:18px;font-weight:800;margin-bottom:4px;}.col-sub{font-size:11px;color:#555568;margin-bottom:16px;}.old .col-title{color:#E63946;}.new .col-title{color:#2A9D8F;}
+  .path{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:12px;margin-bottom:8px;}
+  .path.parked{opacity:0.5;border-style:dashed;}
+  .path-hdr{display:flex;justify-content:space-between;align-items:center;}.path-name{font-size:12px;font-weight:700;}.path-eff{font-family:'JetBrains Mono',monospace;font-size:11px;color:#E9C46A;}
+  .path-chain{font-size:10px;color:#666;margin-top:4px;font-family:'JetBrains Mono',monospace;}
+  .path-result{font-size:11px;margin-top:6px;display:flex;justify-content:space-between;}.path-result .out{font-weight:700;font-family:'JetBrains Mono',monospace;color:#E9C46A;}
+  .path-note{font-size:9px;color:#555;margin-top:4px;}
+  .result{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:16px;text-align:center;margin-top:12px;}
+  .result-big{font-size:36px;font-weight:800;font-family:'JetBrains Mono',monospace;}.result-label{font-size:11px;color:#888;margin-top:2px;}.result-sub{font-size:12px;color:#666;margin-top:8px;}
+  .old .result-big{color:#E63946;}.new .result-big{color:#2A9D8F;}
+  .tbl{width:100%;border-collapse:collapse;margin-top:12px;}
+  .tbl th{text-align:left;font-size:10px;color:#555;text-transform:uppercase;letter-spacing:1px;padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.06);}
+  .tbl td{font-size:11px;padding:7px 8px;border-bottom:1px solid rgba(255,255,255,0.03);line-height:1.4;}
+  .tbl td:nth-child(n+3){font-family:'JetBrains Mono',monospace;text-align:right;}
+  .tbl tr.total td{font-weight:800;border-top:2px solid rgba(255,255,255,0.15);color:#E9C46A;}.tbl tr.lost td{color:#555;font-style:italic;}
+  .tbl tr.parked td{color:#666;font-style:italic;}
+  .tbl .bd{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px;vertical-align:middle;}
+  .compare{margin-top:24px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px;}
+  .compare-title{font-size:14px;font-weight:800;color:#E9C46A;margin-bottom:16px;}
+  .compare-row{display:flex;align-items:center;margin-bottom:10px;}.compare-label{width:200px;font-size:11px;color:#888;flex-shrink:0;}
+  .compare-bars{flex:1;display:flex;align-items:center;gap:6px;}
+  .compare-bar{height:22px;border-radius:4px;display:flex;align-items:center;padding:0 8px;font-size:10px;font-weight:700;font-family:'JetBrains Mono',monospace;}
+  .compare-bar.old{background:rgba(230,57,70,0.4);color:#F5B7B1;}.compare-bar.new{background:rgba(42,157,143,0.4);color:#A2D9CE;}
+  .thesis{font-size:12px;color:#888;font-style:italic;padding:12px;border-left:3px solid rgba(233,196,106,0.3);line-height:1.6;margin-top:16px;}
+  .rule{background:rgba(230,57,70,0.06);border:1px solid rgba(230,57,70,0.2);border-radius:8px;padding:12px;margin:12px 0;}
+  .rule-title{font-size:12px;font-weight:800;color:#E63946;margin-bottom:4px;}
+  .rule-body{font-size:11px;color:#888;line-height:1.6;}
+  .gain{background:rgba(42,157,143,0.06);border:1px solid rgba(42,157,143,0.2);border-radius:8px;padding:12px;margin:12px 0;}
+  .notes{margin-top:20px;padding:16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:8px;}
+  .notes-title{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#555568;margin-bottom:8px;}
+  .note{font-size:11px;color:#777;margin-bottom:6px;line-height:1.5;}.note strong{color:#AAA;}.note .src{font-family:'JetBrains Mono',monospace;font-size:9px;color:#555;}
+  .legend{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0;font-size:10px;color:#888;}
+  .legend span{display:flex;align-items:center;gap:3px;}.ldot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+  @media(max-width:900px){.cols{flex-direction:column;}.col{min-width:auto;}}
+</style>
+</head>
+<body>
+<h1>Spectrum Energy Budget</h1>
+<div class="subtitle">U-235 Fission: Every band accounted for — honest numbers only</div>
+<div class="copyright">© 2025 David R. Young — Spectrum Energy Research Corp</div>
+
+<div class="view-toggle">
+  <button class="view-btn active" onclick="setView('spectrum')">Full Spectrum</button>
+  <button class="view-btn" onclick="setView('compare')">Band Comparison</button>
+  <button class="view-btn" onclick="setView('table')">Detailed Table</button>
+  <button class="view-btn" onclick="setView('pathways')">Conversion Chains</button>
+</div>
+
+<!-- ====== FULL SPECTRUM ====== -->
+<div id="spectrumView">
+  <div class="shdr">Primary Fission Products — 200 MeV per event</div>
+  <div class="spec-bar" style="height:36px;">
+    <div class="spec-seg b-thermal" style="width:84%">Fragment KE 168</div>
+    <div class="spec-seg b-gamma" style="width:3.5%"></div>
+    <div class="spec-seg b-neutron" style="width:2.5%"></div>
+    <div class="spec-seg b-beta" style="width:3.5%"></div>
+    <div class="spec-seg b-gamma" style="width:3.5%;opacity:0.7;"></div>
+    <div class="spec-seg b-neutrino" style="width:6%">ν</div>
+  </div>
+  <div class="legend">
+    <span><div class="ldot" style="background:rgba(244,162,97,0.6);"></div>Thermal 168</span>
+    <span><div class="ldot" style="background:rgba(106,5,114,0.7);"></div>Prompt γ 7</span>
+    <span><div class="ldot" style="background:rgba(42,157,143,0.6);"></div>Neutron KE 5</span>
+    <span><div class="ldot" style="background:rgba(91,141,238,0.6);"></div>Delayed β 7</span>
+    <span><div class="ldot" style="background:rgba(106,5,114,0.5);"></div>Delayed γ 7</span>
+    <span><div class="ldot" style="background:rgba(60,60,60,0.6);"></div>Neutrinos 12 (lost)</span>
+  </div>
+
+  <div class="rule">
+    <div class="rule-title">Design Rule: Harvest from waste, never steal from thermal</div>
+    <div class="rule-body">The thermal cycle converts at 33%. Any path that intercepts energy <em>already in the coolant loop</em> must exceed 33% efficiency to justify the diversion. If it doesn't, you're building a worse teapot. <strong>Only harvest energy currently at 0% utilization</strong> — gamma in shielding, heat in concrete, activation products destined for waste storage.</div>
+  </div>
+
+  <div class="shdr">Secondary Emissions — Which Are Waste, Which Are Already In the Loop?</div>
+  <table class="tbl">
+    <thead><tr><th>Band</th><th>Source</th><th>In thermal loop?</th><th style="text-align:left;">Spectrum Energy action</th></tr></thead>
+    <tbody>
+      <tr><td><span class="bd" style="background:rgba(106,5,114,0.7);"></span>Escaped γ to shielding</td><td style="text-align:left;">Prompt + delayed gamma penetrating pressure vessel</td><td style="text-align:left;color:#2A9D8F;font-weight:700;">No — waste heat in concrete</td><td style="text-align:left;color:#2A9D8F;">→ CdTe/CZT direct conversion. <strong>Pure gain.</strong></td></tr>
+      <tr><td><span class="bd" style="background:rgba(155,89,182,0.5);"></span>Capture γ (escaped)</td><td style="text-align:left;">Fraction of neutron capture gamma reaching shielding</td><td style="text-align:left;color:#2A9D8F;font-weight:700;">No — waste heat in concrete</td><td style="text-align:left;color:#2A9D8F;">→ CdTe in active shielding. <strong>Pure gain.</strong></td></tr>
+      <tr><td><span class="bd" style="background:rgba(155,89,182,0.3);"></span>Capture γ (core)</td><td style="text-align:left;">Capture gamma absorbed in fuel/coolant/structure</td><td style="text-align:left;color:#E63946;font-weight:700;">Yes — already heats coolant</td><td style="text-align:left;color:#888;">Leave it. 33% thermal > diversion.</td></tr>
+      <tr><td><span class="bd" style="background:rgba(38,70,83,0.7);"></span>Bremsstrahlung (escaped)</td><td style="text-align:left;">Tiny fraction of X-ray reaching shielding zone</td><td style="text-align:left;color:#2A9D8F;font-weight:700;">No — waste</td><td style="text-align:left;color:#2A9D8F;">→ CdTe (lower range). <strong>Small but pure gain.</strong></td></tr>
+      <tr><td><span class="bd" style="background:rgba(38,70,83,0.5);"></span>Bremsstrahlung (core)</td><td style="text-align:left;">Most X-ray absorbed in fuel and cladding</td><td style="text-align:left;color:#E63946;font-weight:700;">Yes — heats coolant</td><td style="text-align:left;color:#888;">Leave it.</td></tr>
+      <tr><td><span class="bd" style="background:rgba(91,141,238,0.6);"></span>Surface beta</td><td style="text-align:left;">Beta escaping fuel into cladding/coolant</td><td style="text-align:left;color:#E63946;font-weight:700;">Yes — heats cladding → coolant</td><td style="text-align:left;color:#888;">Parked. SiC betavoltaic at 10% < 33% thermal. Revisit when >33%.</td></tr>
+      <tr><td><span class="bd" style="background:rgba(233,196,106,0.6);"></span>Cherenkov visible/UV</td><td style="text-align:left;">Light from electrons in coolant</td><td style="text-align:left;color:#E63946;font-weight:700;">Yes — absorbed by water → heat</td><td style="text-align:left;color:#888;">Parked. PV at 20% < 33% thermal. Revisit when narrowband PV >33%.</td></tr>
+      <tr><td><span class="bd" style="background:rgba(231,111,81,0.5);"></span>Shielding zone heat</td><td style="text-align:left;">Residual heat from gamma absorption in active shielding</td><td style="text-align:left;color:#2A9D8F;font-weight:700;">No — outside coolant loop</td><td style="text-align:left;color:#2A9D8F;">→ Thermoelectric. <strong>Pure gain.</strong></td></tr>
+      <tr><td><span class="bd" style="background:rgba(155,89,182,0.3);"></span>Activation products</td><td style="text-align:left;">Neutron-activated structural materials</td><td style="text-align:left;color:#2A9D8F;font-weight:700;">No — currently waste</td><td style="text-align:left;color:#2A9D8F;">→ Spectrum Energy Cell feedstock. <strong>Waste-to-fuel.</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="shdr" style="margin-top:24px;">Corrected Side-by-Side</div>
+  <div class="cols">
+    <div class="col old">
+      <div class="col-title">The Teapot</div>
+      <div class="col-sub">Every band → heat → steam → turbine → 33%</div>
+      <div class="spec-bar" style="height:28px;"><div class="spec-seg b-thermal" style="width:94%">188 MeV → all heat</div><div class="spec-seg b-neutrino" style="width:6%">ν</div></div>
+      <div class="spec-bar" style="height:28px;margin-top:4px;"><div class="spec-seg b-elec" style="width:33%">62 MeV ⚡</div><div class="spec-seg b-waste" style="width:67%">126 MeV waste</div></div>
+      <div style="font-size:10px;color:#E63946;margin-top:8px;">~6 MeV of gamma heats shielding concrete → 0% utilization</div>
+      <div class="result"><div class="result-big">62.0 MeV</div><div class="result-label">electricity per fission</div><div class="result-sub">31% of total — one path, one band</div></div>
+    </div>
+    <div class="col new">
+      <div class="col-title">Spectrum Energy Reactor</div>
+      <div class="col-sub">Thermal cycle untouched + harvest from waste stream only</div>
+      <div class="path"><div class="path-hdr"><span class="path-name" style="color:#F4A261;">Thermal Band (untouched)</span><span class="path-eff">×33%</span></div><div class="path-chain">Same 188 MeV → steam → turbine. Do not divert.</div><div class="path-result"><span>188 MeV</span><span class="out">62.0 MeV</span></div></div>
+      <div class="path"><div class="path-hdr"><span class="path-name" style="color:#6A0572;">Escaped γ → CdTe (high-E)</span><span class="path-eff">×30%</span></div><div class="path-chain">~4 MeV prompt+delayed+capture γ reaching shielding → direct</div><div class="path-result"><span>4 MeV (was 0%)</span><span class="out">1.2 MeV</span></div></div>
+      <div class="path"><div class="path-hdr"><span class="path-name" style="color:#D4AF37;">Escaped γ → Scint→PV (mid-E)</span><span class="path-eff">×3.6%</span></div><div class="path-chain">~2 MeV lower-E γ + scattered → NaI → InGaP</div><div class="path-result"><span>2 MeV (was 0%)</span><span class="out">0.07 MeV</span></div></div>
+      <div class="path"><div class="path-hdr"><span class="path-name" style="color:#AED6F1;">Escaped X-ray (bremsstrahlung)</span><span class="path-eff">×25%</span></div><div class="path-chain">~0.1 MeV escaped bremsstrahlung → CdTe lower range</div><div class="path-result"><span>0.1 MeV (was 0%)</span><span class="out">0.025 MeV</span></div></div>
+      <div class="path"><div class="path-hdr"><span class="path-name" style="color:#E76F51;">Shielding heat → Thermoelectric</span><span class="path-eff">×6%</span></div><div class="path-chain">~2.8 MeV residual heat in active zone → TE recovery</div><div class="path-result"><span>2.8 MeV (was 0%)</span><span class="out">0.17 MeV</span></div></div>
+
+      <div class="path parked"><div class="path-hdr"><span class="path-name" style="color:#666;">PARKED: β → SiC betavoltaic</span><span class="path-eff" style="color:#E63946;">10% < 33%</span></div><div class="path-note">Beta is already in the thermal loop. SiC at 10% would reduce output. Enable when betavoltaic >33%.</div></div>
+      <div class="path parked"><div class="path-hdr"><span class="path-name" style="color:#666;">PARKED: Cherenkov → PV</span><span class="path-eff" style="color:#E63946;">20% < 33%</span></div><div class="path-note">Cherenkov light heats coolant. PV at 20% is a net loss. Enable when narrowband PV >33%.</div></div>
+
+      <div class="result"><div class="result-big">63.5 MeV</div><div class="result-label">electricity per fission</div><div class="result-sub">31.7% of total — thermal untouched + 1.5 MeV from waste stream</div></div>
+
+      <div class="gain">
+        <div style="font-size:12px;font-weight:700;color:#2A9D8F;">What the 1.5 MeV gain doesn't show:</div>
+        <div style="font-size:11px;color:#888;margin-top:4px;line-height:1.6;">
+          • <strong>Activation products → Spectrum Energy Cell fuel</strong> (waste becomes distributed power)<br>
+          • <strong>Real-time spectral monitoring</strong> from every detector in the active shielding<br>
+          • <strong>Proof of gamma control</strong> that enables the SE Cell at every scale<br>
+          • <strong>Parked paths activate</strong> at SE Cell scale where there's no thermal cycle to compete with<br>
+          • <strong>Parked paths activate</strong> when converter efficiency improves past 33% threshold
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="thesis" style="margin-top:16px;">"Fission produces a spectrum. The teapot collapses it all to heat. The Spectrum Energy approach gives each band its own path — but only where that path beats what the thermal cycle already does. Honest engineering means knowing which battles to fight and which to defer."</div>
+</div>
+
+<!-- ====== BAND COMPARISON ====== -->
+<div id="compareView" style="display:none;">
+  <div class="shdr">Every Band — Honest Assessment</div>
+  <table class="tbl" style="max-width:900px;">
+    <thead><tr><th>Energy Band</th><th>Source</th><th>MeV</th><th style="text-align:left;">Teapot</th><th style="text-align:left;">Spectrum Energy</th><th style="text-align:left;">Verdict</th></tr></thead>
+    <tbody>
+      <tr><td><span class="bd" style="background:rgba(244,162,97,0.6);"></span>Thermal</td><td style="text-align:left;">Fragment KE</td><td>168</td><td style="text-align:left;">steam 33%</td><td style="text-align:left;">steam 33%</td><td style="text-align:left;">Don't touch</td></tr>
+      <tr><td><span class="bd" style="background:rgba(42,157,143,0.6);"></span>Neutron KE</td><td style="text-align:left;">Fission</td><td>5</td><td style="text-align:left;">moderator→heat</td><td style="text-align:left;">moderator→heat</td><td style="text-align:left;">Don't touch</td></tr>
+      <tr><td><span class="bd" style="background:rgba(91,141,238,0.6);"></span>Delayed β</td><td style="text-align:left;">FP decay</td><td>7</td><td style="text-align:left;">fuel→heat 33%</td><td style="text-align:left;">fuel→heat 33%</td><td style="text-align:left;">Don't touch (betavoltaic <33%)</td></tr>
+      <tr><td><span class="bd" style="background:rgba(106,5,114,0.7);"></span>γ (core-absorbed)</td><td style="text-align:left;">Fission</td><td>~8</td><td style="text-align:left;">coolant→heat 33%</td><td style="text-align:left;">coolant→heat 33%</td><td style="text-align:left;">Don't touch</td></tr>
+      <tr style="color:#2A9D8F;"><td><span class="bd" style="background:rgba(106,5,114,0.7);"></span>γ (escaped to shielding)</td><td style="text-align:left;">Prompt+delayed+capture</td><td>~6</td><td style="text-align:left;">concrete 0%</td><td style="text-align:left;">CdTe 30% + scint 3.6%</td><td style="text-align:left;font-weight:700;">Pure gain ✓</td></tr>
+      <tr style="color:#2A9D8F;"><td><span class="bd" style="background:rgba(38,70,83,0.7);"></span>X-ray (escaped)</td><td style="text-align:left;">Bremsstrahlung</td><td>~0.1</td><td style="text-align:left;">shielding 0%</td><td style="text-align:left;">CdTe 25%</td><td style="text-align:left;font-weight:700;">Pure gain ✓</td></tr>
+      <tr class="parked"><td><span class="bd" style="background:rgba(233,196,106,0.6);"></span>Visible/UV</td><td style="text-align:left;">Cherenkov</td><td>~0.01</td><td style="text-align:left;">water→heat 33%</td><td style="text-align:left;">PV 20%</td><td style="text-align:left;">Parked (20%<33%)</td></tr>
+      <tr style="color:#2A9D8F;"><td><span class="bd" style="background:rgba(231,111,81,0.5);"></span>Shielding heat</td><td style="text-align:left;">Residual</td><td>~2.8</td><td style="text-align:left;">concrete 0%</td><td style="text-align:left;">Thermoelectric 6%</td><td style="text-align:left;font-weight:700;">Pure gain ✓</td></tr>
+      <tr style="color:#2A9D8F;"><td><span class="bd" style="background:rgba(155,89,182,0.3);"></span>Activation products</td><td style="text-align:left;">n activation</td><td>varies</td><td style="text-align:left;">waste</td><td style="text-align:left;">SE Cell fuel</td><td style="text-align:left;font-weight:700;">Waste→fuel ✓</td></tr>
+      <tr class="lost"><td><span class="bd" style="background:rgba(60,60,60,0.6);"></span>Neutrinos</td><td style="text-align:left;">Fission</td><td>12</td><td style="text-align:left;">lost</td><td style="text-align:left;">lost</td><td style="text-align:left;">No known interaction</td></tr>
+    </tbody>
+  </table>
+  <div style="font-size:11px;color:#888;margin-top:12px;">Green rows = pure gain (harvesting from 0%). Gray rows = parked (converter efficiency < thermal 33%). White rows = leave in thermal cycle.</div>
+</div>
+
+<!-- ====== TABLE ====== -->
+<div id="tableView" style="display:none;">
+  <div class="shdr">Quantitative Full-Spectrum — Corrected Accounting</div>
+  <table class="tbl" style="max-width:900px;">
+    <thead><tr><th>Path</th><th>Band</th><th>Input</th><th>Eff.</th><th>Output</th><th style="text-align:left;">Material</th><th style="text-align:left;">Status</th></tr></thead>
+    <tbody>
+      <tr><td>Steam turbine</td><td>Thermal</td><td>188</td><td>33%</td><td style="color:#E9C46A;">62.0</td><td style="text-align:left;">H₂O → turbine</td><td style="text-align:left;">Untouched</td></tr>
+      <tr><td>CdTe direct (high-E γ)</td><td>Gamma</td><td>4</td><td>30%</td><td style="color:#E9C46A;">1.20</td><td style="text-align:left;">CdTe, CZT, HgI₂</td><td style="text-align:left;color:#2A9D8F;">Pure gain</td></tr>
+      <tr><td>Scintillator→PV (mid-E γ)</td><td>Gamma</td><td>2</td><td>3.6%</td><td style="color:#E9C46A;">0.07</td><td style="text-align:left;">NaI → InGaP</td><td style="text-align:left;color:#2A9D8F;">Pure gain</td></tr>
+      <tr><td>CdTe (escaped X-ray)</td><td>X-Ray</td><td>0.1</td><td>25%</td><td style="color:#E9C46A;">0.03</td><td style="text-align:left;">CdTe</td><td style="text-align:left;color:#2A9D8F;">Pure gain</td></tr>
+      <tr><td>Thermoelectric</td><td>Thermal</td><td>2.8</td><td>6%</td><td style="color:#E9C46A;">0.17</td><td style="text-align:left;">Bi₂Te₃ / SiGe</td><td style="text-align:left;color:#2A9D8F;">Pure gain</td></tr>
+      <tr class="total"><td>TOTAL (Spectrum Energy Reactor)</td><td>All</td><td>196.9</td><td></td><td>63.5</td><td style="text-align:left;">4 active + 1 thermal</td><td style="text-align:left;"></td></tr>
+      <tr style="height:8px;"><td colspan="7"></td></tr>
+      <tr style="color:#E63946;"><td>TOTAL (Teapot)</td><td>Thermal</td><td>188</td><td>33%</td><td>62.0</td><td style="text-align:left;">1 path</td><td style="text-align:left;"></td></tr>
+      <tr style="height:8px;"><td colspan="7"></td></tr>
+      <tr class="parked"><td>SiC betavoltaic</td><td>Beta</td><td>0.5</td><td>10%</td><td>—</td><td style="text-align:left;">SiC p-n</td><td style="text-align:left;">Parked: 10%<33%</td></tr>
+      <tr class="parked"><td>Cherenkov PV</td><td>Vis/UV</td><td>0.01</td><td>20%</td><td>—</td><td style="text-align:left;">GaAs</td><td style="text-align:left;">Parked: 20%<33%</td></tr>
+      <tr class="lost"><td>Neutrinos</td><td>—</td><td>12</td><td>0%</td><td>0</td><td style="text-align:left;">—</td><td style="text-align:left;">No interaction</td></tr>
+    </tbody>
+  </table>
+  <div style="font-size:11px;color:#888;margin-top:12px;line-height:1.6;"><strong>Net gain: +1.5 MeV per fission</strong> from energy that was at 0% utilization. Thermal cycle completely untouched. Parked paths activate at Spectrum Energy Cell scale (no competing thermal cycle) or when converter efficiency exceeds 33%.</div>
+</div>
+
+<!-- ====== PATHWAYS ====== -->
+<div id="pathwaysView" style="display:none;">
+  <div class="shdr">Conversion Chains — Active, Parked, and Future</div>
+  <div class="rule"><div class="rule-title">The Rule</div><div class="rule-body">Only harvest from 0%. Never steal from 33%. A path is "active" at reactor scale only if its efficiency exceeds the thermal cycle for that energy. At Spectrum Energy Cell scale (no thermal cycle), all paths activate.</div></div>
+
+  <div style="font-size:10px;color:#2A9D8F;text-transform:uppercase;letter-spacing:2px;margin:16px 0 8px;">Active at Reactor Scale</div>
+  <div class="path" style="border-left:3px solid #F4A261;"><div style="font-size:13px;font-weight:800;color:#F4A261;">1. THERMAL → Steam (unchanged)</div><div class="path-chain" style="margin:8px 0;">188 MeV → coolant → steam → turbine → 62.0 MeV ⚡</div><div style="font-size:11px;color:#888;">Do not divert from this path. It's the backbone.</div></div>
+  <div class="path" style="border-left:3px solid #6A0572;"><div style="font-size:13px;font-weight:800;color:#6A0572;">2. ESCAPED GAMMA → CdTe/CZT (direct)</div><div class="path-chain" style="margin:8px 0;">4 MeV escaped γ → 30% → 1.2 MeV ⚡</div><div style="font-size:11px;color:#888;">High-E gamma that currently heats concrete. Pure gain. Primary new path.</div></div>
+  <div class="path" style="border-left:3px solid #D4AF37;"><div style="font-size:13px;font-weight:800;color:#D4AF37;">3. ESCAPED GAMMA → Scint→PV</div><div class="path-chain" style="margin:8px 0;">2 MeV escaped mid-E γ → NaI → InGaP → 0.07 MeV ⚡</div><div style="font-size:11px;color:#888;">Catches lower energies and scattered secondaries CdTe misses.</div></div>
+  <div class="path" style="border-left:3px solid #AED6F1;"><div style="font-size:13px;font-weight:800;color:#AED6F1;">4. ESCAPED X-RAY → CdTe</div><div class="path-chain" style="margin:8px 0;">0.1 MeV bremsstrahlung → 25% → 0.025 MeV ⚡</div><div style="font-size:11px;color:#888;">Same hardware as gamma path. No added cost.</div></div>
+  <div class="path" style="border-left:3px solid #E76F51;"><div style="font-size:13px;font-weight:800;color:#E76F51;">5. SHIELDING HEAT → Thermoelectric</div><div class="path-chain" style="margin:8px 0;">2.8 MeV residual → 6% → 0.17 MeV ⚡</div><div style="font-size:11px;color:#888;">Low-grade heat outside coolant loop. Currently warms concrete.</div></div>
+
+  <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:2px;margin:20px 0 8px;">Parked — Activate When Conditions Change</div>
+  <div class="path parked" style="border-left:3px dashed #5B8DEE;"><div style="font-size:13px;font-weight:800;color:#666;">6. BETA → SiC Betavoltaic</div><div class="path-chain" style="margin:8px 0;">Currently 10% — loses to thermal 33%. Activate when betavoltaic >33% OR at SE Cell scale.</div></div>
+  <div class="path parked" style="border-left:3px dashed #E9C46A;"><div style="font-size:13px;font-weight:800;color:#666;">7. CHERENKOV → PV</div><div class="path-chain" style="margin:8px 0;">Currently 20% — loses to thermal 33%. Activate when narrowband PV >33% OR at SE Cell scale.</div></div>
+
+  <div style="font-size:10px;color:#7B68EE;text-transform:uppercase;letter-spacing:2px;margin:20px 0 8px;">Not Conversion — But Changes Everything</div>
+  <div class="path" style="border-left:3px solid #7B68EE;"><div style="font-size:13px;font-weight:800;color:#7B68EE;">8. ACTIVATION PRODUCTS → Spectrum Energy Cell Fuel</div><div class="path-chain" style="margin:8px 0;">Co-60, Cs-137, etc. produced by neutron activation → harvested → distributed SE Cells</div><div style="font-size:11px;color:#888;">Not MeV per fission. This is a waste-to-fuel pipeline. The reactor becomes a fuel factory for SE Cells — the same SE Cells that use ALL seven conversion paths because they have no thermal cycle to compete with.</div></div>
+
+  <div class="thesis" style="margin-top:20px;">"The reactor gains 1.5 MeV by harvesting waste. The Spectrum Energy Cell gains everything — because with no steam turbine, every band is at 0% until you give it a converter. The reactor proves the concept. The Cell is the product."</div>
+</div>
+
+<!-- ====== SUMMARY ====== -->
+<div class="compare" id="summary">
+  <div class="compare-title">What the Full-Spectrum Approach Changes</div>
+  <div class="compare-row"><div class="compare-label">Electricity per fission</div><div class="compare-bars"><div class="compare-bar old" style="width:48%;">62.0 MeV</div><div class="compare-bar new" style="width:50%;">63.5 MeV (+1.5)</div></div></div>
+  <div class="compare-row"><div class="compare-label">Active conversion paths</div><div class="compare-bars"><div class="compare-bar old" style="width:10%;">1</div><div class="compare-bar new" style="width:40%;">5 (+ 2 parked)</div></div></div>
+  <div class="compare-row"><div class="compare-label">Energy bands harvested</div><div class="compare-bars"><div class="compare-bar old" style="width:10%;">1</div><div class="compare-bar new" style="width:40%;">4 active + 2 parked</div></div></div>
+  <div class="compare-row"><div class="compare-label">Shielding function</div><div class="compare-bars"><div class="compare-bar old" style="width:20%;">Passive</div><div class="compare-bar new" style="width:50%;">Active harvest+monitor</div></div></div>
+  <div class="compare-row"><div class="compare-label">Activation products</div><div class="compare-bars"><div class="compare-bar old" style="width:15%;">Waste</div><div class="compare-bar new" style="width:45%;">SE Cell fuel</div></div></div>
+  <div class="compare-row"><div class="compare-label">Real-time diagnostics</div><div class="compare-bars"><div class="compare-bar old" style="width:5%;">No</div><div class="compare-bar new" style="width:40%;">Every detector</div></div></div>
+  <div class="compare-row"><div class="compare-label">Gamma control roles</div><div class="compare-bars"><div class="compare-bar old" style="width:5%;">0/9</div><div class="compare-bar new" style="width:35%;">4/9 → 7/9</div></div></div>
+</div>
+
+<div class="notes">
+  <div class="notes-title">Sources & Methodology</div>
+  <div class="note"><strong>Design rule applied:</strong> Only harvest energy at 0% utilization. Do not divert from the 33% thermal cycle unless the alternative exceeds 33%. This corrects earlier versions that diverted core gamma to direct converters at a net loss.</div>
+  <div class="note"><strong>Fission partition:</strong> Standard U-235 thermal fission. <span class="src">DOE-HDBK-1019</span></div>
+  <div class="note"><strong>Escaped γ to shielding:</strong> ~6 MeV per fission. Reactor-geometry dependent. <span class="src">INL/EXT-13-29256</span></div>
+  <div class="note"><strong>Betavoltaic:</strong> SiC 7–15% demonstrated. Below 33% thermal threshold. <span class="src">PMC 2025; Zheng et al. 2022</span></div>
+  <div class="note"><strong>CdTe direct:</strong> 30% net for gamma. <span class="src">Takahashi & Watanabe</span></div>
+  <div class="note"><strong>Key insight:</strong> Parked paths (beta, Cherenkov) activate at Spectrum Energy Cell scale where no thermal cycle exists. The reactor proves the concept; the Cell is where all seven bands convert.</div>
+</div>
+
+<script>
+function setView(v){
+  ['spectrumView','compareView','tableView','pathwaysView'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById(v==='spectrum'?'spectrumView':v==='compare'?'compareView':v==='table'?'tableView':'pathwaysView').style.display='block';
+  document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('summary').style.display='block';
+}
+</script>
+</body>
+</html>
