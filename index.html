@@ -1,242 +1,1814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spectrum Energy Research Corp</title>
+<meta name="description" content="A unified framework for understanding and engineering energy control across every band of the electromagnetic spectrum — from radio to gamma ray. 118 elements. 79 compounds. 33 isotopes. 15 energy bands. 9 control roles.">
+<meta property="og:title" content="Spectrum Energy Research Corp">
+<meta property="og:description" content="Every energy band gets its own optimal conversion pathway. The framework that asks: can we control gamma radiation as completely as we control electricity?">
+<meta property="og:url" content="https://spectrumenergy.one">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   SPECTRUM ENERGY RESEARCH CORP — LANDING PAGE
+   © 2025 David R. Young — Spectrum Energy Research Corp
+   ══════════════════════════════════════════════════════════ */
 
-Spectrum Energy
-Framework
-Charts
-Deliverables
-Gamma Gap
-About
-GitHub →
-Spectrum Energy Research Corp
+:root {
+  --bg:         #0A0A14;
+  --surface:    #0F0F1E;
+  --surface2:   #151528;
+  --surface3:   #1A1A32;
+  --border:     rgba(255,255,255,0.06);
+  --border2:    rgba(255,255,255,0.12);
+  --border3:    rgba(255,255,255,0.18);
+  --text:       #E0E0F0;
+  --text-mid:   #A0A0B8;
+  --text-dim:   #777790;
+  --text-faint: #44445A;
+  --accent:     #5B8DEE;
+  --accent-dim: rgba(91,141,238,0.15);
+  --gold:       #D4AF37;
+  --gold-dim:   rgba(212,175,55,0.12);
+  --gamma:      #E63946;
+  --gamma-dim:  rgba(230,57,70,0.12);
+  --green:      #4CAF8A;
+  --green-dim:  rgba(76,175,138,0.12);
+  --purple:     #9B59B6;
+  --orange:     #E67E22;
+  --cyan:       #26C6DA;
+  --pink:       #EC407A;
+  --font-head:  'Syncopate', sans-serif;
+  --font-body:  'Inter', sans-serif;
+  --font-mono:  'JetBrains Mono', monospace;
+}
 
-Every Energy Band.
-One Framework.
-Nuclear reactors produce energy across the entire electromagnetic spectrum — from gamma rays and X-rays to infrared heat and visible light. The conventional nuclear industry captures roughly 33% of this energy through a steam turbine. The rest — including the gamma radiation that makes nuclear power dangerous — is absorbed by shielding and thrown away as waste heat.
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 
-The question was asked: Is there a way to channel atomic energy instead of containing it?
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.75;
+  overflow-x: hidden;
+  font-size: 15px;
+}
 
-The answer began with electricity and light. We already control both completely. If every form of energy follows the same pattern, the problem becomes finding the right materials for each band.
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
 
-"Every energy band gets its own optimal conversion pathway."
-— The core principle of Spectrum Energy.
-Explore the Charts
-How It Works
-Origin Story
-The 15 Energy Bands — Three Categories
-Kinetic Particles · 6 bands
-Electron
-Neutron
-Alpha
-Proton
-Ion
-Muon
-Thermal · 1
-Thermal
-EM Spectrum · 8 bands
-Radio
-Micro
-IR
-Visible
-UV
-X-Ray
-Magnetic
-Gamma
-The Framework
+/* ── GLOSSARY TOOLTIPS ────────────────────────────────── */
+.g {
+  color: var(--text);
+  border-bottom: 1px dotted rgba(91,141,238,0.5);
+  cursor: help;
+  position: relative;
+  transition: border-color 0.2s;
+}
+.g:hover { border-bottom-color: var(--accent); }
 
-Start. Change. Stop.
-Every material interaction with every form of energy falls into one of three control functions. This is the same model that made electricity useful — man discovered conductors to direct it, insulators to block it, resistors to regulate it, and converters to transform it. This framework applies that same classification to every energy band — and also maps exactly where the gaps are.
+#glossary-tip {
+  position: fixed;
+  z-index: 9999;
+  max-width: 380px;
+  background: #1A1A32;
+  border: 1px solid rgba(91,141,238,0.3);
+  border-radius: 8px;
+  padding: 14px 18px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.2s, transform 0.2s;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+}
+#glossary-tip.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+#glossary-tip .tip-term {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+#glossary-tip .tip-def {
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.6;
+}
 
-⚡
-Start — Source
-This is the mechanism that creates energy flow. A fission reactor splits atoms. A decay source isotope emits radiation as it naturally transforms. The sun fuses hydrogen. Steam spins a turbine. START is not a material property — it is the energy source itself. Every energy source is a conversion of energy from one form to another. Once energy is flowing, engineers take over with materials to control it.
-fission reactor
-radioactive decay
-photovoltaic
-Spectrum Energy Cell
-⟳
-Change — Direct
-All material interactions that redirect, convert, or modify energy in flight. Conductors direct flow along a path. Reflectors bounce it back. Refractors bend it. Converters transform it into a different form. CHANGE is the richest category — and the one with the most gaps at the gamma end of the spectrum.
-conductor
-reflector
-refractor
-converter
-polarizer
-resistor
-■
-Stop — Block
-Materials that block or fully capture energy. Insulators stop it completely. Absorbers capture it and convert it to heat. For gamma radiation, STOP is the most developed category — we're good at blocking gamma. The breakthrough comes when blocking becomes converting and harvesting.
-insulator
-absorber
-Band Categories
+/* ── BACKGROUND ───────────────────────────────────────── */
+.bg-grid {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
 
-Three Domains. Fifteen Bands.
-All energy falls into one of three categories based on what it physically is. The conventional nuclear industry built its entire power generation model around one band — thermal (via steam). This framework classifies all fifteen and treats each one as a potential energy source worth harvesting.
+.bg-glow {
+  position: fixed;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.08;
+}
+.bg-glow-1 { top: -10%; left: -5%; width: 600px; height: 600px; background: var(--accent); }
+.bg-glow-2 { top: 30%; right: -8%; width: 500px; height: 500px; background: var(--gamma); }
+.bg-glow-3 { bottom: -5%; left: 20%; width: 700px; height: 500px; background: var(--gold); opacity: 0.05; }
 
-01
-EM Spectrum
-This is the energy you already know by different names — radio waves, microwaves, light, X-rays. They are all the same thing at different energy levels. A radio wave and a gamma ray are the same phenomenon — one is just millions of times more energetic than the other. At the low-energy end, we have complete control. At the high-energy end — gamma — we have almost none. Closing that gap is the central research problem.
-Radio · Microwave · Infrared · Visible · UV · X-Ray · Magnetic · Gamma
-02
-Thermal
-Heat moving through a material by direct contact. Put a fire poker in a flame — the heat travels up the metal toward your hand. That's thermal energy in motion. In the charts, thermal energy is tracked separately because the materials that control it are different from those that control radiated heat or light.
-Conductive heat · Seebeck conversion · Waste-heat harvest
-03
-Kinetic Particles
-Physical particles carrying energy between points. Electrons carry electromagnetic energy along wires. Neutrons carry trigger energy between fission events. Alpha particles carry kinetic energy from decaying nuclei. They are the medium, not the energy itself — a critical distinction. Three bands are developed; three (proton, ion, muon) are placeholders for future research.
-Electron · Neutron · Alpha · Proton* · Ion* · Muon*
-Interactive Charts
+/* ── NAV ───────────────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3rem;
+  height: 64px;
+  background: rgba(10,10,20,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
 
-The Complete Dataset
-118 elements, 79 engineered compounds, and 33 isotopes — each classified by how it interacts with every energy band across all 9 control roles. Explore the data through thirteen interactive tools, each designed to answer a specific research question. All charts share a single data file — one source of facts that anyone can download, verify, and build upon.
+.nav-logo {
+  font-family: var(--font-head);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.nav-logo:hover { text-decoration: none; color: var(--gold); }
 
-Reference
-Energy Band Chart
-The primary reference. 118 elements classified across all 15 energy bands. Filter by band, role, or electron configuration to find materials for any energy control problem.
-→
-Analysis
-Control Analysis
-Start → Change → Stop mapped across all bands. Shows where material control is complete and where the gaps are — the core analytical view of the framework.
-→
-Compounds
-Compounds Chart
-79 engineered compounds across 11 categories — scintillators, thermoelectrics, semiconductors, shielding alloys, nuclear ceramics, polymers, and more. Each classified by band interaction.
-→
-Nuclear
-Isotope Chart
-33 isotopes including 9 decay source candidates for the Spectrum Energy Cell — with specific power, decay type, emitted bands, and production methods. The fuel selection tool.
-→
-Structure
-Structure Chart
-Electron configuration correlation — how an atom's shell structure predicts its behavior across energy bands. 15 structural groups mapped against all classifications.
-→
-Design
-Spectrum Energy Cell
-The Spectrum Energy Cell — a decay battery with no moving parts. 8 concentric conversion layers based on Earth's atmospheric model. Three energy outputs: thermal, light, electrical.
-→
-Design
-Reactor Schematic
-The Spectrum Energy Reactor — fission core with active shielding that harvests waste-stream energy instead of discarding it. The proof-of-concept and Spectrum Energy Cell fuel factory.
-→
-Design
-Active Shielding
-Layer-by-layer breakdown of the active shielding system. Each layer converts a specific energy band rather than discarding it as heat. Shielding becomes harvesting.
-→
-Integration
-Waste Pipeline
-How reactor waste becomes Spectrum Energy Cell fuel. Spent nuclear fuel is separated, processed, and assembled into self-contained power units. The United States alone has 86,000 metric tons of spent fuel in storage — material that is currently treated as waste but contains usable energy.
-→
-Analysis
-Energy Budget
-Where fission energy actually goes — the accounting that exposes what the nuclear industry currently discards. Shows the 67% of energy that active shielding can begin to recover.
-→
-Application
-Home Integration
-A Spectrum Energy Cell powering a 2,000 sq ft Florida home — heating, cooling, hot water, lighting, and appliances, all from a single unit with no utility bill. Completely off-grid or contributes to the grid.
-→
-Application
-Data Center Integration
-Spectrum Energy Cells scaled for data centers — from a single server room to the largest facilities in the world. The thermal energy produced by the cell does double duty: it generates electricity to power the servers, and the excess heat drives cooling systems that keep them from overheating. No grid connection, no separate cooling infrastructure, and no restriction on where you build.
-→
-Reference
-Glossary
-Every term used in the framework, defined clearly. Searchable and filterable. If you encounter an unfamiliar technical word anywhere in the charts, it's defined here.
-→
-Two Deliverables
+.nav-links {
+  display: flex;
+  gap: 0;
+  list-style: none;
+  align-items: center;
+  height: 100%;
+}
 
-The Reactor. The Cell.
-The framework produces two engineering targets. The reactor proves the concept and manufactures fuel. The cell is the product — a self-contained power source with no moving parts, no combustion, no grid connection, and no waste. Together, they form a closed fuel cycle where nothing is ever discarded.
+.nav-links a {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 0 1.1rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+.nav-links a:hover { color: var(--text); border-bottom-color: var(--accent); text-decoration: none; }
 
-Proof of Concept
-Spectrum Energy Reactor
-A fission reactor redesigned around the principle that every energy band in the waste stream has an optimal conversion pathway. Current reactors convert about 33% of fission energy to electricity through steam turbines — and dump the remaining 67% as waste heat into shielding, cooling water, and the environment. The Spectrum Energy Reactor leaves the 33% steam cycle untouched and adds active shielding layers that harvest the gamma, X-ray, and neutron energy currently being thrown away. The reactor also serves as the manufacturing facility for Spectrum Energy Cell fuel isotopes.
-Active shielding replaces passive containment — each layer converts a specific band
-Harvest from waste — never steal from the existing thermal cycle
-Waste-stream gamma converted via scintillator→photovoltaic chain
-Produces Co-60, Cs-137, Am-241, and other decay source isotopes
-Existing reactor sites are retrofit candidates
-The Product
-Spectrum Energy Cell
-A decay battery with no fission, no moving parts, no combustion, and no grid connection. Every energy band emitted by the source isotope is captured by a dedicated conversion layer — an architecture modeled on how Earth's atmosphere filters the sun's radiation (the atmospheric model). Inner layers handle the dangerous high-energy bands. Outer layers pass safe thermal and visible energy directly to end use. Power output degrades gracefully over years or decades, not suddenly. End products are stable, non-radioactive commodity metals — nickel, barium, or zirconium — not waste.
-8-layer atmospheric conversion stack — dangerous→safe from inside out
-Three output modes: direct thermal, direct light, and electrical
-Cascade lifecycle — step down to smaller loads as power drops, never discard
-End state: stable commodity metals (Co-60→Ni, Cs-137→Ba, Sr-90→Zr)
-Century-scale fuel sources available (Am-241: 432yr, Pu-238: 87.7yr)
-Design Principles
+.nav-cta {
+  color: var(--accent) !important;
+  border: 1px solid rgba(91,141,238,0.3) !important;
+  border-bottom: 1px solid rgba(91,141,238,0.3) !important;
+  padding: 0.4rem 1rem !important;
+  height: auto !important;
+  border-radius: 4px;
+  margin-left: 0.5rem;
+  transition: all 0.2s !important;
+}
+.nav-cta:hover {
+  color: #fff !important;
+  border-color: var(--accent) !important;
+  background: var(--accent-dim);
+}
 
-The Principles Behind the Designs
-These four principles guided the design of both the Spectrum Energy Reactor and the Spectrum Energy Cell. They are rooted in thermodynamics and engineering efficiency — every unnecessary conversion loses energy, and every discarded band is a missed opportunity.
+.nav-mobile { display: none; background: none; border: none; color: var(--text-dim); font-size: 1.4rem; cursor: pointer; padding: 8px; }
 
-01
-Harvest from waste, never steal from thermal
-At reactor scale, do not divert energy from the existing 33% steam cycle to power a lower-efficiency converter. That would reduce total output. Only harvest energy that is currently at 0% utilization — gamma hitting shielding, neutrons being absorbed, waste heat in outer layers. At SE Cell scale, there is no thermal cycle, so all conversion paths are active simultaneously.
-02
-Filter by layer, not by containment
-Instead of sealing all radiation inside a box, arrange converter layers so that dangerous bands are absorbed and converted in inner layers, and only safe, useful energy passes through to the outer surface. This is how Earth's atmosphere works — the ozone layer converts UV, the upper atmosphere handles cosmic rays, and only visible light and infrared reach the ground. The SE Cell follows the same architecture.
-03
-Don't convert energy already in useful form
-If the SE Cell's outer layers produce safe thermal energy, conduct it directly to heating and hot water. If scintillator layers produce visible light, pipe it through fiber optics to illuminate a room. Converting thermal to electrical and then back to thermal is not engineering — it's waste. Three output modes exist: direct thermal, direct light, and electrical. Match the mode to the load.
-04
-Cascade, don't discard
-Radioactive decay is gradual — a Co-60 source drops to half power every 5.27 years, not to zero overnight. Instead of replacing a "spent" unit, step it down: a home unit at 850W becomes a workshop unit at 425W (year 5), then a sensor array at 212W (year 10), then stable nickel. The decay products are non-radioactive commodity metals. Am-241's end product (Np-237) can return to a reactor to become Pu-238 — more SE Cell fuel. At no point does it become waste.
-The Research Frontier
+/* ── LAYOUT ────────────────────────────────────────────── */
+.wrap {
+  position: relative;
+  z-index: 1;
+}
 
-The Gamma Gap
-At the low end of the spectrum — radio and microwave — every functional role is filled. We can conduct, reflect, refract, polarize, convert, resist, insulate, and absorb those bands at will. As photon energy rises toward gamma, specific control mechanisms fail one by one. By the time we reach gamma rays, only 4 of 9 roles are filled. Five gaps remain — all in the CHANGE group. The framework maps exactly which roles are missing and where to look for solutions.
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 3rem;
+}
 
-Radio 100%
-μWave 100%
-IR 89%
-Vis 89%
-UV 78%
-X-Ray 89%
-γ 44%
-Full analysis: Gamma Gap Research Roadmap →
+section {
+  position: relative;
+  z-index: 1;
+  padding: 7rem 0;
+  border-top: 1px solid var(--border);
+}
 
-About
+/* ── SECTION HEADERS ──────────────────────────────────── */
+.sec-tag {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
 
-Forty Years. One Question.
-The Spectrum Energy Research Framework was developed by David R. Young in collaboration with Claude AI.
+.sec-title {
+  font-family: var(--font-head);
+  font-size: clamp(1.5rem, 3.2vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.15;
+  margin-bottom: 1.2rem;
+}
+.sec-title em { color: var(--gold); font-style: normal; }
 
-The idea started with a simple observation: nuclear fission produces enormous energy, but we use it to boil water and spin a turbine. It was like using a jet engine to push a tricycle. That observation — and the frustration behind it — never went away.
+.sec-lead {
+  color: var(--text-mid);
+  font-size: 1rem;
+  max-width: 680px;
+  line-height: 1.8;
+}
 
-The first step was understanding how energy is controlled. Using electricity and light as working models, a pattern emerged: if you can conduct, reflect, insulate, and convert those two forms of energy, then every other form of energy should follow the same pattern. The problem reduces to finding the right materials for each energy band.
+/* ── HERO ──────────────────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8rem 3rem 3rem;
+  max-width: 1120px;
+  margin: 0 auto;
+  border-top: none;
+}
 
-That led to a new way of organizing the periodic table — not by atomic weight or chemical group, but by how each element interacts with each energy band. Every material classified by its energy control properties, available at the touch of a button. The classifications would be based strictly on atomic structure, the same way a single electron in the outer shell of an atom predicts electrical conductivity.
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.2s forwards;
+}
 
-After 25 years with no way to build this, the theory was preserved in a short story — Sunshine on a Bad Nuclear Day. Fifteen years later, that story was put into Claude AI with one question: is this feasible? What you see in front of you was built in less than two weeks on a part-time basis.
+.hero-title {
+  font-family: var(--font-head);
+  font-size: clamp(2.2rem, 5.5vw, 4.8rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.35s forwards;
+}
+.hero-title .hl { display: block; color: var(--gold); }
 
-All data, charts, and documentation are open source. The framework is designed to be built upon. Contributions that serve the gamma control chain, the Spectrum Energy Reactor, or the Spectrum Energy Cell are welcome through the GitHub repository.
+.hero-body {
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--text-mid);
+  max-width: 620px;
+  margin-bottom: 2rem;
+  line-height: 1.85;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.5s forwards;
+}
 
-118
-Elements
-79
-Compounds
-33
-Isotopes
-15
-Energy Bands
-9
-Control Roles
-44%
-Gamma Control
-Open Source
+.hero-principle {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--gold);
+  border-left: 3px solid var(--gold);
+  padding: 0.6rem 0 0.6rem 1.2rem;
+  max-width: 580px;
+  margin-bottom: 2.5rem;
+  line-height: 1.65;
+  background: var(--gold-dim);
+  border-radius: 0 6px 6px 0;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.65s forwards;
+}
 
-Built to Last.
-This framework is designed to outlast any single website, server, or organization. The data is verifiable. The research is reproducible. The tools are free.
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.8s forwards;
+}
 
-⬡
-One Data File
-All element, compound, and isotope classifications live in a single JavaScript file: spectrum-data.js. One source of facts. Every chart loads it. Researchers can download it. A built-in self-validation block verifies data integrity on every load. Contributions go through a defined quality control process before merging.
-◈
-GitHub Repository
-All source files, interactive charts, and documentation are publicly available with full version history. Git provides a verified, tamper-evident record of every change. The website is the front door to the research — but not the only access point.
-◉
-Non-Profit Mission
-Spectrum Energy Research Corp exists to advance this research for the benefit of mankind. The framework is free to use — by researchers, engineers, educators, and developers worldwide. The goal is not to own this technology. The goal is to make sure it gets built.
-© 2025 David R. Young — Spectrum Energy Research Corp · spectrumenergy.one
-About the Author
-Glossary
-Gamma Gap Roadmap
-Origin Story
-GitHub
-The Spectrum Energy Cell and Spectrum Energy Reactor concepts involve regulated nuclear materials. Development and deployment require appropriate licensing from the U.S. Nuclear Regulatory Commission (NRC) and Department of Energy (DOE), or equivalent regulatory bodies in other jurisdictions.
+.btn {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  padding: 0.7rem 1.6rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.btn:hover { text-decoration: none; }
+
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: #7aa3f0; }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-mid);
+  border: 1px solid var(--border2);
+}
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── BAND SPECTRUM BAR ────────────────────────────────── */
+.spectrum-bar {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 3rem 0;
+  opacity: 0;
+  animation: fadeUp 0.7s 1s forwards;
+}
+
+.spectrum-bar-title {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 1rem;
+}
+
+.spectrum-groups {
+  display: flex;
+  gap: 2px;
+  align-items: flex-end;
+}
+
+.spectrum-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.spectrum-group-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.spectrum-bands {
+  display: flex;
+  gap: 2px;
+}
+
+.spectrum-band {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  padding: 8px 2px 6px;
+  border-radius: 4px;
+  transition: all 0.25s;
+  cursor: default;
+  position: relative;
+}
+.spectrum-band:hover {
+  transform: translateY(-2px);
+  z-index: 2;
+}
+.spectrum-band:hover .sb-name { color: #fff; }
+
+.sb-bar {
+  height: 4px;
+  border-radius: 2px;
+  margin: 0 auto 6px;
+  width: 80%;
+}
+.sb-name {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  transition: color 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.spectrum-sep {
+  width: 1px;
+  background: var(--border2);
+  align-self: stretch;
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+/* ── FRAMEWORK SECTION ────────────────────────────────── */
+.fw-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 2.5rem;
+}
+
+.fw-card {
+  background: var(--surface);
+  padding: 2.2rem;
+  transition: background 0.2s;
+}
+.fw-card:hover { background: var(--surface2); }
+
+.fw-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  margin-bottom: 1.2rem;
+}
+
+.fw-card-title {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+
+.fw-card-body {
+  font-size: 0.92rem;
+  color: var(--text-mid);
+  line-height: 1.75;
+}
+
+.fw-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1.2rem;
+}
+
+.fw-tag {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+/* ── BAND CATEGORIES ──────────────────────────────────── */
+.band-cats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.band-cat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.band-cat:hover { border-color: var(--border2); }
+
+.band-cat::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.band-cat.cat-em::before { background: var(--accent); }
+.band-cat.cat-thermal::before { background: var(--orange); }
+.band-cat.cat-kinetic::before { background: var(--cyan); }
+
+.band-cat-count {
+  font-family: var(--font-head);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+.cat-em .band-cat-count { color: var(--accent); }
+.cat-thermal .band-cat-count { color: var(--orange); }
+.cat-kinetic .band-cat-count { color: var(--cyan); }
+
+.band-cat-name {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.band-cat-body {
+  font-size: 0.9rem;
+  color: var(--text-mid);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.band-cat-list {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  line-height: 2;
+}
+
+/* ── CHARTS GRID ──────────────────────────────────────── */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 2.5rem;
+}
+
+.chart-card {
+  background: var(--surface);
+  padding: 1.6rem 1.8rem;
+  text-decoration: none;
+  display: block;
+  transition: background 0.2s;
+  position: relative;
+}
+.chart-card:hover { background: var(--surface2); text-decoration: none; }
+
+.chart-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 3px;
+  background: var(--card-color, var(--accent));
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.chart-card:hover::before { opacity: 1; }
+
+.cc-type {
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--card-color, var(--accent));
+  margin-bottom: 0.4rem;
+}
+
+.cc-name {
+  font-family: var(--font-head);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+  line-height: 1.25;
+}
+
+.cc-desc {
+  font-size: 0.86rem;
+  color: var(--text-mid);
+  line-height: 1.65;
+}
+
+.cc-arrow {
+  position: absolute;
+  top: 1.4rem; right: 1.4rem;
+  font-size: 0.85rem;
+  color: var(--text-faint);
+  transition: color 0.2s, transform 0.2s;
+}
+.chart-card:hover .cc-arrow { color: var(--card-color, var(--accent)); transform: translateX(3px); }
+
+/* ── DELIVERABLES ─────────────────────────────────────── */
+.deliv-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.deliv {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.deliv::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--d-color);
+}
+.deliv::after {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--d-color) 0%, transparent 70%);
+  opacity: 0.06;
+}
+
+.deliv-badge {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--d-color);
+  border: 1px solid var(--d-color);
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 3px;
+  margin-bottom: 1.2rem;
+  opacity: 0.85;
+}
+
+.deliv-title {
+  font-family: var(--font-head);
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.deliv-body {
+  font-size: 0.92rem;
+  color: var(--text-mid);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.deliv-specs {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.deliv-specs li {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-mid);
+  padding-left: 1.2rem;
+  position: relative;
+  line-height: 1.5;
+}
+.deliv-specs li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--d-color);
+}
+
+/* ── PRINCIPLES ───────────────────────────────────────── */
+.principles-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.principle-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2rem;
+  transition: border-color 0.2s;
+}
+.principle-card:hover { border-color: var(--border2); }
+
+.principle-num {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.principle-name {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  margin-bottom: 0.6rem;
+}
+
+.principle-body {
+  font-size: 0.9rem;
+  color: var(--text-mid);
+  line-height: 1.75;
+}
+
+/* ── GAMMA GAP ────────────────────────────────────────── */
+.gap-completeness {
+  display: flex;
+  gap: 1px;
+  margin: 2rem 0;
+  height: 36px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.gap-bar-seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+  color: rgba(255,255,255,0.8);
+  position: relative;
+  overflow: hidden;
+}
+.gap-bar-seg .bar-label {
+  position: relative;
+  z-index: 1;
+  white-space: nowrap;
+}
+
+.gap-table {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 2rem;
+}
+
+.gap-row {
+  display: grid;
+  grid-template-columns: 130px 100px 1fr;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.gap-row:last-child { border-bottom: none; }
+.gap-row:not(.gap-row-head):hover { background: var(--surface); }
+
+.gap-row-head {
+  background: var(--surface);
+}
+.gap-row-head .gap-cell {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.gap-cell {
+  padding: 0.85rem 1.2rem;
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+}
+
+.gap-role {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.78rem;
+}
+
+.gap-status {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+.gap-status.filled { color: var(--green); }
+.gap-status.open   { color: var(--gamma); }
+.gap-status.priority { color: #FF6B6B; }
+
+.gap-note { color: var(--text-mid); font-size: 0.82rem; line-height: 1.55; }
+
+/* ── ABOUT ────────────────────────────────────────────── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 4rem;
+  margin-top: 2.5rem;
+  align-items: start;
+}
+
+.about-text p {
+  color: var(--text-mid);
+  margin-bottom: 1.2rem;
+  line-height: 1.8;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.stat {
+  background: var(--surface);
+  padding: 1.5rem;
+  text-align: center;
+}
+.stat-num {
+  font-family: var(--font-head);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+}
+
+/* ── OPEN SOURCE ──────────────────────────────────────── */
+.os-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.os-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2rem;
+  text-decoration: none;
+  display: block;
+  transition: border-color 0.2s;
+}
+.os-card:hover { border-color: var(--border2); text-decoration: none; }
+
+.os-icon {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  opacity: 0.7;
+}
+
+.os-title {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 0.6rem;
+}
+
+.os-body {
+  font-size: 0.88rem;
+  color: var(--text-mid);
+  line-height: 1.7;
+}
+
+/* ── FOOTER ───────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-copy {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+}
+
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+}
+.footer-links a {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--accent); text-decoration: none; }
+
+/* ── ANIMATIONS ───────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.55s, transform 0.55s;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────── */
+@media (max-width: 960px) {
+  nav { padding: 0 1.5rem; }
+  .nav-links { display: none; }
+  .nav-mobile { display: block; }
+  .hero, .container { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .spectrum-bar { padding: 0 1.5rem; }
+  .fw-grid, .band-cats, .os-grid { grid-template-columns: 1fr; }
+  .deliv-grid { grid-template-columns: 1fr; }
+  .about-grid { grid-template-columns: 1fr; }
+  .principles-grid { grid-template-columns: 1fr; }
+  .spectrum-groups { flex-direction: column; gap: 12px; }
+  .spectrum-sep { width: 100%; height: 1px; margin: 4px 0; }
+  .charts-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .hero-title { font-size: 1.9rem; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .gap-row { grid-template-columns: 100px 80px 1fr; }
+  .gap-note { font-size: 0.72rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Background -->
+<div class="bg-grid"></div>
+<div class="bg-glow bg-glow-1"></div>
+<div class="bg-glow bg-glow-2"></div>
+<div class="bg-glow bg-glow-3"></div>
+
+<!-- Glossary tooltip element -->
+<div id="glossary-tip">
+  <div class="tip-term"></div>
+  <div class="tip-def"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Spectrum Energy</a>
+  <button class="nav-mobile" onclick="document.querySelector('.nav-links').classList.toggle('show')" aria-label="Menu">☰</button>
+  <ul class="nav-links">
+    <li><a href="#framework">Framework</a></li>
+    <li><a href="#charts">Charts</a></li>
+    <li><a href="#deliverables">Deliverables</a></li>
+    <li><a href="#gamma-gap">Gamma Gap</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="https://github.com/dryoungfreedom/spectrum-energy" target="_blank" class="nav-cta">GitHub →</a></li>
+  </ul>
+</nav>
+
+<div class="wrap">
+
+<!-- ═══ HERO ═══════════════════════════════════════════ -->
+<section class="hero" style="border-top:none; padding-top:10rem;">
+  <p class="hero-eyebrow">Spectrum Energy Research Corp</p>
+  <h1 class="hero-title">
+    Every Energy Band.<br>
+    <span class="hl">One Framework.</span>
+  </h1>
+  <p class="hero-body">
+    Nuclear reactors produce energy across the entire <span class="g" data-term="em">electromagnetic spectrum</span> — from 
+    <span class="g" data-term="gamma">gamma rays</span> and <span class="g" data-term="xray">X-rays</span> 
+    to infrared heat and visible light. The conventional nuclear industry captures roughly 33% of this energy through a steam 
+    turbine. The rest — including the gamma radiation that makes nuclear power dangerous — is absorbed by shielding and 
+    thrown away as waste heat.
+  </p>
+  <p class="hero-body" style="animation-delay:0.55s; margin-top:-0.5rem;">
+    The question was asked: <strong style="color:var(--text)">Is there a way to channel atomic energy 
+    instead of containing it?</strong>
+  </p>
+  <p class="hero-body" style="animation-delay:0.6s; margin-top:-0.5rem;">
+    The answer began with electricity and light. We already control both completely. If every form of energy 
+    follows the same pattern, the problem becomes finding the right materials for each band.
+  </p>
+  <blockquote class="hero-principle">
+    "Every energy band gets its own optimal conversion pathway."<br>
+    — The core principle of Spectrum Energy.
+  </blockquote>
+  <div class="hero-actions">
+    <a href="#charts" class="btn btn-primary">Explore the Charts</a>
+    <a href="#framework" class="btn btn-ghost">How It Works</a>
+    <a href="Sunshine_on_a_Bad_Nuclear_Day_r.pdf" target="_blank" class="btn btn-ghost">Origin Story</a>
+  </div>
+</section>
+
+<!-- ═══ BAND SPECTRUM BAR ═════════════════════════════ -->
+<div class="spectrum-bar">
+  <div class="spectrum-bar-title">The 15 Energy Bands — Three Categories</div>
+  <div class="spectrum-groups">
+    <!-- Kinetic Particles -->
+    <div class="spectrum-group">
+      <div class="spectrum-group-label" style="color:var(--cyan);">Kinetic Particles · 6 bands</div>
+      <div class="spectrum-bands">
+        <div class="spectrum-band" style="background:rgba(255,107,107,0.08);">
+          <div class="sb-bar" style="background:#FF6B6B;"></div>
+          <div class="sb-name">Electron</div>
+        </div>
+        <div class="spectrum-band" style="background:rgba(78,205,196,0.08);">
+          <div class="sb-bar" style="background:#4ECDC4;"></div>
+          <div class="sb-name">Neutron</div>
+        </div>
+        <div class="spectrum-band" style="background:rgba(69,183,209,0.08);">
+          <div class="sb-bar" style="background:#45B7D1;"></div>
+          <div class="sb-name">Alpha</div>
+        </div>
+        <div class="spectrum-band" style="background:rgba(150,206,180,0.06);">
+          <div class="sb-bar" style="background:#96CEB4; opacity:0.4;"></div>
+          <div class="sb-name" style="opacity:0.4;">Proton</div>
+        </div>
+        <div class="spectrum-band" style="background:rgba(168,230,207,0.06);">
+          <div class="sb-bar" style="background:#A8E6CF; opacity:0.4;"></div>
+          <div class="sb-name" style="opacity:0.4;">Ion</div>
+        </div>
+        <div class="spectrum-band" style="background:rgba(221,160,221,0.06);">
+          <div class="sb-bar" style="background:#DDA0DD; opacity:0.4;"></div>
+          <div class="sb-name" style="opacity:0.4;">Muon</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spectrum-sep"></div>
+
+    <!-- Thermal -->
+    <div class="spectrum-group" style="flex:0 0 auto; min-width:80px;">
+      <div class="spectrum-group-label" style="color:var(--orange);">Thermal · 1</div>
+      <div class="spectrum-bands">
+        <div class="spectrum-band" style="background:rgba(230,126,34,0.1);">
+          <div class="sb-bar" style="background:#E67E22;"></div>
+          <div class="sb-name">Thermal</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spectrum-sep"></div>
+
+    <!-- EM Spectrum -->
+    <div class="spectrum-group" style="flex:2;">
+      <div class="spectrum-group-label" style="color:var(--accent);">EM Spectrum · 8 bands</div>
+      <div class="spectrum-bands">
+        <div class="spectrum-band" style="background:rgba(255,71,87,0.06);">
+          <div class="sb-bar" style="background:#FF4757;"></div>
+          <div class="sb-name">Radio</div>
+        </div>
+        <div class="spectrum-band" style="background:rgba(255,99,72,0.06);">
+          <div class="sb-bar" style="background:#FF6348;"></div>
+          <div class="sb-name">Micro</div>
+        </div>
+        <div class="spectrum-band" style="background:rgba(255,118,117,0.06);">
+          <div class="sb-bar" style="background:#FF7675;"></div>
+          <div class="sb-name">IR</div>
+        </div>
+        <div class="spectrum-band" style="background:rgba(253,203,110,0.08);">
+          <div class="sb-bar" style="background:#FDCB6E;"></div>
+          <div class="sb-name">Visible</div>
+        </div>
+        <div class="spectrum-band" style="background:rgba(162,155,254,0.06);">
+          <div class="sb-bar" style="background:#A29BFE;"></div>
+          <div class="sb-name">UV</div>
+        </div>
+        <div class="spectrum-band" style="background:rgba(116,185,255,0.06);">
+          <div class="sb-bar" style="background:#74B9FF;"></div>
+          <div class="sb-name">X-Ray</div>
+        </div>
+        <div class="spectrum-band" style="background:rgba(91,141,238,0.08);">
+          <div class="sb-bar" style="background:#5B8DEE;"></div>
+          <div class="sb-name">Magnetic</div>
+        </div>
+        <div class="spectrum-band" style="background:rgba(212,175,55,0.1);">
+          <div class="sb-bar" style="background:#D4AF37;"></div>
+          <div class="sb-name">Gamma</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FRAMEWORK ═════════════════════════════════════ -->
+<section id="framework">
+  <div class="container">
+    <div class="reveal">
+      <p class="sec-tag">The Framework</p>
+      <h2 class="sec-title">Start. <em>Change.</em> Stop.</h2>
+      <p class="sec-lead">
+        Every material interaction with every form of energy falls into one of three 
+        <span class="g" data-term="control_groups">control functions</span>. 
+        This is the same model that made electricity useful — man discovered 
+        <span class="g" data-term="conductor">conductors</span> to direct it, 
+        <span class="g" data-term="insulator">insulators</span> to block it, 
+        <span class="g" data-term="resistor">resistors</span> to regulate it, and 
+        <span class="g" data-term="converter">converters</span> to transform it. 
+        This framework applies that same classification to every energy band — and also maps exactly where the gaps are.
+      </p>
+    </div>
+
+    <div class="fw-grid reveal">
+      <div class="fw-card">
+        <div class="fw-icon" style="background:var(--gold-dim); color:var(--gold);">⚡</div>
+        <div class="fw-card-title" style="color:var(--gold);">Start — Source</div>
+        <div class="fw-card-body">
+          This is the mechanism that creates energy flow. A <span class="g" data-term="fission">fission</span> reactor splits atoms. 
+          A <span class="g" data-term="decay_source">decay source</span> isotope emits radiation as it naturally transforms. 
+          The sun fuses hydrogen. Steam spins a turbine. START is not a material property — it is the energy source itself. 
+          Every energy source is a conversion of energy from one form to another.
+          Once energy is flowing, engineers take over with materials to control it.
+        </div>
+        <div class="fw-tags">
+          <span class="fw-tag">fission reactor</span>
+          <span class="fw-tag">radioactive decay</span>
+          <span class="fw-tag">photovoltaic</span>
+          <span class="fw-tag">Spectrum Energy Cell</span>
+        </div>
+      </div>
+      <div class="fw-card">
+        <div class="fw-icon" style="background:var(--accent-dim); color:var(--accent);">⟳</div>
+        <div class="fw-card-title" style="color:var(--accent);">Change — Direct</div>
+        <div class="fw-card-body">
+          All material interactions that redirect, convert, or modify energy in flight. 
+          <span class="g" data-term="conductor">Conductors</span> direct flow along a path. 
+          <span class="g" data-term="reflector">Reflectors</span> bounce it back. 
+          <span class="g" data-term="refractor">Refractors</span> bend it. 
+          <span class="g" data-term="converter">Converters</span> transform it into a different form. 
+          CHANGE is the richest category — and the one with the most gaps at the gamma end of the spectrum.
+        </div>
+        <div class="fw-tags">
+          <span class="fw-tag">conductor</span>
+          <span class="fw-tag">reflector</span>
+          <span class="fw-tag">refractor</span>
+          <span class="fw-tag">converter</span>
+          <span class="fw-tag">polarizer</span>
+          <span class="fw-tag">resistor</span>
+        </div>
+      </div>
+      <div class="fw-card">
+        <div class="fw-icon" style="background:var(--gamma-dim); color:var(--gamma);">■</div>
+        <div class="fw-card-title" style="color:var(--gamma);">Stop — Block</div>
+        <div class="fw-card-body">
+          Materials that block or fully capture energy. 
+          <span class="g" data-term="insulator">Insulators</span> stop it completely. 
+          <span class="g" data-term="absorber">Absorbers</span> capture it and convert it to heat. 
+          For gamma radiation, STOP is the most developed category — we're good at blocking gamma. 
+          The breakthrough comes when blocking becomes converting and harvesting.
+        </div>
+        <div class="fw-tags">
+          <span class="fw-tag">insulator</span>
+          <span class="fw-tag">absorber</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Band Categories -->
+    <div class="reveal" style="margin-top:5rem;">
+      <p class="sec-tag">Band Categories</p>
+      <h2 class="sec-title">Three Domains. <em>Fifteen Bands.</em></h2>
+      <p class="sec-lead">
+        All energy falls into one of three categories based on what it physically is. The conventional nuclear industry 
+        built its entire power generation model around one band — thermal (via steam). This framework classifies all 
+        fifteen and treats each one as a potential energy source worth harvesting.
+      </p>
+    </div>
+
+    <div class="band-cats reveal">
+      <div class="band-cat cat-em">
+        <div class="band-cat-count">01</div>
+        <div class="band-cat-name">EM Spectrum</div>
+        <div class="band-cat-body">
+          This is the energy you already know by different names — radio waves, microwaves, light, X-rays. 
+          They are all the same thing at different energy levels. A radio wave and a 
+          <span class="g" data-term="gamma">gamma ray</span> are the same phenomenon — one is just millions 
+          of times more energetic than the other. At the low-energy end, we have complete control. At the 
+          high-energy end — gamma — we have almost none. Closing that gap is the central research problem.
+        </div>
+        <div class="band-cat-list">Radio · Microwave · Infrared · Visible · UV · X-Ray · Magnetic · Gamma</div>
+      </div>
+      <div class="band-cat cat-thermal">
+        <div class="band-cat-count">02</div>
+        <div class="band-cat-name">Thermal</div>
+        <div class="band-cat-body">
+          Heat moving through a material by direct contact. Put a fire poker in a flame — the heat travels 
+          up the metal toward your hand. That's thermal energy in motion. In the charts, thermal energy is 
+          tracked separately because the materials that control it are different from those that control 
+          radiated heat or light.
+        </div>
+        <div class="band-cat-list">Conductive heat · Seebeck conversion · Waste-heat harvest</div>
+      </div>
+      <div class="band-cat cat-kinetic">
+        <div class="band-cat-count">03</div>
+        <div class="band-cat-name">Kinetic Particles</div>
+        <div class="band-cat-body">
+          Physical particles carrying energy between points. Electrons carry electromagnetic energy along wires. 
+          <span class="g" data-term="neutron">Neutrons</span> carry trigger energy between fission events. 
+          <span class="g" data-term="alpha">Alpha particles</span> carry kinetic energy from decaying nuclei. 
+          They are the medium, not the energy itself — a critical distinction. Three bands are developed; 
+          three (proton, ion, muon) are placeholders for future research.
+        </div>
+        <div class="band-cat-list">Electron · Neutron · Alpha · Proton* · Ion* · Muon*</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CHARTS ════════════════════════════════════════ -->
+<section id="charts">
+  <div class="container">
+    <div class="reveal">
+      <p class="sec-tag">Interactive Charts</p>
+      <h2 class="sec-title">The <em>Complete</em> Dataset</h2>
+      <p class="sec-lead">
+        118 elements, 79 engineered compounds, and 33 isotopes — each classified by how it interacts with every 
+        energy band across all 9 <span class="g" data-term="control_groups">control roles</span>. 
+        Explore the data through thirteen interactive tools, each designed to answer a specific research question. 
+        All charts share a single data file — one source of facts that anyone can download, verify, and build upon.
+      </p>
+    </div>
+
+    <div class="charts-grid reveal">
+      <a href="spectrum-energy-chart.html" class="chart-card" style="--card-color:#5B8DEE;">
+        <div class="cc-type">Reference</div>
+        <div class="cc-name">Energy Band Chart</div>
+        <div class="cc-desc">The primary reference. 118 elements classified across all 15 energy bands. Filter by band, role, or electron configuration to find materials for any energy control problem.</div>
+        <div class="cc-arrow">→</div>
+      </a>
+
+      <a href="spectrum-control-chart.html" class="chart-card" style="--card-color:#4CAF8A;">
+        <div class="cc-type">Analysis</div>
+        <div class="cc-name">Control Analysis</div>
+        <div class="cc-desc">Start → Change → Stop mapped across all bands. Shows where material control is complete and where the gaps are — the core analytical view of the framework.</div>
+        <div class="cc-arrow">→</div>
+      </a>
+
+      <a href="spectrum-compounds-chart.html" class="chart-card" style="--card-color:#D4AF37;">
+        <div class="cc-type">Compounds</div>
+        <div class="cc-name">Compounds Chart</div>
+        <div class="cc-desc">79 engineered compounds across 11 categories — scintillators, thermoelectrics, semiconductors, shielding alloys, nuclear ceramics, polymers, and more. Each classified by band interaction.</div>
+        <div class="cc-arrow">→</div>
+      </a>
+
+      <a href="spectrum-isotope-chart.html" class="chart-card" style="--card-color:#E63946;">
+        <div class="cc-type">Nuclear</div>
+        <div class="cc-name">Isotope Chart</div>
+        <div class="cc-desc">33 isotopes including 9 decay source candidates for the <span class="g" data-term="decay_source">Spectrum Energy Cell</span> — with specific power, decay type, emitted bands, and production methods. The fuel selection tool.</div>
+        <div class="cc-arrow">→</div>
+      </a>
+
+      <a href="spectrum-structure-chart.html" class="chart-card" style="--card-color:#9B59B6;">
+        <div class="cc-type">Structure</div>
+        <div class="cc-name">Structure Chart</div>
+        <div class="cc-desc">Electron configuration correlation — how an atom's shell structure predicts its behavior across energy bands. 15 structural groups mapped against all classifications.</div>
+        <div class="cc-arrow">→</div>
+      </a>
+
+      <a href="spectrum-energy-cell.html" class="chart-card" style="--card-color:#EC407A;">
+        <div class="cc-type">Design</div>
+        <div class="cc-name">Spectrum Energy Cell</div>
+        <div class="cc-desc">The Spectrum Energy Cell — a decay battery with no moving parts. 8 concentric conversion layers based on Earth's atmospheric model. Three energy outputs: thermal, light, electrical.</div>
+        <div class="cc-arrow">→</div>
+      </a>
+
+      <a href="spectrum-schematic.html" class="chart-card" style="--card-color:#FF8C42;">
+        <div class="cc-type">Design</div>
+        <div class="cc-name">Reactor Schematic</div>
+        <div class="cc-desc">The Spectrum Energy Reactor — fission core with active shielding that harvests waste-stream energy instead of discarding it. The proof-of-concept and Spectrum Energy Cell fuel factory.</div>
+        <div class="cc-arrow">→</div>
+      </a>
+
+      <a href="spectrum-active-shielding.html" class="chart-card" style="--card-color:#E63946;">
+        <div class="cc-type">Design</div>
+        <div class="cc-name">Active Shielding</div>
+        <div class="cc-desc">Layer-by-layer breakdown of the active shielding system. Each layer converts a specific energy band rather than discarding it as heat. Shielding becomes harvesting.</div>
+        <div class="cc-arrow">→</div>
+      </a>
+
+      <a href="spectrum-waste-pipeline.html" class="chart-card" style="--card-color:#26C6DA;">
+        <div class="cc-type">Integration</div>
+        <div class="cc-name">Waste Pipeline</div>
+        <div class="cc-desc">How reactor waste becomes Spectrum Energy Cell fuel. Spent nuclear fuel is separated, processed, and assembled into self-contained power units. The United States alone has 86,000 metric tons of spent fuel in storage — material that is currently treated as waste but contains usable energy.</div>
+        <div class="cc-arrow">→</div>
+      </a>
+
+      <a href="spectrum-energy-budget.html" class="chart-card" style="--card-color:#FDCB6E;">
+        <div class="cc-type">Analysis</div>
+        <div class="cc-name">Energy Budget</div>
+        <div class="cc-desc">Where fission energy actually goes — the accounting that exposes what the nuclear industry currently discards. Shows the 67% of energy that active shielding can begin to recover.</div>
+        <div class="cc-arrow">→</div>
+      </a>
+
+      <a href="spectrum-home-integration.html" class="chart-card" style="--card-color:#8BC34A;">
+        <div class="cc-type">Application</div>
+        <div class="cc-name">Home Integration</div>
+        <div class="cc-desc">A Spectrum Energy Cell powering a 2,000 sq ft Florida home — heating, cooling, hot water, lighting, and appliances, all from a single unit with no utility bill. Completely off-grid or contributes to the grid.</div>
+        <div class="cc-arrow">→</div>
+      </a>
+
+      <a href="spectrum-datacenter.html" class="chart-card" style="--card-color:#5B8DEE;">
+        <div class="cc-type">Application</div>
+        <div class="cc-name">Data Center Integration</div>
+        <div class="cc-desc">Spectrum Energy Cells scaled for data centers — from a single server room to the largest facilities in the world. The thermal energy produced by the cell does double duty: it generates electricity to power the servers, and the excess heat drives cooling systems that keep them from overheating. No grid connection, no separate cooling infrastructure, and no restriction on where you build.</div>
+        <div class="cc-arrow">→</div>
+      </a>
+
+      <a href="spectrum-glossary.html" class="chart-card" style="--card-color:#888898;">
+        <div class="cc-type">Reference</div>
+        <div class="cc-name">Glossary</div>
+        <div class="cc-desc">Every term used in the framework, defined clearly. Searchable and filterable. If you encounter an unfamiliar technical word anywhere in the charts, it's defined here.</div>
+        <div class="cc-arrow">→</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DELIVERABLES ══════════════════════════════════ -->
+<section id="deliverables">
+  <div class="container">
+    <div class="reveal">
+      <p class="sec-tag">Two Deliverables</p>
+      <h2 class="sec-title">The Reactor. <em>The Cell.</em></h2>
+      <p class="sec-lead">
+        The framework produces two engineering targets. The reactor proves the concept and manufactures fuel. 
+        The cell is the product — a self-contained power source with no moving parts, no combustion, no grid connection, 
+        and no waste. Together, they form a closed fuel cycle where nothing is ever discarded.
+      </p>
+    </div>
+
+    <div class="deliv-grid reveal">
+      <div class="deliv" style="--d-color:#E63946;">
+        <span class="deliv-badge">Proof of Concept</span>
+        <div class="deliv-title">Spectrum Energy Reactor</div>
+        <div class="deliv-body">
+          A <span class="g" data-term="fission">fission</span> reactor redesigned around the principle that every 
+          energy band in the waste stream has an optimal conversion pathway. Current reactors convert about 33% of 
+          fission energy to electricity through steam turbines — and dump the remaining 67% as waste heat into 
+          shielding, cooling water, and the environment. The Spectrum Energy Reactor leaves the 33% steam cycle 
+          untouched and adds <span class="g" data-term="active_shielding">active shielding</span> layers that 
+          harvest the gamma, X-ray, and neutron energy currently being thrown away. The reactor also serves as 
+          the manufacturing facility for <span class="g" data-term="decay_source">Spectrum Energy Cell fuel isotopes</span>.
+        </div>
+        <ul class="deliv-specs">
+          <li>Active shielding replaces passive containment — each layer converts a specific band</li>
+          <li>Harvest from waste — never steal from the existing thermal cycle</li>
+          <li>Waste-stream gamma converted via scintillator→photovoltaic chain</li>
+          <li>Produces Co-60, Cs-137, Am-241, and other decay source isotopes</li>
+          <li>Existing reactor sites are retrofit candidates</li>
+        </ul>
+      </div>
+
+      <div class="deliv" style="--d-color:#D4AF37;">
+        <span class="deliv-badge">The Product</span>
+        <div class="deliv-title">Spectrum Energy Cell</div>
+        <div class="deliv-body">
+          A <span class="g" data-term="decay_source">decay battery</span> with no fission, no moving parts, 
+          no combustion, and no grid connection. Every energy band emitted by the source isotope is captured by 
+          a dedicated conversion layer — an architecture modeled on how Earth's atmosphere filters the sun's 
+          radiation (<span class="g" data-term="atmospheric_model">the atmospheric model</span>). Inner layers 
+          handle the dangerous high-energy bands. Outer layers pass safe thermal and visible energy directly to 
+          end use. Power output degrades gracefully over years or decades, not suddenly. End products are stable, 
+          non-radioactive commodity metals — nickel, barium, or zirconium — not waste.
+        </div>
+        <ul class="deliv-specs">
+          <li>8-layer atmospheric conversion stack — dangerous→safe from inside out</li>
+          <li>Three output modes: direct thermal, direct light, and electrical</li>
+          <li>Cascade lifecycle — step down to smaller loads as power drops, never discard</li>
+          <li>End state: stable commodity metals (Co-60→Ni, Cs-137→Ba, Sr-90→Zr)</li>
+          <li>Century-scale fuel sources available (Am-241: 432yr, Pu-238: 87.7yr)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DESIGN PRINCIPLES ════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="reveal">
+      <p class="sec-tag">Design Principles</p>
+      <h2 class="sec-title">The Principles Behind <em>the Designs</em></h2>
+      <p class="sec-lead">
+        These four principles guided the design of both the Spectrum Energy Reactor and the Spectrum Energy Cell. 
+        They are rooted in thermodynamics and engineering efficiency — every unnecessary conversion loses energy, 
+        and every discarded band is a missed opportunity.
+      </p>
+    </div>
+
+    <div class="principles-grid reveal">
+      <div class="principle-card">
+        <div class="principle-num">01</div>
+        <div class="principle-name">Harvest from waste, never steal from thermal</div>
+        <div class="principle-body">
+          At reactor scale, do not divert energy from the existing 33% steam cycle to power a lower-efficiency 
+          converter. That would reduce total output. Only harvest energy that is currently at 0% utilization — 
+          gamma hitting shielding, neutrons being absorbed, waste heat in outer layers. At SE Cell scale, 
+          there is no thermal cycle, so all conversion paths are active simultaneously.
+        </div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">02</div>
+        <div class="principle-name">Filter by layer, not by containment</div>
+        <div class="principle-body">
+          Instead of sealing all radiation inside a box, arrange converter layers so that dangerous bands are 
+          absorbed and converted in inner layers, and only safe, useful energy passes through to the outer surface. 
+          This is how Earth's atmosphere works — the ozone layer converts UV, the upper atmosphere handles 
+          cosmic rays, and only visible light and infrared reach the ground. The SE Cell follows the same architecture.
+        </div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">03</div>
+        <div class="principle-name">Don't convert energy already in useful form</div>
+        <div class="principle-body">
+          If the SE Cell's outer layers produce safe thermal energy, conduct it directly to heating and hot water. 
+          If <span class="g" data-term="scintillator">scintillator</span> layers produce visible light, pipe it 
+          through fiber optics to illuminate a room. Converting thermal to electrical and then back to thermal 
+          is not engineering — it's waste. Three output modes exist: direct thermal, direct light, and electrical. 
+          Match the mode to the load.
+        </div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">04</div>
+        <div class="principle-name">Cascade, don't discard</div>
+        <div class="principle-body">
+          Radioactive decay is gradual — a Co-60 source drops to half power every 5.27 years, not to zero overnight. 
+          Instead of replacing a "spent" unit, step it down: a home unit at 850W becomes a workshop unit at 425W 
+          (year 5), then a sensor array at 212W (year 10), then stable nickel. The decay products are non-radioactive 
+          commodity metals. Am-241's end product (Np-237) can return to a reactor to become Pu-238 — more SE Cell fuel. 
+          At no point does it become waste.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GAMMA GAP ════════════════════════════════════ -->
+<section id="gamma-gap">
+  <div class="container">
+    <div class="reveal">
+      <p class="sec-tag">The Research Frontier</p>
+      <h2 class="sec-title">The <em>Gamma Gap</em></h2>
+      <p class="sec-lead">
+        At the low end of the spectrum — radio 
+        and microwave — every functional role is filled. We can conduct, reflect, refract, polarize, convert, resist, 
+        insulate, and absorb those bands at will. As photon energy rises toward gamma, specific control mechanisms 
+        fail one by one. By the time we reach <span class="g" data-term="gamma">gamma rays</span>, 
+        only 4 of 9 roles are filled. Five gaps remain — all in the CHANGE group. The framework maps exactly which 
+        roles are missing and where to look for solutions.
+      </p>
+    </div>
+
+    <!-- Completeness bar -->
+    <div class="gap-completeness reveal">
+      <div class="gap-bar-seg" style="flex:9; background:var(--green);"><span class="bar-label">Radio 100%</span></div>
+      <div class="gap-bar-seg" style="flex:9; background:var(--green); opacity:0.85;"><span class="bar-label">μWave 100%</span></div>
+      <div class="gap-bar-seg" style="flex:8; background:rgba(76,175,138,0.7);"><span class="bar-label">IR 89%</span></div>
+      <div class="gap-bar-seg" style="flex:8; background:rgba(76,175,138,0.7);"><span class="bar-label">Vis 89%</span></div>
+      <div class="gap-bar-seg" style="flex:7; background:rgba(230,126,34,0.7);"><span class="bar-label">UV 78%</span></div>
+      <div class="gap-bar-seg" style="flex:8; background:rgba(76,175,138,0.7);"><span class="bar-label">X-Ray 89%</span></div>
+      <div class="gap-bar-seg" style="flex:4; background:rgba(230,57,70,0.8);"><span class="bar-label">γ 44%</span></div>
+    </div>
+
+    <p style="margin-top:1.2rem; font-family:var(--font-mono); font-size:0.7rem; color:var(--text-faint);">
+      Full analysis: <a href="GAMMA-GAP-ROADMAP.md" style="color:var(--accent); text-decoration:none;">Gamma Gap Research Roadmap →</a>
+    </p>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ════════════════════════════════════════ -->
+<section id="about">
+  <div class="container">
+    <div class="reveal">
+      <p class="sec-tag">About</p>
+      <h2 class="sec-title">Forty Years. <em>One Question.</em></h2>
+    </div>
+    <div class="about-grid reveal">
+      <div class="about-text">
+        <p>
+          The Spectrum Energy Research Framework was developed by 
+          <strong style="color:var(--text)">David R. Young</strong> in collaboration with Claude AI.
+        </p>
+        <p>
+          The idea started with a simple observation: nuclear fission produces enormous energy, but we use it 
+          to boil water and spin a turbine. It was like using a jet engine to push a tricycle. That observation — 
+          and the frustration behind it — never went away.
+        </p>
+        <p>
+          The first step was understanding how energy is controlled. Using electricity and light as working models, 
+          a pattern emerged: if you can conduct, reflect, insulate, and convert those two forms of energy, then 
+          every other form of energy should follow the same pattern. The problem reduces to finding the right 
+          materials for each energy band.
+        </p>
+        <p>
+          That led to a new way of organizing the periodic table — not by atomic weight or chemical group, but 
+          by how each element interacts with each energy band. Every material classified by its energy control 
+          properties, available at the touch of a button. The classifications would be based strictly on atomic 
+          structure, the same way a single electron in the outer shell of an atom predicts electrical conductivity.
+        </p>
+        <p>
+          After 25 years with no way to build this, the theory was preserved in a short story — 
+          <a href="Sunshine_on_a_Bad_Nuclear_Day_r.pdf" target="_blank"><em>Sunshine on a Bad Nuclear Day</em></a>. 
+          Fifteen years later, that story was put into Claude AI with one question: is this feasible? 
+          What you see in front of you was built in less than two weeks on a part-time basis.
+        </p>
+        <p>
+          All data, charts, and documentation are open source. The framework is designed to be built upon. 
+          Contributions that serve the <span class="g" data-term="gamma_problem">gamma control chain</span>, 
+          the Spectrum Energy Reactor, or the Spectrum Energy Cell are welcome through the 
+          <a href="https://github.com/dryoungfreedom/spectrum-energy" target="_blank">GitHub repository</a>.
+        </p>
+      </div>
+      <div>
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="stat-num">118</div>
+            <div class="stat-label">Elements</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">79</div>
+            <div class="stat-label">Compounds</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">33</div>
+            <div class="stat-label">Isotopes</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">15</div>
+            <div class="stat-label">Energy Bands</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">9</div>
+            <div class="stat-label">Control Roles</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">44%</div>
+            <div class="stat-label">Gamma Control</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ OPEN SOURCE ══════════════════════════════════ -->
+<section id="open-source">
+  <div class="container">
+    <div class="reveal">
+      <p class="sec-tag">Open Source</p>
+      <h2 class="sec-title">Built to <em>Last.</em></h2>
+      <p class="sec-lead">
+        This framework is designed to outlast any single website, server, or organization. The data is verifiable. 
+        The research is reproducible. The tools are free.
+      </p>
+    </div>
+    <div class="os-grid reveal">
+      <div class="os-card">
+        <div class="os-icon">⬡</div>
+        <div class="os-title">One Data File</div>
+        <div class="os-body">
+          All element, compound, and isotope classifications live in a single JavaScript file: 
+          <code style="font-family:var(--font-mono); font-size:0.82em; color:var(--accent);">spectrum-data.js</code>. 
+          One source of facts. Every chart loads it. Researchers can download it. 
+          A built-in self-validation block verifies data integrity on every load. 
+          Contributions go through a defined quality control process before merging.
+        </div>
+      </div>
+      <a class="os-card" href="https://github.com/dryoungfreedom/spectrum-energy" target="_blank">
+        <div class="os-icon">◈</div>
+        <div class="os-title">GitHub Repository</div>
+        <div class="os-body">
+          All source files, interactive charts, and documentation are publicly available with full version history. 
+          Git provides a verified, tamper-evident record of every change. The website is the front door to the 
+          research — but not the only access point.
+        </div>
+      </a>
+      <div class="os-card">
+        <div class="os-icon">◉</div>
+        <div class="os-title">Non-Profit Mission</div>
+        <div class="os-body">
+          Spectrum Energy Research Corp exists to advance this research for the benefit of mankind. 
+          The framework is free to use — by researchers, engineers, educators, and developers worldwide. 
+          The goal is not to own this technology. The goal is to make sure it gets built.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /.wrap -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-copy">© 2025 David R. Young — Spectrum Energy Research Corp · spectrumenergy.one</span>
+    <div class="footer-links">
+      <a href="about-david-r-young.html">About the Author</a>
+      <a href="spectrum-glossary.html">Glossary</a>
+      <a href="GAMMA-GAP-ROADMAP.md">Gamma Gap Roadmap</a>
+      <a href="Sunshine_on_a_Bad_Nuclear_Day_r.pdf" target="_blank">Origin Story</a>
+      <a href="https://github.com/dryoungfreedom/spectrum-energy" target="_blank">GitHub</a>
+    </div>
+  </div>
+  <div style="max-width:1120px; margin:1.2rem auto 0; padding:0 3rem;">
+    <p style="font-family:var(--font-mono); font-size:0.58rem; letter-spacing:0.06em; color:var(--text-faint); line-height:1.7;">
+      The Spectrum Energy Cell and Spectrum Energy Reactor concepts involve regulated nuclear materials. Development and deployment require appropriate licensing from the U.S. Nuclear Regulatory Commission (NRC) and Department of Energy (DOE), or equivalent regulatory bodies in other jurisdictions.
+    </p>
+  </div>
+</footer>
+
+<script>
+// ══════════════════════════════════════════════════════════
+// GLOSSARY TOOLTIP SYSTEM
+// ══════════════════════════════════════════════════════════
+const GLOSSARY = {
+  em: { term: "Electromagnetic Radiation", def: "Energy that travels as waves through space. Includes radio, microwave, infrared, visible light, ultraviolet, X-ray, and gamma ray — all the same phenomenon at different energies and wavelengths." },
+  gamma: { term: "Gamma Ray", def: "A high-energy photon emitted from a nucleus dropping to a lower energy state. Same phenomenon as visible light but at millions of times higher energy. No charge, no mass — pure energy. Fission gamma rays are typically 100 keV to 10 MeV." },
+  xray: { term: "X-Ray", def: "High-energy electromagnetic radiation, lower energy than gamma but higher than ultraviolet. In the framework, 79 elements absorb gamma and convert it to characteristic X-rays via the photoelectric effect — the gamma→X-ray conversion chain." },
+  photon: { term: "Photon", def: "A single packet of electromagnetic energy. Light, X-rays, and gamma rays are all photons — just at different energies. Higher energy photons have shorter wavelengths and higher frequencies." },
+  fission: { term: "Fission", def: "Splitting a heavy nucleus (like U-235) into two lighter nuclei. Releases enormous energy as kinetic energy of fragments, neutrons, and gamma rays. The energy source that powers both conventional nuclear reactors and the Spectrum Energy Reactor." },
+  isotope: { term: "Isotope", def: "Same element (same number of protons), different number of neutrons. U-235 and U-238 are both uranium but behave very differently in reactors. Different isotopes of the same element can have completely different nuclear energy levels — and therefore different gamma behavior." },
+  neutron: { term: "Neutron", def: "An uncharged particle in the nucleus. Neutron count determines nuclear stability, radioactivity, and gamma behavior. Adding or removing one neutron can completely transform an element's nuclear properties." },
+  alpha: { term: "Alpha Particle", def: "A helium-4 nucleus (2 protons + 2 neutrons) emitted from a heavy nucleus during radioactive decay. Carries significant kinetic energy but stopped by a sheet of paper. In the SE Cell, alpha energy is deposited as heat within microns of the source." },
+  conductor: { term: "Conductor", def: "A material that transmits energy through itself. Copper conducts electricity; fiber optic glass conducts light. For electromagnetic energy, the Poynting vector shows that energy actually travels in the field surrounding the conductor — the material guides the field, like a monorail guiding a train." },
+  reflector: { term: "Reflector", def: "A material that bounces energy back. A mirror reflects light; aluminum reflects radio waves. At X-ray energies, only the densest noble metals (Ir, Au) work — and only at grazing incidence angles. At gamma energies: no known reflector exists. This is the highest-priority research gap." },
+  refractor: { term: "Refractor", def: "A material that bends energy as it passes through. A glass lens refracts visible light. At higher energies the refractive index approaches vacuum (1.0) for all materials, making refraction progressively harder. At gamma energies: no known refractor exists." },
+  resistor: { term: "Resistor", def: "A material that partially reduces energy intensity without fully blocking it. A dimmer for light; a thin metal sheet that weakens but doesn't stop X-rays. For gamma, 6 elements are confirmed resistors." },
+  polarizer: { term: "Polarizer", def: "A material that filters wave orientation. Polarized sunglasses block horizontally-oriented light while passing vertical. At gamma energies, Compton scattering is inherently polarization-dependent — a potential research path." },
+  converter: { term: "Converter", def: "A material that transforms energy from one form to another. A solar cell converts light to electricity. A scintillator converts gamma to visible light. This is the key role for the gamma control chain — and the most promising near-term path to gamma energy harvesting." },
+  insulator: { term: "Insulator", def: "A material that completely blocks energy. Rubber blocks electricity; lead blocks gamma (though for gamma, this is technically absorption). A true gamma insulator would need nuclei with no available energy transitions at the target gamma energies — which may live at the isotope level." },
+  absorber: { term: "Absorber", def: "A material that captures energy, usually converting it to heat. Black paint absorbs visible light; high-Z elements absorb gamma via the photoelectric effect. 79 elements are gamma absorbers — every one with atomic number above 40." },
+  control_groups: { term: "Control Groups", def: "The three categories of material interaction: START (the source — a reactor, a decay isotope, the sun), CHANGE (materials that redirect or convert energy — conductors, reflectors, converters, etc.), and STOP (materials that block or capture energy — insulators, absorbers). Every material role falls into one of these three." },
+  scintillator: { term: "Scintillator", def: "A material that flashes visible light when hit by high-energy radiation. NaI(Tl) converts gamma to blue-violet light. This is gamma-to-visible CONVERSION — a working gamma converter that already exists. Paired with a photovoltaic cell, it creates the gamma→light→electricity chain." },
+  thermoelectric: { term: "Thermoelectric", def: "A material that converts temperature differences directly to electricity via the Seebeck effect. Bi₂Te₃ for near room temperature, PbTe for mid-range, SiGe for high temperature. No moving parts. The thermal band converter in the SE Cell." },
+  seebeck: { term: "Seebeck Effect", def: "When two ends of a material are at different temperatures, a voltage appears across them. Discovered by Thomas Seebeck in 1821. This is how thermoelectric generators work — thermal gradient in, electricity out. The reverse (Peltier effect) pumps heat when current flows." },
+  decay_source: { term: "Decay Source", def: "An isotope that emits radiation as it naturally transforms into a different element. The SE Cell's fuel. Nine candidates are tracked, from Po-210 (141 W/g, 138 days) to Ni-63 (0.006 W/g, 100 years). Each characterized by decay type, specific power, emitted energy bands, and production method." },
+  mossbauer: { term: "Mössbauer Effect", def: "The recoil-free emission and absorption of gamma rays by nuclei locked in a crystal lattice. A nucleus absorbs gamma at one exact energy and re-emits it — essentially a nuclear-level echo. This is the closest thing to gamma 'reflection' that currently exists, and a key research direction for closing the gamma reflector gap." },
+  laue: { term: "Laue Crystal Diffraction", def: "Crystalline lattices can diffract gamma rays at specific angles and energies using Bragg scattering off nuclear-spaced planes. Energy-selective rather than broadband, but it IS measurable gamma redirection. Research exists for Laue lenses in gamma-ray astronomy — potentially adaptable to energy harvesting." },
+  active_shielding: { term: "Active Shielding", def: "Shielding layers that convert energy instead of just absorbing it. Each layer is tuned to a specific energy band — scintillators for gamma→visible, thermoelectrics for thermal→electrical, betavoltaics for beta→electrical. The shielding IS the converter. Dual function: protect AND harvest." },
+  atmospheric_model: { term: "The Atmospheric Model", def: "Earth's atmosphere is a natural multilayer energy filter: upper layers absorb cosmic rays and gamma, the ozone layer handles UV, and only safe bands (visible light, infrared, radio) reach the surface. The SE Cell follows this architecture — concentric converter layers ordered by energy, with a radiologically safe outer shell." },
+  gamma_problem: { term: "The Gamma Problem", def: "Fission produces gamma rays as a primary energy output, but we have almost no ability to direct, shape, or convert gamma efficiently. Five of nine control roles are missing. Current nuclear power works around this by capturing gamma's heat (boiling water) rather than controlling gamma directly." },
+  betavoltaic: { term: "Betavoltaic", def: "A device that converts beta particles (nuclear-decay electrons) directly to electricity using a semiconductor junction. The nuclear equivalent of a solar cell. Diamond and SiC are candidate materials. Used in the SE Cell to harvest the beta emission band." },
+  specific_power: { term: "Specific Power", def: "The thermal power output per unit mass of a radioactive isotope, measured in watts per gram (W/g). Determined by half-life and decay energy. Po-210 leads at 141 W/g but lasts only 138 days. Pu-238 at 0.57 W/g lasts 87.7 years. The SE Cell design balances specific power against mission lifetime." },
+  zt: { term: "ZT (Figure of Merit)", def: "The dimensionless number measuring thermoelectric efficiency. ZT = S²σT/κ. ZT ≥ 1 is useful; ZT ≥ 2 is excellent. The fundamental challenge: high electrical conductivity but low thermal conductivity are needed — and in most materials these track together." }
+};
+
+// Tooltip element
+const tip = document.getElementById('glossary-tip');
+const tipTerm = tip.querySelector('.tip-term');
+const tipDef = tip.querySelector('.tip-def');
+let tipTimeout;
+
+document.addEventListener('mouseover', (e) => {
+  const el = e.target.closest('.g');
+  if (!el) return;
+  const key = el.dataset.term;
+  const entry = GLOSSARY[key];
+  if (!entry) return;
+
+  tipTerm.textContent = entry.term;
+  tipDef.textContent = entry.def;
+
+  // Position
+  const rect = el.getBoundingClientRect();
+  let left = rect.left;
+  let top = rect.bottom + 10;
+
+  // Keep on screen
+  tip.style.display = 'block';
+  tip.classList.remove('show');
+  const tipW = tip.offsetWidth;
+  const tipH = tip.offsetHeight;
+  if (left + tipW > window.innerWidth - 20) left = window.innerWidth - tipW - 20;
+  if (left < 10) left = 10;
+  if (top + tipH > window.innerHeight - 10) top = rect.top - tipH - 10;
+
+  tip.style.left = left + 'px';
+  tip.style.top = top + 'px';
+
+  clearTimeout(tipTimeout);
+  requestAnimationFrame(() => tip.classList.add('show'));
+});
+
+document.addEventListener('mouseout', (e) => {
+  const el = e.target.closest('.g');
+  if (!el) return;
+  tipTimeout = setTimeout(() => {
+    tip.classList.remove('show');
+    setTimeout(() => { tip.style.display = 'none'; }, 200);
+  }, 100);
+});
+
+// Mobile: tap to toggle
+document.addEventListener('click', (e) => {
+  const el = e.target.closest('.g');
+  if (!el) {
+    tip.classList.remove('show');
+    return;
+  }
+  // On mobile, the mouseover handler won't have fired
+  if (tip.classList.contains('show')) {
+    tip.classList.remove('show');
+  }
+});
+
+// ── SCROLL REVEAL ─────────────────────────────────────────
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+reveals.forEach(el => io.observe(el));
+
+// ── MOBILE NAV ────────────────────────────────────────────
+const style = document.createElement('style');
+style.textContent = `
+  @media (max-width: 960px) {
+    .nav-links.show {
+      display: flex !important;
+      flex-direction: column;
+      position: fixed;
+      top: 64px; left: 0; right: 0;
+      background: rgba(10,10,20,0.97);
+      backdrop-filter: blur(16px);
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+      z-index: 99;
+    }
+    .nav-links.show a {
+      height: 48px;
+      padding: 0 2rem;
+      justify-content: flex-start;
+      border-bottom: none;
+    }
+    .nav-links.show .nav-cta {
+      margin: 0.5rem 1.5rem;
+      justify-content: center;
+    }
+  }
+`;
+document.head.appendChild(style);
+</script>
+</body>
+</html>
