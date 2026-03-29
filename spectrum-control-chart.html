@@ -496,7 +496,7 @@ function renderControlPanel(){
     });
   }
 
-  const checkRoles=['conductor','reflector','refractor','resistor','polarizer','converter','insulator','absorber'];
+  const checkRoles=['conductor','reflector','refractor','resistor','polarizer','converter','transformer','insulator','absorber'];
   let total=checkRoles.length;
   let filled=checkRoles.filter(r=>(elG[r].length+cmpG[r].length+isoG[r].length)>0).length;
   let candidates=checkRoles.filter(r=>(elG[r].length+cmpG[r].length+isoG[r].length)===0&&isoC[r].length>0).length;
@@ -515,7 +515,7 @@ function renderControlPanel(){
   h+='</div>';
 
   h+='<div class="control-grid">';
-  const groupLabels={conductor:'CHANGE',reflector:'CHANGE',refractor:'CHANGE',resistor:'CHANGE',polarizer:'CHANGE',converter:'CHANGE',insulator:'STOP',absorber:'STOP'};
+  const groupLabels={conductor:'CHANGE',reflector:'CHANGE',refractor:'CHANGE',resistor:'CHANGE',polarizer:'CHANGE',converter:'CHANGE',transformer:'CHANGE',insulator:'STOP',absorber:'STOP'};
   checkRoles.forEach(rid=>{
     const role=getRF(rid);
     const eC=elG[rid].length, cmC=cmpG[rid].length, iC=isoG[rid].length, cC=isoC[rid].length;
@@ -652,7 +652,7 @@ function renderFooter(){
   if(isoCount>0) txt+=', '+isoCount+' isotopes ('+mosCount+' Mössbauer-active)';
   txt+=', '+ALL_BANDS.length+' energy bands ('+EM_BANDS.length+' EM + '+THERMAL_BANDS.length+' thermal + '+KINETIC_BANDS.filter(b=>b.developed).length+' kinetic), '+ROLES.length+' functional roles organized by control function.';
   txt+=' Three layers show where control comes from: elements (intrinsic), compounds (engineered), isotopes (nuclear).';
-  txt+='<div class="copyright">© 2025 David R. Young — Spectrum Energy Research Corp<br>Spectrum Energy Research Framework · All Rights Reserved</div>';
+  txt+='<div class="copyright">© 2026 David R. Young — Spectrum Energy Research Corp<br>Spectrum Energy Research Framework · All Rights Reserved</div>';
   document.getElementById('footer').innerHTML=txt;
 }
 

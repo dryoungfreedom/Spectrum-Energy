@@ -592,7 +592,7 @@ function renderFooter(){
     const cat=COMPOUND_CATEGORIES.find(c=>c.id===k);
     return (cat?cat.name:k)+': '+cats[k];
   }).join(', ');
-  document.getElementById('footer').innerHTML='<strong>Spectrum Compounds Chart</strong> — '+COMPOUNDS.length+' compounds ('+catStr+'), '+ALL_BANDS.length+' energy bands ('+EM_BANDS.length+' EM + '+THERMAL_BANDS.length+' thermal + '+KINETIC_BANDS.filter(b=>b.developed).length+' kinetic), '+ROLES.length+' functional roles. Compounds extend the element-only framework toward practical, engineered energy control.<div class="copyright">© 2025 David R. Young — Spectrum Energy Research Corp<br>Spectrum Energy Research Framework · All Rights Reserved</div>';
+  document.getElementById('footer').innerHTML='<strong>Spectrum Compounds Chart</strong> — '+COMPOUNDS.length+' compounds ('+catStr+'), '+ALL_BANDS.length+' energy bands ('+EM_BANDS.length+' EM + '+THERMAL_BANDS.length+' thermal + '+KINETIC_BANDS.filter(b=>b.developed).length+' kinetic), '+ROLES.length+' functional roles. Compounds extend the element-only framework toward practical, engineered energy control.<div class="copyright">© 2026 David R. Young — Spectrum Energy Research Corp<br>Spectrum Energy Research Framework · All Rights Reserved</div>';
 }
 
 function render(){

@@ -398,7 +398,7 @@ function renderDetail(){
 
 function renderFooter(){
   const pred=ELEMENTS.filter(e=>e.p).length;const meas=ELEMENTS.length-pred;
-  document.getElementById('footer').innerHTML='<strong>Spectrum Structure Chart</strong> — '+ELEMENTS.length+' elements, '+ALL_BANDS.length+' energy bands ('+EM_BANDS.length+' EM + '+THERMAL_BANDS.length+' thermal + '+KINETIC_BANDS.filter(b=>b.developed).length+' kinetic), '+STRUCTURE_GROUPS.length+' structural groups. Correlates electron configuration with energy behavior to reveal patterns and generate prediction targets.<div class="copyright">© 2025 David R. Young — Spectrum Energy Research Corp<br>Spectrum Energy Research Framework · All Rights Reserved</div>';
+  document.getElementById('footer').innerHTML='<strong>Spectrum Structure Chart</strong> — '+ELEMENTS.length+' elements, '+ALL_BANDS.length+' energy bands ('+EM_BANDS.length+' EM + '+THERMAL_BANDS.length+' thermal + '+KINETIC_BANDS.filter(b=>b.developed).length+' kinetic), '+STRUCTURE_GROUPS.length+' structural groups. Correlates electron configuration with energy behavior to reveal patterns and generate prediction targets.<div class="copyright">© 2026 David R. Young — Spectrum Energy Research Corp<br>Spectrum Energy Research Framework · All Rights Reserved</div>';
 }
 
 function render(){renderGroupBar();renderMain();analyzePatterns();renderDetail();renderFooter();}

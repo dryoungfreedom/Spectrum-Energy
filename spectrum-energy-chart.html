@@ -253,7 +253,7 @@ function renderDetail(){
 function renderFooter(){
   const pred=ELEMENTS.filter(e=>e.p).length;
   const meas=ELEMENTS.length-pred;
-  document.getElementById('footer').innerHTML='<strong>Spectrum Energy Chart — General Reference</strong> — '+ELEMENTS.length+' elements, '+ALL_BANDS.length+' energy bands ('+EM_BANDS.length+' EM + '+THERMAL_BANDS.length+' thermal + '+KINETIC_BANDS.filter(b=>b.developed).length+' kinetic), '+ROLES.length+' functional roles. '+meas+' documented, '+pred+' predicted (★).<div class="copyright">© 2025 David R. Young — Spectrum Energy Research Corp<br>Spectrum Energy Research Framework · All Rights Reserved</div>';
+  document.getElementById('footer').innerHTML='<strong>Spectrum Energy Chart — General Reference</strong> — '+ELEMENTS.length+' elements, '+ALL_BANDS.length+' energy bands ('+EM_BANDS.length+' EM + '+THERMAL_BANDS.length+' thermal + '+KINETIC_BANDS.filter(b=>b.developed).length+' kinetic), '+ROLES.length+' functional roles. '+meas+' documented, '+pred+' predicted (★).<div class="copyright">© 2026 David R. Young — Spectrum Energy Research Corp<br>Spectrum Energy Research Framework · All Rights Reserved</div>';
 }
 
 function render(){renderBandBar();renderLegend();renderMain();renderDetail();renderFooter();}

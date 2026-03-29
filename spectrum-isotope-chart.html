@@ -189,11 +189,17 @@ function createCard(iso){
     db.style.background='rgba(231,111,81,0.2)';db.style.color='#E76F51';
     db.textContent=iso.decay.type;props.appendChild(db);
   }
+  if(iso.nuclearOptical){
+    const nb=document.createElement('span');nb.className='iso-badge';
+    nb.style.background='rgba(0,206,209,0.2)';nb.style.color='#00CED1';
+    nb.textContent=iso.nuclearOptical.energy+' '+iso.nuclearOptical.unit;props.appendChild(nb);
+  }
   card.appendChild(props);
 
   // Key stat
   const role=document.createElement('div');role.className='iso-role';
   if(iso.decay)role.textContent=iso.decay.specificPower+' W/g · '+iso.halfLife;
+  else if(iso.nuclearOptical)role.textContent='λ '+iso.nuclearOptical.wavelength+' nm · '+iso.halfLife;
   else if(iso.neutronXS>=1000)role.textContent='nσ: '+iso.neutronXS.toLocaleString()+' b';
   else if(iso.abundance>0)role.textContent=iso.abundance+'% natural';
   else role.textContent=iso.halfLife;
@@ -393,10 +399,18 @@ function renderDetail(){
     h+='<div class="detail-prop" style="border-color:rgba(231,111,81,0.3)"><div class="detail-prop-label" style="color:#E76F51">Emitted Bands</div><div class="detail-prop-value" style="color:#E76F51;font-size:11px">'+iso.decay.emittedBands.join(', ')+'</div></div>';
     h+='<div class="detail-prop" style="border-color:rgba(231,111,81,0.3)"><div class="detail-prop-label" style="color:#E76F51">Production</div><div class="detail-prop-value" style="color:#E76F51;font-size:10px">'+iso.decay.production+'</div></div>';
   }
+  if(iso.nuclearOptical){
+    h+='<div class="detail-prop" style="border-color:rgba(0,206,209,0.3)"><div class="detail-prop-label" style="color:#00CED1">Nuclear Transition</div><div class="detail-prop-value" style="color:#00CED1">'+iso.nuclearOptical.energy+' '+iso.nuclearOptical.unit+'</div></div>';
+    h+='<div class="detail-prop" style="border-color:rgba(0,206,209,0.3)"><div class="detail-prop-label" style="color:#00CED1">Wavelength</div><div class="detail-prop-value" style="color:#00CED1">'+iso.nuclearOptical.wavelength+' nm (UV)</div></div>';
+    h+='<div class="detail-prop" style="border-color:rgba(0,206,209,0.3)"><div class="detail-prop-label" style="color:#00CED1">Significance</div><div class="detail-prop-value" style="color:#00CED1;font-size:10px">'+iso.nuclearOptical.note+'</div></div>';
+  }
   h+='</div>';
 
   if(iso.mossbauer){
     h+='<div style="margin-top:12px;font-size:10px;color:#888;font-style:italic">'+iso.mossbauer.note+'</div>';
+  }
+  if(iso.nuclearOptical){
+    h+='<div style="margin-top:12px;font-size:10px;color:#00CED1;font-style:italic">Bridge isotope: '+iso.nuclearOptical.note+'</div>';
   }
 
   h+='<div class="detail-notes">'+iso.notes+'</div>';
@@ -405,7 +419,8 @@ function renderDetail(){
 
 function renderFooter(){
   const moss=ISOTOPES.filter(i=>i.mossbauer).length;
-  document.getElementById('footer').innerHTML='<strong>Spectrum Isotope Chart</strong> — '+ISOTOPES.length+' isotopes ('+moss+' Mössbauer-active), '+ISOTOPE_CATEGORIES.length+' categories. Nuclear-level gamma interaction: where the answers to the gamma gaps may live.<div class="copyright">© 2025 David R. Young — Spectrum Energy Research Corp<br>Spectrum Energy Research Framework · All Rights Reserved</div>';
+  const nopt=ISOTOPES.filter(i=>i.nuclearOptical).length;
+  document.getElementById('footer').innerHTML='<strong>Spectrum Isotope Chart</strong> — '+ISOTOPES.length+' isotopes ('+moss+' Mössbauer, '+nopt+' nuclear-optical), '+ISOTOPE_CATEGORIES.length+' categories. Nuclear-level photon interaction: where the answers to the gamma gaps may live.<div class="copyright">© 2026 David R. Young — Spectrum Energy Research Corp<br>Spectrum Energy Research Framework · All Rights Reserved</div>';
 }
 
 function render(){

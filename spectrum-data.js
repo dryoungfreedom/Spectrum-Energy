@@ -1,6 +1,6 @@
 /*
  * Spectrum Energy Research Framework — Shared Data
- * © 2025 David R. Young — Spectrum Energy Research Corp
+ * © 2026 David R. Young — Spectrum Energy Research Corp
  * All Rights Reserved
  *
  * Single source of truth for all Spectrum charts.
@@ -15,15 +15,15 @@
  * KINETIC_BANDS            6 bands          — electron, neutron (developed); alpha, proton, ion, muon (placeholders)
  * NON_EM_BANDS             (deprecated)     — backward compat alias for thermal + developed kinetic
  * ALL_BANDS                (computed)       — EM + thermal + developed kinetic
- * ROLES                    9 roles         — channel merged into conductor; all in CHANGE group
- * ROLE_COLORS              9 entries       ROLES
+ * ROLES                    10 roles        — channel merged into conductor; transformer added for scintillators
+ * ROLE_COLORS              10 entries      ROLES
  * CONTROL_GROUPS           4 groups         ROLES — START has no material roles (source only)
  * STRUCTURE_GROUPS         15 groups        ELEMENTS
  * ELEMENTS                 118 elements     Band keys: radio thru gamma + magnetic + thermal + electron + neutron
  * COMPOUND_CATEGORIES      11 categories    —
  * COMPOUNDS                79 compounds     Same band keys as ELEMENTS
- * ISOTOPE_CATEGORIES       5 categories     —
- * ISOTOPES                 33 isotopes      ISOTOPE_CATEGORIES
+ * ISOTOPE_CATEGORIES       6 categories     — mossbauer, nuclear_optical, fission, neutron, contrast, decay_source
+ * ISOTOPES                 34 isotopes      ISOTOPE_CATEGORIES
  * ═══════════════════════════════════════════════════════
  *
  * THREE BAND CATEGORIES:
@@ -36,12 +36,12 @@
  *   shielding(11) oxide(5) ferrite(4) semiconductor(7)
  *   thermoelectric(9) ceramic(8) polymer(6) alloy(8)
  *
- * ISOTOPE CATEGORIES (5):
- *   mossbauer(9) fission(4) neutron(5) contrast(6) decay_source(9)
+ * ISOTOPE CATEGORIES (6):
+ *   mossbauer(9) nuclear_optical(1) fission(4) neutron(5) contrast(6) decay_source(9)
  *
  * Self-validation runs at end of file — check browser
  * console for errors after loading.
- * Last verified: March 23, 2026
+ * Last verified: March 27, 2026
  */
 
 const EM_BANDS = [
@@ -79,6 +79,7 @@ const ROLES = [
   { id:"resistor", name:"Resistor", desc:"Reduces intensity without full block", icon:"≋", group:"change" },
   { id:"polarizer", name:"Polarizer", desc:"Filters wave orientation", icon:"⫽", group:"change" },
   { id:"converter", name:"Converter", desc:"Transforms into another energy form", icon:"⚡", group:"change" },
+  { id:"transformer", name:"Transformer", desc:"Steps photon frequency up or down (photon in → photon out at different energy level) — like electrical voltage transformer", icon:"⇅", group:"change" },
   { id:"insulator", name:"Insulator", desc:"Blocks / stops this energy", icon:"⊘", group:"stop" },
   { id:"absorber", name:"Absorber", desc:"Captures / absorbs this energy", icon:"●", group:"stop" },
   { id:"transparent", name:"Transparent", desc:"Energy passes through unchanged", icon:"◇", group:"other" },
@@ -91,6 +92,7 @@ const ROLE_COLORS = {
   resistor:  { bg:"#784212", text:"#F0C987" },
   polarizer: { bg:"#4A235A", text:"#C39BD3" },
   converter: { bg:"#B7950B", text:"#F9E79F" },
+  transformer:{ bg:"#0E6655", text:"#A3E4D7" },
   insulator: { bg:"#7B241C", text:"#F5B7B1" },
   absorber:  { bg:"#6C3483", text:"#D7BDE2" },
   transparent:{ bg:"#2E4053", text:"#AEB6BF" },
@@ -98,7 +100,7 @@ const ROLE_COLORS = {
 
 const CONTROL_GROUPS = [
   { id:"start", label:"START", color:"#AED6F1", desc:"The source — the mechanism that initiates energy flow (reactor, decay isotope, generator, sun)", roles:[] },
-  { id:"change", label:"CHANGE", color:"#A9DFBF", desc:"Direct, redirect, modify, attenuate, filter, or transform energy in transit", roles:["conductor","reflector","refractor","resistor","polarizer","converter"] },
+  { id:"change", label:"CHANGE", color:"#A9DFBF", desc:"Direct, redirect, modify, attenuate, filter, or transform energy in transit", roles:["conductor","reflector","refractor","resistor","polarizer","converter","transformer"] },
   { id:"stop", label:"STOP", color:"#F5B7B1", desc:"Block or capture energy", roles:["insulator","absorber"] },
   { id:"other", label:"PASSIVE", color:"#AEB6BF", desc:"No interaction with this energy", roles:["transparent"] },
 ];
@@ -274,43 +276,43 @@ const COMPOUNDS = [
 // ── Scintillators ────────────────────────────────────────────────────────
 {id:"nai",formula:"NaI(Tl)",name:"Sodium Iodide",category:"scintillator",density:3.67,elements:["Na","I"],p:0,
   notes:"Most widely used gamma scintillator. Tl-doped. Hygroscopic. Emits 415 nm (blue-violet). ~40,000 ph/MeV. 230 ns decay. Energy resolution ~7% at 662 keV.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","converter"],gamma:["absorber","converter"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor"]}},
 
 {id:"bgo",formula:"Bi₄Ge₃O₁₂",name:"Bismuth Germanate (BGO)",category:"scintillator",density:7.13,elements:["Bi","Ge","O"],p:0,
   notes:"Very high density & Zeff (~75). Non-hygroscopic. Emits 480 nm (green). ~9,000 ph/MeV. 300 ns decay. High stopping power — PET standard before LYSO. Low afterglow.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","converter"],gamma:["absorber","converter"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]}},
 
 {id:"lyso",formula:"Lu₁.₈Y₀.₂SiO₅(Ce)",name:"LYSO:Ce",category:"scintillator",density:7.1,elements:["Lu","Y","Si","O"],p:0,
   notes:"Current PET scanner standard. Ce-doped. Non-hygroscopic. Emits 420 nm (blue-violet). ~33,200 ph/MeV. 36 ns decay — 8× faster than BGO. Density rivals BGO.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","converter"],gamma:["absorber","converter"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["resistor"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["resistor"]}},
 
 {id:"labr3",formula:"LaBr₃(Ce)",name:"Lanthanum Bromide",category:"scintillator",density:5.08,elements:["La","Br"],p:0,
   notes:"Best energy resolution of any scintillator. Ce-doped. Hygroscopic. Emits 380 nm (UV-violet). ~63,000 ph/MeV — highest light yield. 16 ns decay — fastest halide.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","converter"],gamma:["absorber","converter"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["resistor"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["resistor"]}},
 
 {id:"csi",formula:"CsI(Tl)",name:"Cesium Iodide",category:"scintillator",density:4.51,elements:["Cs","I"],p:0,
   notes:"Rugged, non-hygroscopic. Tl-doped. Emits 550 nm (green). ~54,000 ph/MeV — very high light yield. 1000 ns decay (slow). No cleavage — mechanically robust.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","converter"],gamma:["absorber","converter"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor"]}},
 
 {id:"baf2",formula:"BaF₂",name:"Barium Fluoride",category:"scintillator",density:4.89,elements:["Ba","F"],p:0,
   notes:"Fastest inorganic scintillator — 0.7 ns UV component at 220 nm. Slow component at 310 nm, 630 ns. Slightly hygroscopic. Transmits UV through mid-IR. Used for fast timing research.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent"],visible:["transparent"],ultraviolet:["transparent"],xray:["absorber","converter"],gamma:["absorber","converter"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent"],visible:["transparent"],ultraviolet:["transparent"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]}},
 
 {id:"pbwo4",formula:"PbWO₄",name:"Lead Tungstate",category:"scintillator",density:8.28,elements:["Pb","W","O"],p:0,
   notes:"Densest oxide scintillator (8.28 g/cm³). Used in CERN CMS calorimeter. Low light yield (~200 ph/MeV) but ultrafast. Radiation-hard. Short radiation length (0.9 cm). Cherenkov radiator.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","insulator","converter"],gamma:["absorber","insulator","converter"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","insulator","transformer"],gamma:["absorber","insulator","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor"]}},
 
 {id:"cdwo4",formula:"CdWO₄",name:"Cadmium Tungstate",category:"scintillator",density:7.9,elements:["Cd","W","O"],p:0,
   notes:"Very low afterglow — ideal for CT scanners. High density. Radiation-hard. Moderate light yield. Used for DC X-ray measurements and photodiode readout.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","converter"],gamma:["absorber","converter"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["insulator"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["insulator"]}},
 
 {id:"gos",formula:"Gd₂O₂S(Tb)",name:"Gadolinium Oxysulfide",category:"scintillator",density:7.32,elements:["Gd","O","S"],p:0,
   notes:"Primary X-ray phosphor screen material. Tb-doped. High density (7.32 g/cm³). Good light output. Used in X-ray imaging, CT screens, and radiography. Also detects gamma.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","converter"],gamma:["absorber","converter"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["insulator"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["insulator"]}},
 
 {id:"cebr3",formula:"CeBr₃",name:"Cerium Bromide",category:"scintillator",density:5.1,elements:["Ce","Br"],p:0,
   notes:"No intrinsic radioactive background (unlike LaBr₃). Hygroscopic. 20 ns decay. ~4% energy resolution at 662 keV. Sub-nanosecond timing possible. Ideal for low-background gamma spectroscopy.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","converter"],gamma:["absorber","converter"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["transparent"]}},
 
 // ── Piezoelectric / Ferroelectric Ceramics ───────────────────────────────
 {id:"batio3",formula:"BaTiO₃",name:"Barium Titanate",category:"piezoelectric",density:6.02,elements:["Ba","Ti","O"],p:0,
@@ -639,6 +641,7 @@ const COMPOUNDS = [
 
 const ISOTOPE_CATEGORIES = [
   { id:"mossbauer", name:"Mössbauer Active", desc:"Nuclear resonance absorption/emission — potential gamma reflectors/refractors", color:"#E9C46A" },
+  { id:"nuclear_optical", name:"Nuclear Optical", desc:"Nuclear transitions accessible to optical/UV photonics — the bridge between electronic and nuclear control", color:"#00CED1" },
   { id:"fission", name:"Fission / Fertile", desc:"Fissile or fertile isotopes — gamma source and neutron interaction", color:"#E63946" },
   { id:"neutron", name:"Neutron Active", desc:"Exceptionally high or low neutron capture cross-section", color:"#2A9D8F" },
   { id:"contrast", name:"Contrasting Pairs", desc:"Same element, different isotope — dramatically different nuclear behavior", color:"#7B68EE" },
@@ -709,6 +712,12 @@ const ISOTOPES = [
   mossbauer:{energy:98.8,note:"High-energy Mössbauer. Used to study catalytic surfaces."},
   neutronXS:27.5,abundance:33.8,gammaRole:"resonant",
   notes:"Mössbauer resonance at 98.8 keV — near W-182 territory, approaching fission gamma range. Spin-1/2 gives simpler spectra. Used to study surface chemistry and catalysis. High Z (78) provides strong electron-level gamma absorption too."},
+
+// ── Nuclear Optical — Bridge Between Electronic and Nuclear Control ───────
+{symbol:"Th",A:229,Z:90,name:"Thorium-229",halfLife:"7,917 yr",spin:"5/2",category:"nuclear_optical",
+  nuclearOptical:{energy:8.355733554021,wavelength:148.382,unit:"eV",note:"Lowest-energy nuclear transition known. First laser-controlled nuclear state (April 2024)."},
+  neutronXS:54,abundance:0,gammaRole:"bridge",
+  notes:"THE bridge isotope. Nuclear transition at only 8.36 eV (~148 nm UV) — a million times lower than typical nuclear transitions. In April 2024, researchers at PTB/TU Vienna excited this transition with a UV laser, achieving the first-ever laser control of a nuclear state. Solid-state nuclear clock demonstrated in CaF₂ crystal with 1 second accuracy over 300 billion years. This proves nuclear states CAN be controlled with the same tools we use for electrons. Produced from U-233 decay. Key difference from Mössbauer isotopes: those require synchrotrons or radioactive sources; Th-229 responds to tabletop lasers."},
 
 // ── Fission / Fertile — Gamma Source Isotopes ────────────────────────────
 {symbol:"U",A:235,Z:92,name:"Uranium-235",halfLife:"7.04×10⁸ yr",spin:"7/2",category:"fission",
@@ -829,15 +838,15 @@ const ISOTOPES = [
     THERMAL_BANDS:         { type:'array', min:1 },
     KINETIC_BANDS:         { type:'array', min:6 },
     ALL_BANDS:             { type:'array', min:11 },
-    ROLES:                 { type:'array', min:9 },
-    ROLE_COLORS:           { type:'object', min:9 },
+    ROLES:                 { type:'array', min:10 },
+    ROLE_COLORS:           { type:'object', min:10 },
     CONTROL_GROUPS:        { type:'array', min:4 },
     STRUCTURE_GROUPS:      { type:'array', min:15 },
     ELEMENTS:              { type:'array', min:118 },
     COMPOUND_CATEGORIES:   { type:'array', min:11 },
     COMPOUNDS:             { type:'array', min:79 },
-    ISOTOPE_CATEGORIES:    { type:'array', min:5 },
-    ISOTOPES:              { type:'array', min:33 },
+    ISOTOPE_CATEGORIES:    { type:'array', min:6 },
+    ISOTOPES:              { type:'array', min:34 },
   };
   let pass=0, fail=0;
   const errors=[];
