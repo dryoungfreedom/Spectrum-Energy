@@ -1442,11 +1442,14 @@ footer {
   <div class="container">
     <div class="reveal">
       <p class="sec-tag">Design Principles</p>
-      <h2 class="sec-title">Rules That <em>Cannot</em> Be Broken</h2>
+      <h2 class="sec-title">The Operating <em>Basis</em></h2>
       <p class="sec-lead">
-        These four principles govern every design decision in the framework. They are not guidelines — 
-        they are constraints. Any proposed design that violates one is wrong, regardless of how efficient 
-        it looks on paper.
+        These principles guide every design decision in the Spectrum Energy framework. They represent
+        the directional goals that determine whether a proposed design is moving toward or away from
+        the vision — full spectrum control, with every energy band harvested, converted, or directly
+        delivered. They are not immutable constraints. The SE Reactor, for example, requires a
+        conventional thermal cycle for grid compatibility today. The direction is toward replacing
+        that cycle as gamma and spectrum control mature.
       </p>
     </div>
 
@@ -1455,10 +1458,12 @@ footer {
         <div class="principle-num">01</div>
         <div class="principle-name">Harvest from waste, never steal from thermal</div>
         <div class="principle-body">
-          At reactor scale, do not divert energy from the existing 33% steam cycle to power a lower-efficiency 
-          converter. That would reduce total output. Only harvest energy that is currently at 0% utilization — 
-          gamma hitting shielding, neutrons being absorbed, waste heat in outer layers. At SE Cell scale, 
-          there is no thermal cycle, so all conversion paths are active simultaneously.
+          At reactor scale, do not divert energy from the existing thermal cycle to power a
+          lower-efficiency converter — that reduces total output. Only harvest energy currently
+          at 0% utilization: gamma hitting shielding, neutrons being absorbed, waste heat in
+          outer layers. The long-term goal is full spectrum control that eliminates the need
+          for a thermal cycle entirely. At SE Cell scale, there is no thermal cycle — all
+          conversion paths are active simultaneously.
         </div>
       </div>
       <div class="principle-card">
@@ -1487,7 +1492,7 @@ footer {
         <div class="principle-name">Cascade, don't discard</div>
         <div class="principle-body">
           Radioactive decay is gradual — a Co-60 source drops to half power every 5.27 years, not to zero overnight. 
-          Instead of replacing a "spent" unit, step it down: a home unit at 850W becomes a workshop unit at 425W 
+          Instead of replacing a spent unit, step it down: a home unit at 850W becomes a workshop unit at 425W 
           (year 5), then a sensor array at 212W (year 10), then stable nickel. The decay products are non-radioactive 
           commodity metals. Am-241's end product (Np-237) can return to a reactor to become Pu-238 — more SE Cell fuel. 
           At no point does it become waste.
@@ -1613,6 +1618,31 @@ footer {
         </div>
       </div>
 
+      <!-- NOTE 002 -->
+      <div style="background:var(--surface2); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:1.5rem 2rem; display:flex; align-items:flex-start; justify-content:space-between; gap:2rem; flex-wrap:wrap;">
+        <div style="flex:1; min-width:260px;">
+          <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.6rem; flex-wrap:wrap;">
+            <span style="font-family:var(--font-mono); font-size:0.62rem; letter-spacing:0.1em; color:#A8C0F0; background:rgba(44,62,122,0.3); border:1px solid rgba(44,62,122,0.6); padding:0.2rem 0.55rem; border-radius:3px;">⋈ SE-Research-Note-002</span>
+            <span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--text-faint);">April 3, 2026</span>
+            <span style="font-family:var(--font-mono); font-size:0.6rem; color:var(--text-faint); background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); padding:0.15rem 0.5rem; border-radius:3px;">Draft</span>
+          </div>
+          <p style="font-family:var(--font-head); font-size:0.85rem; font-weight:700; letter-spacing:0.04em; color:var(--text); margin-bottom:0.3rem;">The Quantum Field as Base</p>
+          <p style="font-size:0.8rem; color:var(--text-dim); font-style:italic; margin-bottom:0.75rem;">A Unified Three-Part Model of Energy Propagation and Its Implications for Gamma Control</p>
+          <p style="font-size:0.85rem; color:var(--text-mid); line-height:1.7;">
+            A unified model — kinetic, EM wave, and Base — applies from electrical current through gamma. The Base for electrical energy is the conductor. The Base for all photonic EM is the quantum field. Gamma sits closest to the quantum field's fundamental frequency, explaining its penetrating power and why bulk matter fails to control it. Complete gamma control is achievable using crystal lattices as the engineered Base — every visible-light control mechanism has a direct crystal analog at gamma scale.
+          </p>
+          <div style="display:flex; gap:0.4rem; flex-wrap:wrap; margin-top:0.75rem;">
+            <span style="font-family:var(--font-mono); font-size:0.58rem; color:var(--text-faint); background:var(--surface); border:1px solid rgba(255,255,255,0.07); padding:0.18rem 0.45rem; border-radius:3px;">quantum field</span>
+            <span style="font-family:var(--font-mono); font-size:0.58rem; color:var(--text-faint); background:var(--surface); border:1px solid rgba(255,255,255,0.07); padding:0.18rem 0.45rem; border-radius:3px;">base</span>
+            <span style="font-family:var(--font-mono); font-size:0.58rem; color:var(--text-faint); background:var(--surface); border:1px solid rgba(255,255,255,0.07); padding:0.18rem 0.45rem; border-radius:3px;">gamma control</span>
+            <span style="font-family:var(--font-mono); font-size:0.58rem; color:var(--text-faint); background:var(--surface); border:1px solid rgba(255,255,255,0.07); padding:0.18rem 0.45rem; border-radius:3px;">crystal lattice</span>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:0.5rem; align-items:flex-end; flex-shrink:0;">
+          <a href="research-notes.html#SE-Research-Note-002" style="display:inline-flex; align-items:center; gap:0.4rem; font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.06em; color:var(--accent); border:1px solid rgba(91,141,238,0.3); padding:0.5rem 1rem; border-radius:4px; text-decoration:none; transition:background 0.2s;" onmouseover="this.style.background='rgba(91,141,238,0.12)'" onmouseout="this.style.background='transparent'">Read Note →</a>
+        </div>
+      </div>
+
     </div>
 
     <div class="reveal" style="margin-top:2rem; text-align:center;">
@@ -1727,9 +1757,22 @@ footer {
         <div class="os-icon">◉</div>
         <div class="os-title">Non-Profit Mission</div>
         <div class="os-body">
-          Spectrum Energy Research Corp exists to advance this research for the benefit of mankind. 
-          The framework is free to use — by researchers, engineers, educators, and developers worldwide. 
-          The goal is not to own this technology. The goal is to make sure it gets built.
+          Spectrum Energy Research Corp exists to advance this research for the benefit of mankind.
+          The framework is free to use for research, education, and non-commercial purposes under
+          CC BY-NC-SA 4.0. Commercial use — including incorporation into products, services, or
+          proprietary research — requires a separate commercial license from Spectrum Energy
+          Research Corp. Commercial license fees fund the mission directly.
+        </div>
+      </div>
+      <div class="os-card">
+        <div class="os-icon">⚖</div>
+        <div class="os-title">Commercial Licensing</div>
+        <div class="os-body">
+          Building a product or service on this framework? A commercial license is available.
+          Contact Spectrum Energy Research Corp through the
+          <a href="https://github.com/dryoungfreedom/spectrum-energy" target="_blank" style="color:var(--accent);">GitHub repository</a>
+          to open a discussion. License fees support the non-profit mission — advancing gamma
+          control research for the benefit of mankind.
         </div>
       </div>
     </div>
