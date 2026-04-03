@@ -1,5 +1,5 @@
 # Spectrum Energy Research Framework — Gamma Gap Research Roadmap
-## © 2025 David R. Young — Atomic Spectrum Energy Theory
+## © 2026 David R. Young — Atomic Spectrum Energy Theory
 ## Generated: March 18, 2026
 
 ---
@@ -16,19 +16,20 @@ The framework's central question: **Can we control gamma radiation as completely
 
 As of this analysis (34 compounds, 118 elements):
 
-| Role | Status | Element Count | Compound Count |
-|------|--------|---------------|----------------|
-| Conductor | ✗ OPEN | 0 | 0 |
-| Channel | ✗ OPEN | 0 | 0 |
-| Reflector | ✗ OPEN | 0 | 0 |
-| Refractor | ✗ OPEN | 0 | 0 |
-| Resistor | ✓ Filled | 6 | 1 |
-| Polarizer | ✗ OPEN | 0 | 0 |
-| Converter | ✓ Filled | 7 | 11 |
-| Insulator | ✓ Filled | 2 | 4 |
-| Absorber | ✓ Filled | 47 | 18 |
+| Role | Status | Element Count | Compound Count | Notes |
+|------|--------|---------------|----------------|-------|
+| Conductor | ✗ OPEN | 0 | 0 | |
+| Channel | ✗ OPEN | 0 | 0 | |
+| Reflector | ✗ OPEN | 0 | 0 | |
+| Refractor | ✗ CLOSED | 0 | 0 | Physically impossible at gamma energies — see SE-Research-Note-001 |
+| Diffractor | ◑ Partial | 3 (Si, Ge, C) | 5 (Quartz, CaF₂, SiC, Sapphire, YAG) | Crystal Bragg diffraction — gamma's angle-control mechanism |
+| Resistor | ✓ Filled | 6 | 1 | |
+| Polarizer | ✗ OPEN | 0 | 0 | |
+| Converter | ✓ Filled | 7 | 11 | |
+| Insulator | ✓ Filled | 2 | 4 | |
+| Absorber | ✓ Filled | 47 | 18 | |
 
-**4 of 9 roles filled (44%).** Five gaps remain — all in the START and CHANGE groups.
+**4 of 10 roles filled (40%). 1 role partial. 5 gaps remain** — Conductor, Channel, Reflector, Diffractor (partial), and Polarizer. Note: Refractor is now closed, not open — classical refraction is physically absent at gamma energies. Diffractor is a distinct role added April 2026 (see SE-Research-Note-001). Role count increased from 9 to 10.
 
 ---
 
@@ -91,7 +92,7 @@ The pattern is not random. As photon energy increases, specific mechanisms fail 
 1. Materials with Z lower than beryllium (hydrogen-rich compounds, nuclear-level structures)
 2. A completely new containment mechanism at gamma energies
 
-**Critical dependency:** A channel requires either reflection or refraction to contain the energy. **The channel gap cannot be solved until the reflector or refractor gap is solved first.** This is a dependent gap.
+**Critical dependency:** A channel requires either reflection or diffraction to contain and guide the energy. **The channel gap cannot be solved until the reflector or diffractor gap is more fully solved first.** Diffractor is now partially filled (crystal Bragg geometry). This is a dependent gap.
 
 **Research direction:** Solve reflection first, then channel follows.
 
@@ -127,26 +128,43 @@ At visible wavelengths, any shiny metal reflects. At UV, only a few survive. At 
 
 ---
 
-### GAP 4: Gamma Refractor
+### GAP 4: Gamma Angle Control — Diffractor (Classical Refractor: Closed)
+
+> **SE-Research-Note-001** documents the full analysis of this distinction. Summary below.
+
+**Why classical refraction is closed:**
+The refractive index at gamma energies is *n* ≈ 1 − δ where δ ~ 10⁻⁹. This is not a gap waiting to be filled by material discovery — it is a physical boundary. No material has sufficient refractive index deviation to bend gamma via classical optics at any practical geometry. The Z-trend that drops from Si (Z=14) at radio through Li, Be at X-ray reaches a physical floor at gamma. Compound refractive lenses (CRLs), which exploit the slight *n* < 1 at X-ray, would require impractically large numbers of elements at gamma energies to accumulate any measurable deflection. This path is closed.
+
+**The correct mechanism — Bragg diffraction:**
+Gamma angle control operates through constructive interference in crystal lattices (Bragg diffraction: *nλ = 2d sin θ*). This is the same fundamental wave-interference mechanism that governs X-ray crystallography, UV/visible diffraction gratings, and microwave phased arrays — scaled to the gamma wavelength range (0.001–0.01 nm), which matches natural crystal lattice spacings (0.1–1 nm) at grazing angles.
+
 **Pattern across bands:**
-- Radio: Si (Z=14)
-- Microwave: Si, Ge (avg Z 23)
-- Infrared: Si, Ge, Se, Te (avg Z 33)
-- Visible: C, Si, P, S, Ge, Se (avg Z 20)
-- UV: Mg, Al, Ca (avg Z 15)
-- X-ray: Li, Be, C, Si (avg Z 7) — lightest possible materials
-- Gamma: 0
+- Radio / Microwave / IR / Visible / UV: Classical refraction (n ≠ 1) — fully covered
+- X-ray: Both classical refraction (CRLs) AND Bragg diffraction — the crossover band
+- Gamma: Bragg diffraction only — classical refraction physically absent
 
-**What the pattern shows:** The Z trend drops steadily as energy increases. At X-ray, only the lightest elements (Li, Be, C, Si) produce enough refractive index deviation from vacuum to bend the beam. This is because refraction requires a difference between the speed of light in vacuum and in the material, and at high energies that difference approaches zero for all materials.
+**Current Diffractor assignments (gamma band):**
 
-**Prediction:** At gamma energies, the refractive index of ALL materials is approximately 1.000000... — but not exactly 1. Measured deviations exist in parts-per-million. A gamma refractor would need to:
-1. Maximize this vanishingly small deviation
-2. Use long path lengths or repeated interactions to accumulate bending
-3. Possibly exploit nuclear-resonance-enhanced refractive index (near Mössbauer resonance energies, the refractive index deviation increases)
+| Material | Type | Lattice | Notes |
+|---|---|---|---|
+| Silicon | Element | Cubic, d=0.314 nm | Most common crystal monochromator |
+| Germanium | Element | Cubic, d=0.327 nm | Curved Ge — primary Laue lens telescope material |
+| Carbon (diamond) | Element | Cubic, d=0.206 nm | Diamond monochromators at synchrotrons |
+| Silica (Quartz) | Compound | Hexagonal | Historical X-ray standard; gamma-transparent |
+| Calcium Fluoride | Compound | Cubic, d=0.386 nm | Broad-window crystal |
+| Silicon Carbide | Compound | Hexagonal / Cubic | Radiation-hard; reactor-relevant |
+| Alumina (Sapphire) | Compound | Hexagonal | Single crystal; gamma-transparent |
+| YAG | Compound | Cubic garnet | Single crystal; gamma-transparent |
 
-**Research direction:** Nuclear resonance refraction, compound refractive lenses (stacked thin lenses — demonstrated for X-ray, theoretically possible for gamma), hydrogen-rich crystalline compounds.
+**What "partial" means:**
+The materials exist and the physics is demonstrated (Si and Ge crystal monochromators operate at nuclear physics facilities). What is not yet engineered for the Spectrum Energy framework specifically:
+1. Crystal orientation and curvature optimized for the target gamma energy from a specific decay/fission source
+2. Mosaic crystal design for bandwidth vs. efficiency tradeoff
+3. Multi-crystal arrangements that accumulate sufficient deflection for practical beam steering
 
-**Dependency:** Partially independent. Progress here also helps Channel and Polarizer.
+**Research direction:** Crystal geometry engineering — Bragg angle calculation for target gamma energies, curved crystal fabrication (Ge and Si), mosaic spread optimization, and evaluation of radiation-hard crystals (SiC) for reactor-environment use. Not material discovery. The materials are known.
+
+**Dependency:** Partially independent. Progress here also enables Channel (which requires angle control to confine a beam) and informs Polarizer (which at X-ray already uses crystal diffraction geometry).
 
 ---
 
@@ -160,7 +178,7 @@ At visible wavelengths, any shiny metal reflects. At UV, only a few survive. At 
 - X-ray: C, Si, Ge (Z avg 17) — mechanism shift to crystal diffraction
 - Gamma: 0
 
-**What the pattern shows:** Polarization in lower bands uses wire-grid or crystal structures to filter wave orientation. At X-ray, it shifts to crystal diffraction (Bragg geometry selects specific polarization states). This is the same mechanism shift seen in reflectors and refractors — crystal-level interaction replacing surface-level interaction.
+**What the pattern shows:** Polarization in lower bands uses wire-grid or crystal structures to filter wave orientation. At X-ray, it shifts to crystal diffraction (Bragg geometry selects specific polarization states). This is the same mechanism shift that separates Refractor (classical) from Diffractor (crystal interference) — the same crossover seen at the X-ray/gamma boundary.
 
 **Prediction:** Gamma polarization likely requires the same crystal-diffraction mechanism that X-ray polarization uses, extended to gamma energies. Compton scattering is inherently polarization-dependent at all energies including gamma — the scatter direction depends on the incoming polarization state.
 
@@ -178,7 +196,7 @@ Based on dependencies and pattern analysis:
 |----------|-----|--------|
 | 1 | **Reflector** | Independent. Solving it enables Channel and Polarizer. Laue lens research already exists. |
 | 2 | **Conductor** | Now has concrete path: nuclear polariton waveguides demonstrated 2024-2025. "Wire gauge" approach reframes as engineering problem. |
-| 3 | **Refractor** | Partially independent. Compound refractive lenses demonstrated at X-ray, extendable to gamma. |
+| 3 | **Diffractor** | Partially filled. Crystal Bragg diffraction demonstrated at X-ray; gamma crystal monochromators exist at nuclear facilities. Engineering gap: crystal geometry optimization for specific gamma energies. Classical Refractor role is closed — physically impossible at gamma energies (SE-Research-Note-001). |
 | 4 | **Channel** | Dependent on Reflector. Once reflection exists, channel geometry follows. |
 | 5 | **Polarizer** | Dependent on Reflector. Compton scattering and crystal diffraction are paths. |
 
@@ -238,7 +256,7 @@ The original plan positioned the Isotope Chart as a supporting reference for nuc
 Specific questions the Isotope Chart should be designed to answer:
 1. Which isotopes have nuclear resonances at fission-relevant gamma energies?
 2. Which isotopes are most "nuclear-stable" — fewest available transitions — at those energies?
-3. Can Mössbauer-active isotopes be used as energy-selective gamma reflectors/refractors?
+3. Can Mössbauer-active isotopes be used as energy-selective gamma diffractors (crystal resonance + Bragg geometry combined)?
 4. Do isotope differences explain why some elements are gamma absorbers while their neighbors are transparent?
 
 ### Working principle added

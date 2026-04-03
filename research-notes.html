@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research Notes — Spectrum Energy Research Corp</title>
+<meta name="description" content="Technical notes from the Spectrum Energy Research Framework — physics insights, framework implications, and research relevance documented as they emerge.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   SPECTRUM ENERGY RESEARCH CORP — RESEARCH NOTES
+   © 2026 David R. Young — Spectrum Energy Research Corp
+   ══════════════════════════════════════════════════════════ */
+
+:root {
+  --bg:         #0A0A14;
+  --surface:    #0F0F1E;
+  --surface2:   #151528;
+  --surface3:   #1A1A32;
+  --border:     rgba(255,255,255,0.06);
+  --border2:    rgba(255,255,255,0.12);
+  --border3:    rgba(255,255,255,0.18);
+  --text:       #E0E0F0;
+  --text-mid:   #A0A0B8;
+  --text-dim:   #777790;
+  --text-faint: #44445A;
+  --accent:     #5B8DEE;
+  --accent-dim: rgba(91,141,238,0.15);
+  --gold:       #D4AF37;
+  --gold-dim:   rgba(212,175,55,0.12);
+  --gamma:      #E63946;
+  --green:      #4CAF8A;
+  --green-dim:  rgba(76,175,138,0.12);
+  --note-blue:  #2C3E7A;
+  --note-blue-dim: rgba(44,62,122,0.25);
+  --font-head:  'Syncopate', sans-serif;
+  --font-body:  'Inter', sans-serif;
+  --font-mono:  'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.75;
+  overflow-x: hidden;
+  font-size: 15px;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── NAV ─────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2.5rem; height: 60px;
+  background: rgba(10,10,20,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: var(--font-head);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  text-decoration: none;
+}
+.nav-logo:hover { color: var(--gold); text-decoration: none; }
+.nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+.nav-links a {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.nav-links a:hover { color: var(--text); border-bottom-color: var(--accent); text-decoration: none; }
+.nav-links a.active { color: var(--accent); border-bottom-color: var(--accent); }
+.nav-cta {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--gold) !important;
+  border: 1px solid rgba(212,175,55,0.3) !important;
+  padding: 0.35rem 0.9rem !important;
+  border-radius: 4px;
+  transition: background 0.2s, border-color 0.2s !important;
+}
+.nav-cta:hover { background: var(--gold-dim) !important; border-color: var(--gold) !important; }
+
+/* ── PAGE HEADER ─────────────────────────────────────── */
+.page-header {
+  padding: 7rem 2.5rem 3rem;
+  max-width: 1120px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--border);
+}
+.page-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.page-title {
+  font-family: var(--font-head);
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+.page-desc {
+  color: var(--text-mid);
+  max-width: 680px;
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+/* ── MAIN LAYOUT ─────────────────────────────────────── */
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 2.5rem;
+}
+
+.notes-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 4rem;
+  padding: 3rem 2.5rem 6rem;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+/* ── SIDEBAR ─────────────────────────────────────────── */
+.sidebar {
+  position: sticky;
+  top: 80px;
+  align-self: start;
+}
+.sidebar-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.sidebar-list { list-style: none; }
+.sidebar-list li {
+  border-left: 2px solid var(--border2);
+  padding: 0.5rem 0 0.5rem 1rem;
+  margin-bottom: 0.25rem;
+  transition: border-color 0.2s;
+}
+.sidebar-list li:hover { border-left-color: var(--accent); }
+.sidebar-list a {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  text-decoration: none;
+  display: block;
+  transition: color 0.2s;
+}
+.sidebar-list a:hover { color: var(--text); text-decoration: none; }
+.sidebar-note-id {
+  font-size: 0.6rem;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.15rem;
+}
+.sidebar-note-title {
+  font-size: 0.66rem;
+  color: var(--text-dim);
+  display: block;
+  line-height: 1.4;
+}
+
+/* ── NOTE CARDS ──────────────────────────────────────── */
+.notes-list { display: flex; flex-direction: column; gap: 3rem; }
+
+.note-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+  scroll-margin-top: 80px;
+}
+.note-card:hover { border-color: var(--border3); }
+
+.note-card-header {
+  padding: 1.5rem 2rem 1rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.note-id-badge {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: #A8C0F0;
+  background: var(--note-blue-dim);
+  border: 1px solid rgba(44,62,122,0.6);
+  padding: 0.25rem 0.6rem;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.note-status {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border2);
+  padding: 0.25rem 0.6rem;
+  border-radius: 3px;
+}
+.note-meta-row {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.note-card-body { padding: 1.5rem 2rem 2rem; }
+
+.note-title {
+  font-family: var(--font-head);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+  line-height: 1.4;
+}
+.note-subtitle {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin-bottom: 1.25rem;
+  font-style: italic;
+}
+.note-date {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-faint);
+}
+
+.note-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+}
+.keyword-tag {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+}
+
+.note-abstract {
+  color: var(--text-mid);
+  font-size: 0.9rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--note-blue);
+}
+
+.note-sections {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.section-pill {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-faint);
+  border: 1px solid var(--border2);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+}
+
+.note-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.cite-block {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-faint);
+  line-height: 1.6;
+  max-width: 560px;
+}
+.note-read-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  border: 1px solid rgba(91,141,238,0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+.note-read-link:hover {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  text-decoration: none;
+}
+.note-related {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.note-related-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.note-related-links {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.chart-ref {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-dim);
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: color 0.2s, border-color 0.2s;
+}
+.chart-ref:hover { color: var(--accent); border-color: rgba(91,141,238,0.4); text-decoration: none; }
+
+/* ── EMPTY STATE ─────────────────────────────────────── */
+.notes-coming {
+  padding: 3rem 2rem;
+  text-align: center;
+  border: 1px dashed var(--border2);
+  border-radius: 8px;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+}
+
+/* ── FOOTER ──────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 3rem;
+}
+.footer-inner {
+  max-width: 1120px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+}
+.footer-copy {
+  font-family: var(--font-mono); font-size: 0.62rem;
+  letter-spacing: 0.08em; color: var(--text-faint);
+}
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a {
+  font-family: var(--font-mono); font-size: 0.62rem;
+  letter-spacing: 0.08em; color: var(--text-faint);
+  text-decoration: none; transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--accent); text-decoration: none; }
+
+/* ── RESPONSIVE ──────────────────────────────────────── */
+@media (max-width: 768px) {
+  .notes-layout { grid-template-columns: 1fr; gap: 2rem; padding: 2rem 1.5rem 4rem; }
+  .sidebar { display: none; }
+  .note-card-header { flex-direction: column; gap: 0.5rem; }
+  nav { padding: 0 1.5rem; }
+  .nav-links { gap: 1.2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Spectrum Energy</a>
+  <ul class="nav-links">
+    <li><a href="index.html#framework">Framework</a></li>
+    <li><a href="index.html#charts">Charts</a></li>
+    <li><a href="index.html#gamma-gap">Gamma Gap</a></li>
+    <li><a href="research-notes.html" class="active">Research Notes</a></li>
+    <li><a href="https://github.com/dryoungfreedom/spectrum-energy" target="_blank" class="nav-cta">GitHub →</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <p class="page-eyebrow">Spectrum Energy Research Corp</p>
+  <h1 class="page-title">Research Notes</h1>
+  <p class="page-desc">
+    Technical notes documenting physics insights, framework implications, and research relevance
+    as they emerge from the Spectrum Energy Research Framework. Each note is written at publication
+    quality and is citable under CC BY-NC-SA 4.0.
+  </p>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="notes-layout">
+
+  <!-- SIDEBAR INDEX -->
+  <aside class="sidebar">
+    <p class="sidebar-label">In This Page</p>
+    <ul class="sidebar-list">
+      <li>
+        <a href="#SE-Research-Note-001">
+          <span class="sidebar-note-id">SE-Research-Note-001</span>
+          <span class="sidebar-note-title">Refraction and Diffraction Across the EM Spectrum</span>
+        </a>
+      </li>
+      <!-- Future notes added here -->
+    </ul>
+  </aside>
+
+  <!-- NOTES LIST -->
+  <main class="notes-list">
+
+    <!-- ═══ SE-Research-Note-001 ═══════════════════════════════════ -->
+    <article class="note-card" id="SE-Research-Note-001">
+      <div class="note-card-header">
+        <div class="note-meta-row">
+          <span class="note-id-badge">⋈ SE-Research-Note-001</span>
+          <span class="note-date">April 3, 2026</span>
+        </div>
+        <span class="note-status">Draft v1.0</span>
+      </div>
+      <div class="note-card-body">
+        <h2 class="note-title">Two Distinct Mechanisms for EM Band Angle Control</h2>
+        <p class="note-subtitle">Refraction and Diffraction Across the Full Electromagnetic Spectrum</p>
+
+        <div class="note-keywords">
+          <span class="keyword-tag">refraction</span>
+          <span class="keyword-tag">diffraction</span>
+          <span class="keyword-tag">Bragg diffraction</span>
+          <span class="keyword-tag">gamma optics</span>
+          <span class="keyword-tag">crystal monochromators</span>
+          <span class="keyword-tag">Laue lens</span>
+          <span class="keyword-tag">EM band control</span>
+          <span class="keyword-tag">periodic structure</span>
+        </div>
+
+        <p class="note-abstract">
+          An audit of transparent materials across all EM bands revealed that many documented optical
+          materials were missing Refractor classifications — corrected for 13 infrared compounds,
+          7 UV compounds, and several scintillator crystals. This audit led to a deeper finding:
+          gamma radiation has no classical refractor, and cannot. Its angle-control mechanism is
+          Bragg diffraction — wave interference in crystal lattices — which is categorically
+          distinct from index-based bending. A cross-band analysis confirms this diffraction
+          mechanism scales across the entire EM spectrum, but requires periodic structure matched
+          to wavelength: natural crystals serve gamma and X-ray; manufactured gratings serve UV
+          through IR; engineered arrays serve microwave and radio. X-ray is the only band where
+          both mechanisms coexist in natural materials. A new framework role — Diffractor — was
+          added as the eleventh control role, assigned to eight crystalline materials on X-ray
+          and gamma bands. This distinction has direct implications for gamma telescope design,
+          nuclear instrumentation, and next-generation medical gamma imaging.
+        </p>
+
+        <div class="note-sections">
+          <span class="section-pill">1. Observation</span>
+          <span class="section-pill">2. Analysis — Refraction Audit</span>
+          <span class="section-pill">3. Analysis — Bragg Mechanism</span>
+          <span class="section-pill">4. Framework Implication</span>
+          <span class="section-pill">5. Research Relevance</span>
+        </div>
+
+        <div class="note-footer">
+          <p class="cite-block">
+            Young, D.R. (2026). SE-Research-Note-001: Two Distinct Mechanisms for EM Band Angle Control.<br>
+            Spectrum Energy Research Corp. spectrumenergy.one · CC BY-NC-SA 4.0
+          </p>
+        </div>
+
+        <div class="note-related">
+          <p class="note-related-label">Referenced in Charts</p>
+          <div class="note-related-links">
+            <a href="spectrum-energy-chart.html" class="chart-ref">↗ Elements Chart</a>
+            <a href="spectrum-compounds-chart.html" class="chart-ref">↗ Compounds Chart</a>
+          </div>
+        </div>
+
+      </div>
+    </article>
+
+    <!-- Future notes will be inserted here -->
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <p class="footer-copy">© 2026 DAVID R. YOUNG — SPECTRUM ENERGY RESEARCH CORP · CC BY-NC-SA 4.0</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="GLOSSARY.md" target="_blank">Glossary</a>
+      <a href="GAMMA-GAP-ROADMAP.md" target="_blank">Gamma Gap Roadmap</a>
+      <a href="https://github.com/dryoungfreedom/spectrum-energy" target="_blank">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
