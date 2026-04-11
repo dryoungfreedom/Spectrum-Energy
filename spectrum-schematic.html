@@ -9,8 +9,8 @@
   *{margin:0;padding:0;box-sizing:border-box;}
   body{background:#0A0A14;color:#E0E0F0;font-family:'Inter','Segoe UI',sans-serif;padding:24px 28px;min-height:100vh;}
   h1{font-size:28px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(135deg,#E9C46A,#E63946,#2A9D8F,#7B68EE);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-  .subtitle{font-size:13px;color:#555568;margin-top:4px;}
-  .copyright{font-size:10px;color:#333;margin-top:2px;}
+  .subtitle{font-size:13px;color:#9999B0;margin-top:4px;}
+  .copyright{font-size:12px;color:#8888A0;margin-top:2px;}
 
   .controls{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin:16px 0;}
   .view-toggle{display:flex;gap:2px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:3px;width:fit-content;}
@@ -35,7 +35,7 @@
 
   /* Legend & info panels */
   .legend{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:14px;margin-bottom:12px;}
-  .legend-title{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#555568;margin-bottom:8px;}
+  .legend-title{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#9999B0;margin-bottom:8px;}
   .legend-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:11px;color:#888;}
   .legend-swatch{width:14px;height:14px;border-radius:3px;flex-shrink:0;}
 
@@ -52,18 +52,21 @@
   .role-cell{font-size:9px;padding:4px 6px;border-radius:4px;text-align:center;font-weight:600;}
   .role-cell.filled{background:rgba(42,157,143,0.25);color:#2A9D8F;}
   .role-cell.future{background:rgba(123,104,238,0.2);color:#7B68EE;border:1px dashed rgba(123,104,238,0.4);}
-  .role-cell.open{background:rgba(255,255,255,0.03);color:#444;}
+  .role-cell.open{background:rgba(255,255,255,0.03);color:#777790;}
 
   .thesis{font-size:12px;color:#888;font-style:italic;padding:12px;border-left:3px solid rgba(233,196,106,0.3);line-height:1.6;margin-top:16px;}
 
-  .footnote{font-size:9px;color:#444;margin-top:16px;line-height:1.5;}
+  .footnote{font-size:10px;color:#8888A0;margin-top:16px;line-height:1.5;}
 
   @media(max-width:960px){.side-panel{width:100%;}.svg-container{min-width:auto;}}
+  .back-link{font-size:12px;color:#7BB0E0;text-decoration:none;border:1px solid rgba(123,176,224,0.4);border-radius:6px;padding:6px 14px;transition:all 0.2s;display:inline-block;margin-right:12px;}
+  .back-link:hover{background:rgba(123,176,224,0.15);}
 </style>
 </head>
 <body>
 
-<h1>Spectrum Energy Reactor</h1>
+<a class="back-link" href="index.html">← Home</a>
+    <h1>Spectrum Energy Reactor</h1>
 <div class="subtitle">Reactor cross-section — active shielding replaces passive dead weight</div>
 <div class="copyright">© 2026 David R. Young — Spectrum Energy Research Corp</div>
 
@@ -370,7 +373,7 @@
         <strong>Radiation-hard electronics (reactor support):</strong><br>
         <div class="detail-compound">GaN — power electronics, survives reactor env.</div>
         <div class="detail-compound">SiC — high-temp power electronics, rad-hard</div>
-        <div style="font-size:8px;color:#555;margin-top:4px;">Note: SiC betavoltaic role is parked at reactor scale (10% < 33% thermal). Active at SE Cell scale.</div>
+        <div style="font-size:10px;color:#9999B0;margin-top:4px;">Note: SiC betavoltaic role is parked at reactor scale (10% < 33% thermal). Active at SE Cell scale.</div>
       </div>
     </div>
 
@@ -403,7 +406,7 @@
           <div class="role-cell filled">Absorber ✓</div>
         </div>
         <div style="font-size:10px;color:#888;margin-top:6px;"><strong style="color:#7B68EE;">Future: 7/9</strong> — crystal conduit fills Reflector → enables Conductor</div>
-        <div style="font-size:9px;color:#555;margin-top:4px;">Refractor & Polarizer remain open. Compton scattering polarimetry and compound refractive lenses are candidate paths.</div>
+        <div style="font-size:10px;color:#9999B0;margin-top:4px;">Refractor & Polarizer remain open. Compton scattering polarimetry and compound refractive lenses are candidate paths.</div>
       </div>
     </div>
 

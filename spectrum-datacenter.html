@@ -9,7 +9,7 @@
   *{margin:0;padding:0;box-sizing:border-box;}
   body{background:#0A0A14;color:#E0E0F0;font-family:'Inter','Segoe UI',sans-serif;padding:24px 28px;min-height:100vh;}
   h1{font-size:28px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(135deg,#7B68EE,#E9C46A,#2A9D8F,#E63946);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-  .subtitle{font-size:13px;color:#555568;margin-top:4px;}.copyright{font-size:10px;color:#333;margin-top:2px;}
+  .subtitle{font-size:13px;color:#9999B0;margin-top:4px;}.copyright{font-size:12px;color:#8888A0;margin-top:2px;}
   svg text{font-family:'Inter',sans-serif;}svg .mono{font-family:'JetBrains Mono',monospace;}
   .detail-row{display:flex;gap:16px;margin-top:20px;flex-wrap:wrap;}
   .detail-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:14px;flex:1;min-width:220px;}
@@ -18,9 +18,11 @@
   .stat-row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:10px;}
   .stat-label{color:#888;}.stat-value{color:#E9C46A;font-family:'JetBrains Mono',monospace;font-weight:700;}
   .thesis{font-size:12px;color:#888;font-style:italic;padding:12px;border-left:3px solid rgba(233,196,106,0.3);line-height:1.6;margin-top:20px;}
-  .footnote{font-size:9px;color:#444;margin-top:16px;line-height:1.5;}
-  .nav-link{font-size:12px;color:#4A90D9;text-decoration:none;border:1px solid #4A90D9;border-radius:6px;padding:6px 14px;transition:all 0.2s;display:inline-block;}
-  .nav-link:hover{background:rgba(74,144,217,0.15);}
+  .footnote{font-size:10px;color:#8888A0;margin-top:16px;line-height:1.5;}
+  .nav-link{font-size:12px;color:#7BB0E0;text-decoration:none;border:1px solid rgba(123,176,224,0.4);border-radius:6px;padding:6px 14px;transition:all 0.2s;display:inline-block;}
+  .nav-link:hover{background:rgba(123,176,224,0.15);}
+  .back-link{font-size:12px;color:#7BB0E0;text-decoration:none;border:1px solid rgba(123,176,224,0.4);border-radius:6px;padding:6px 14px;transition:all 0.2s;display:inline-block;margin-right:12px;}
+  .back-link:hover{background:rgba(123,176,224,0.15);}
   .scale-toggle{display:flex;gap:2px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:3px;width:fit-content;margin-top:16px;}
   .scale-btn{background:none;color:#666;border:none;border-radius:6px;padding:8px 18px;cursor:pointer;font-size:12px;font-family:inherit;font-weight:600;transition:all 0.2s;letter-spacing:0.3px;}
   .scale-btn:hover{color:#AAA;}.scale-btn.active{background:rgba(255,255,255,0.1);color:#E0E0F0;}
@@ -34,6 +36,7 @@
     <div class="copyright">© 2026 David R. Young — Spectrum Energy Research Corp</div>
   </div>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <a class="back-link" href="index.html">← Home</a>
     <a class="nav-link" href="spectrum-energy-cell.html">← SE Cell Detail</a>
     <a class="nav-link" href="spectrum-home-integration.html">Home Integration</a>
     <a class="nav-link" href="spectrum-waste-pipeline.html">Waste Pipeline</a>
