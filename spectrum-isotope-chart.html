@@ -9,8 +9,8 @@
   *{margin:0;padding:0;box-sizing:border-box;}
   body{background:#0A0A14;color:#E0E0F0;font-family:'Inter','Segoe UI',sans-serif;padding:24px 28px;min-height:100vh;}
   h1{font-size:28px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(135deg,#E9C46A,#E63946,#2A9D8F,#7B68EE);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-  .subtitle{font-size:13px;color:#555568;margin-top:4px;}
-  .section-label{font-size:10px;color:#555568;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;}
+  .subtitle{font-size:13px;color:#9999B0;margin-top:4px;}
+  .section-label{font-size:13px;color:#A0A0B8;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;}
 
   .view-toggle{display:flex;gap:2px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:3px;width:fit-content;}
   .view-btn{background:none;color:#666;border:none;border-radius:6px;padding:8px 18px;cursor:pointer;font-size:12px;font-family:inherit;font-weight:600;transition:all 0.2s;letter-spacing:0.3px;}
@@ -24,9 +24,9 @@
 
   .search-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
   .search-input{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:8px 14px;color:#E0E0F0;font-family:inherit;font-size:13px;width:240px;outline:none;}
-  .search-input::placeholder{color:#444;}
-  .iso-count{font-size:11px;color:#444458;}
-  .info-line{font-size:11px;color:#444458;margin-bottom:12px;}
+  .search-input::placeholder{color:#8888A0;}
+  .iso-count{font-size:11px;color:#8888A0;}
+  .info-line{font-size:11px;color:#8888A0;margin-bottom:12px;}
 
   /* Isotope cards */
   .iso-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;}
@@ -46,12 +46,12 @@
   .energy-axis{position:relative;height:80px;margin:20px 0;}
   .energy-line{position:absolute;top:40px;left:40px;right:40px;height:2px;background:linear-gradient(90deg,#2A9D8F,#E9C46A,#E63946,#6A0572);}
   .energy-tick{position:absolute;top:30px;width:1px;height:22px;background:rgba(255,255,255,0.2);}
-  .energy-label{position:absolute;top:56px;font-size:9px;color:#555;font-family:'JetBrains Mono',monospace;transform:translateX(-50%);}
+  .energy-label{position:absolute;top:56px;font-size:10px;color:#9999B0;font-family:'JetBrains Mono',monospace;transform:translateX(-50%);}
   .energy-marker{position:absolute;top:24px;transform:translateX(-50%);cursor:pointer;text-align:center;z-index:2;}
   .energy-dot{width:12px;height:12px;border-radius:50%;margin:0 auto;border:2px solid;}
   .energy-marker-label{font-size:8px;font-family:'JetBrains Mono',monospace;margin-top:24px;white-space:nowrap;}
-  .energy-title{font-size:11px;color:#666680;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;}
-  .energy-range-label{font-size:10px;color:#444;position:absolute;top:8px;}
+  .energy-title{font-size:11px;color:#9999B0;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;}
+  .energy-range-label{font-size:11px;color:#8888A0;position:absolute;top:8px;}
   .fission-band{position:absolute;top:32px;height:18px;background:rgba(230,57,70,0.1);border:1px dashed rgba(230,57,70,0.3);border-radius:3px;}
   .fission-band-label{position:absolute;top:14px;font-size:8px;color:#E63946;letter-spacing:0.5px;}
 
@@ -61,13 +61,13 @@
   .detail-top{display:flex;justify-content:space-between;align-items:flex-start;}
   .detail-symbol{font-size:36px;font-weight:800;font-family:'JetBrains Mono',monospace;}
   .detail-name{font-size:18px;color:#8888AA;margin-left:12px;}
-  .detail-mass{font-size:14px;color:#555568;margin-left:8px;}
+  .detail-mass{font-size:14px;color:#9999B0;margin-left:8px;}
   .close-btn{background:none;border:1px solid rgba(255,255,255,0.15);color:#888;cursor:pointer;border-radius:6px;padding:4px 10px;font-size:13px;font-family:inherit;}
   .close-btn:hover{border-color:rgba(255,255,255,0.3);}
-  .detail-section-label{font-size:11px;color:#666680;text-transform:uppercase;letter-spacing:1.5px;margin:16px 0 10px 0;}
+  .detail-section-label{font-size:11px;color:#9999B0;text-transform:uppercase;letter-spacing:1.5px;margin:16px 0 10px 0;}
   .detail-props{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-top:10px;}
   .detail-prop{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:8px 10px;}
-  .detail-prop-label{font-size:9px;color:#555568;text-transform:uppercase;letter-spacing:1px;}
+  .detail-prop-label{font-size:9px;color:#9999B0;text-transform:uppercase;letter-spacing:1px;}
   .detail-prop-value{font-size:14px;font-weight:600;margin-top:2px;font-family:'JetBrains Mono',monospace;}
   .detail-notes{font-size:11px;color:#888899;margin-top:12px;line-height:1.6;max-width:800px;}
 
@@ -75,24 +75,27 @@
   .pair-container{display:grid;grid-template-columns:1fr auto 1fr;gap:0;margin-bottom:16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:10px;overflow:hidden;}
   .pair-side{padding:16px;cursor:pointer;transition:background 0.2s;}
   .pair-side:hover{background:rgba(255,255,255,0.03);}
-  .pair-vs{display:flex;align-items:center;justify-content:center;padding:0 12px;font-size:12px;font-weight:800;color:#555;background:rgba(255,255,255,0.02);border-left:1px solid rgba(255,255,255,0.06);border-right:1px solid rgba(255,255,255,0.06);}
+  .pair-vs{display:flex;align-items:center;justify-content:center;padding:0 12px;font-size:12px;font-weight:800;color:#8888A0;background:rgba(255,255,255,0.02);border-left:1px solid rgba(255,255,255,0.06);border-right:1px solid rgba(255,255,255,0.06);}
   .pair-symbol{font-size:22px;font-weight:800;font-family:'JetBrains Mono',monospace;}
   .pair-name{font-size:10px;color:rgba(255,255,255,0.45);margin-top:2px;}
   .pair-stat{font-size:10px;margin-top:6px;font-family:'JetBrains Mono',monospace;}
-  .pair-stat-label{color:#555;font-size:9px;}
+  .pair-stat-label{color:#9999B0;font-size:10px;}
   .pair-diff{font-size:10px;color:#E9C46A;margin-top:8px;font-weight:600;}
 
-  .footer{margin-top:28px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.06);font-size:10px;color:#333348;line-height:1.8;}
-  .footer strong{color:#555568;}
-  .footer .copyright{color:#666680;margin-top:8px;font-size:11px;}
-  .nav-link{font-size:12px;color:#4A90D9;text-decoration:none;border:1px solid #4A90D9;border-radius:6px;padding:6px 14px;transition:all 0.2s;display:inline-block;}
-  .nav-link:hover{background:rgba(74,144,217,0.15);}
+  .footer{margin-top:28px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.06);font-size:12px;color:#8888A0;line-height:1.8;}
+  .footer strong{color:#B0B0C8;}
+  .footer .copyright{color:#9999B0;margin-top:8px;font-size:12px;}
+  .nav-link{font-size:12px;color:#7BB0E0;text-decoration:none;border:1px solid rgba(123,176,224,0.4);border-radius:6px;padding:6px 14px;transition:all 0.2s;display:inline-block;}
+  .nav-link:hover{background:rgba(123,176,224,0.15);}
+  .back-link{font-size:12px;color:#7BB0E0;text-decoration:none;border:1px solid rgba(123,176,224,0.4);border-radius:6px;padding:6px 14px;transition:all 0.2s;display:inline-block;margin-right:12px;}
+  .back-link:hover{background:rgba(123,176,224,0.15);}
   .nav-links{display:flex;gap:8px;flex-wrap:wrap;}
 </style>
 </head>
 <body>
 <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:12px">
   <div>
+    <a class="back-link" href="index.html">← Home</a>
     <h1>Spectrum Isotope Chart</h1>
     <p class="subtitle">Nuclear-Level Gamma Interaction · Mössbauer Resonances · Decay Sources · Contrasting Pairs</p>
   </div>
@@ -108,7 +111,7 @@
     <button class="view-btn active" data-view="cards">ALL ISOTOPES</button>
     <button class="view-btn" data-view="pairs">CONTRASTING PAIRS</button>
   </div>
-  <span style="font-size:10px;color:#444458" id="viewDesc">All isotopes by category with nuclear properties</span>
+  <span style="font-size:10px;color:#8888A0" id="viewDesc">All isotopes by category with nuclear properties</span>
 </div>
 
 <div style="margin-bottom:20px">
@@ -217,7 +220,7 @@ function renderEnergyScale(){
   const mossIsotopes=filtered.filter(i=>i.mossbauer);
   if(mossIsotopes.length===0){
     info.textContent='No Mössbauer isotopes in current filter — switch to All Isotopes view or change category';
-    main.innerHTML='<div style="text-align:center;padding:60px 20px;color:#444;font-size:14px">No Mössbauer-active isotopes in current selection.<br>Select "Mössbauer Active" category or "All" to see the energy scale.</div>';
+    main.innerHTML='<div style="text-align:center;padding:60px 20px;color:#8888A0;font-size:14px">No Mössbauer-active isotopes in current selection.<br>Select "Mössbauer Active" category or "All" to see the energy scale.</div>';
     return;
   }
 
@@ -283,7 +286,7 @@ function renderEnergyScale(){
   // Legend
   const legend=document.createElement('div');
   legend.style.cssText='display:flex;gap:16px;margin-top:8px;flex-wrap:wrap;font-size:10px;color:#666;';
-  legend.innerHTML='<span>● Mössbauer resonance energy</span><span style="color:#E63946">▬ ▬ Fission gamma range (100 keV → 10+ MeV)</span><span style="color:#555">Higher energy → closer to fission gamma → more relevant for gamma control</span>';
+  legend.innerHTML='<span>● Mössbauer resonance energy</span><span style="color:#E63946">▬ ▬ Fission gamma range (100 keV → 10+ MeV)</span><span style="color:#9999B0">Higher energy → closer to fission gamma → more relevant for gamma control</span>';
   scale.appendChild(legend);
 
   main.appendChild(scale);

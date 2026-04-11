@@ -9,8 +9,8 @@
   *{margin:0;padding:0;box-sizing:border-box;}
   body{background:#0A0A14;color:#E0E0F0;font-family:'Inter','Segoe UI',sans-serif;padding:24px 28px;min-height:100vh;}
   h1{font-size:28px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(135deg,#9B59B6,#3498DB,#2ECC71,#F1C40F);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-  .subtitle{font-size:13px;color:#555568;margin-top:4px;}
-  .section-label{font-size:10px;color:#555568;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;}
+  .subtitle{font-size:13px;color:#9999B0;margin-top:4px;}
+  .section-label{font-size:13px;color:#A0A0B8;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;}
   .group-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
   .group-btn{background:rgba(255,255,255,0.04);color:#888;border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:6px 12px;cursor:pointer;font-size:12px;font-family:inherit;font-weight:400;transition:all 0.2s ease;}
   .group-btn:hover{border-color:rgba(255,255,255,0.2);}
@@ -29,7 +29,7 @@
   .matrix th.band-sep-header{width:4px;min-width:4px;max-width:4px;padding:0;border:none;background:rgba(255,255,255,0.08);}
   .matrix td.band-sep-cell{width:4px;min-width:4px;max-width:4px;padding:0;border:none;background:rgba(255,255,255,0.04);}
   .pattern-section{margin-top:24px;background:#12121F;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:20px;}
-  .pattern-title{font-size:11px;color:#666680;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;}
+  .pattern-title{font-size:11px;color:#9999B0;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;}
   .pattern-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;}
   .pattern-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:12px;}
   .pattern-card-title{font-size:12px;font-weight:700;margin-bottom:6px;}
@@ -37,39 +37,42 @@
   .pattern-card-highlight{color:#F1C40F;font-weight:600;}
   .prediction-card{border-color:rgba(241,196,15,0.3);background:rgba(241,196,15,0.05);}
   .prediction-label{font-size:9px;color:#F1C40F;font-weight:700;letter-spacing:1px;margin-bottom:4px;}
-  .no-group-msg{text-align:center;padding:60px 20px;color:#444;font-size:14px;}
+  .no-group-msg{text-align:center;padding:60px 20px;color:#8888A0;font-size:14px;}
   .detail-panel{background:#12121F;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:20px;margin-top:16px;display:none;}
   .detail-panel.open{display:block;}
   .detail-top{display:flex;justify-content:space-between;align-items:flex-start;}
   .detail-symbol{font-size:36px;font-weight:800;color:#E8E8F0;font-family:'JetBrains Mono',monospace;}
   .detail-name{font-size:18px;color:#8888AA;margin-left:12px;}
-  .detail-z{font-size:14px;color:#555568;margin-left:8px;}
+  .detail-z{font-size:14px;color:#9999B0;margin-left:8px;}
   .detail-config{font-size:12px;color:#6666AA;margin-top:4px;font-family:'JetBrains Mono',monospace;}
   .detail-predicted-note{font-size:10px;color:#B7950B;margin-top:6px;font-style:italic;}
   .close-btn{background:none;border:1px solid rgba(255,255,255,0.15);color:#888;cursor:pointer;border-radius:6px;padding:4px 10px;font-size:13px;font-family:inherit;}
   .close-btn:hover{border-color:rgba(255,255,255,0.3);}
-  .detail-section-label{font-size:11px;color:#666680;text-transform:uppercase;letter-spacing:1.5px;margin:16px 0 10px 0;}
+  .detail-section-label{font-size:11px;color:#9999B0;text-transform:uppercase;letter-spacing:1.5px;margin:16px 0 10px 0;}
   .detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;}
   .detail-band-card{background:rgba(255,255,255,0.02);border-radius:6px;padding:8px 10px;border:1px solid rgba(255,255,255,0.05);}
   .detail-band-card.highlighted{background:rgba(255,255,255,0.08);}
   .detail-band-name{font-size:11px;font-weight:600;margin-bottom:4px;}
   .detail-role-badge{font-size:10px;padding:2px 6px;border-radius:3px;display:inline-block;margin-right:3px;margin-bottom:2px;}
-  .detail-no-data{font-size:10px;color:#444;}
-  .footer{margin-top:28px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.06);font-size:10px;color:#333348;line-height:1.8;}
-  .footer strong{color:#555568;}
-  .footer .copyright{color:#666680;margin-top:8px;font-size:11px;}
+  .detail-no-data{font-size:10px;color:#8888A0;}
+  .footer{margin-top:28px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.06);font-size:12px;color:#8888A0;line-height:1.8;}
+  .footer strong{color:#B0B0C8;}
+  .footer .copyright{color:#9999B0;margin-top:8px;font-size:12px;}
   .nav-links{display:flex;gap:8px;flex-wrap:wrap;}
-  .nav-link{font-size:12px;color:#4A90D9;text-decoration:none;border:1px solid #4A90D9;border-radius:6px;padding:6px 14px;transition:all 0.2s;display:inline-block;}
-  .nav-link:hover{background:rgba(74,144,217,0.15);}
-  .predicted-legend{display:flex;align-items:center;gap:6px;font-size:10px;color:#777790;margin-bottom:16px;}
+  .nav-link{font-size:12px;color:#7BB0E0;text-decoration:none;border:1px solid rgba(123,176,224,0.4);border-radius:6px;padding:6px 14px;transition:all 0.2s;display:inline-block;}
+  .nav-link:hover{background:rgba(123,176,224,0.15);}
+  .back-link{font-size:12px;color:#7BB0E0;text-decoration:none;border:1px solid rgba(123,176,224,0.4);border-radius:6px;padding:6px 14px;transition:all 0.2s;display:inline-block;margin-right:12px;}
+  .back-link:hover{background:rgba(123,176,224,0.15);}
+  .predicted-legend{display:flex;align-items:center;gap:6px;font-size:10px;color:#A0A0B8;margin-bottom:16px;}
   .predicted-legend-swatch{width:16px;height:12px;border:1px dashed rgba(255,200,50,0.5);border-radius:2px;background:transparent;}
-  .group-category{font-size:9px;color:#555;text-transform:uppercase;letter-spacing:1.5px;margin-top:12px;margin-bottom:6px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.05);}
+  .group-category{font-size:10px;color:#9999B0;text-transform:uppercase;letter-spacing:1.5px;margin-top:12px;margin-bottom:6px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.05);}
   .group-category:first-child{border-top:none;margin-top:0;padding-top:0;}
 </style>
 </head>
 <body>
 <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:12px">
   <div>
+    <a class="back-link" href="index.html">← Home</a>
     <h1>Spectrum Structure Chart</h1>
     <p class="subtitle">Electron Configuration → Energy Behavior Correlation · 11 Bands · Pattern Discovery · Prediction Engine</p>
   </div>
@@ -148,19 +151,19 @@ function renderMain(){
   headerRow.appendChild(configTh);
 
   // EM band headers
-  const emLabel=document.createElement('th');emLabel.className='band-sep-header';emLabel.textContent='EM';emLabel.style.cssText='font-size:8px;color:#555;letter-spacing:1px;';headerRow.appendChild(emLabel);
+  const emLabel=document.createElement('th');emLabel.className='band-sep-header';emLabel.textContent='EM';emLabel.style.cssText='font-size:10px;color:#9999B0;letter-spacing:1px;';headerRow.appendChild(emLabel);
   EM_BANDS.forEach(band=>{
     const th=document.createElement('th');th.className='band-header';th.textContent=band.name;th.style.color=band.color;
     headerRow.appendChild(th);
   });
   // Separator + Thermal
-  const sepTh1=document.createElement('th');sepTh1.className='band-sep-header';sepTh1.textContent='TH';sepTh1.style.cssText='font-size:8px;color:#555;letter-spacing:1px;';headerRow.appendChild(sepTh1);
+  const sepTh1=document.createElement('th');sepTh1.className='band-sep-header';sepTh1.textContent='TH';sepTh1.style.cssText='font-size:10px;color:#9999B0;letter-spacing:1px;';headerRow.appendChild(sepTh1);
   THERMAL_BANDS.forEach(band=>{
     const th=document.createElement('th');th.className='band-header';th.textContent=band.name;th.style.color=band.color;
     headerRow.appendChild(th);
   });
   // Separator + Kinetic
-  const sepTh2=document.createElement('th');sepTh2.className='band-sep-header';sepTh2.textContent='KN';sepTh2.style.cssText='font-size:8px;color:#555;letter-spacing:1px;';headerRow.appendChild(sepTh2);
+  const sepTh2=document.createElement('th');sepTh2.className='band-sep-header';sepTh2.textContent='KN';sepTh2.style.cssText='font-size:10px;color:#9999B0;letter-spacing:1px;';headerRow.appendChild(sepTh2);
   KINETIC_BANDS.filter(b=>b.developed).forEach(band=>{
     const th=document.createElement('th');th.className='band-header';th.textContent=band.name;th.style.color=band.color;
     headerRow.appendChild(th);
