@@ -226,21 +226,18 @@ footer {
     <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Read full license →</a>
   </div>
 
-  <form action="https://formspree.io/f/mbdpnbla" method="POST" id="checkoutForm">
-    <input type="hidden" name="_subject" value="Research Kit Checkout">
-    <input type="hidden" name="_next" value="https://spectrumenergy.one/download-kit.html">
-
+  <div id="checkoutForm">
     <label>NAME *</label>
-    <input type="text" name="name" required placeholder="Your full name">
+    <input type="text" id="cf-name" required placeholder="Your full name">
 
     <label>EMAIL *</label>
-    <input type="email" name="email" required placeholder="your@email.com">
+    <input type="email" id="cf-email" required placeholder="your@email.com">
 
     <label>ORGANIZATION</label>
-    <input type="text" name="organization" placeholder="University, company, or independent">
+    <input type="text" id="cf-org" placeholder="University, company, or independent">
 
     <label>INTENDED USE *</label>
-    <select name="intended_use" required>
+    <select id="cf-use" required>
       <option value="" disabled selected>Select your primary use</option>
       <option value="Academic research">Academic research</option>
       <option value="Engineering / R&D">Engineering / R&D</option>
@@ -253,7 +250,7 @@ footer {
     </select>
 
     <label>BRIEF DESCRIPTION</label>
-    <textarea name="description" rows="3" placeholder="What are you working on? (optional but helpful)"></textarea>
+    <textarea id="cf-desc" rows="3" placeholder="What are you working on? (optional but helpful)"></textarea>
 
     <div class="checkbox-row">
       <input type="checkbox" id="agree" required>
@@ -261,13 +258,57 @@ footer {
         in any published work and will contact Spectrum Energy Research Corp for commercial licensing.</label>
     </div>
 
-    <button type="submit" class="submit-btn">Register & Access Downloads →</button>
-  </form>
+    <button type="button" class="submit-btn" id="cf-submit" onclick="submitCheckout()">Register & Access Downloads →</button>
+  </div>
 </div>
 
 <footer>
   <p class="footer-copy">© 2026 David R. Young — Spectrum Energy Research Corp · spectrumenergy.one</p>
 </footer>
+
+<script>
+async function submitCheckout() {
+  const name = document.getElementById('cf-name').value;
+  const email = document.getElementById('cf-email').value;
+  const org = document.getElementById('cf-org').value;
+  const use = document.getElementById('cf-use').value;
+  const desc = document.getElementById('cf-desc').value;
+  const agree = document.getElementById('agree').checked;
+
+  if (!name || !email || !use) { alert('Please fill in all required fields.'); return; }
+  if (!agree) { alert('Please agree to the license terms to proceed.'); return; }
+
+  const btn = document.getElementById('cf-submit');
+  btn.textContent = 'Registering...';
+  btn.disabled = true;
+
+  try {
+    const resp = await fetch('https://formspree.io/f/mbdpnbla', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: 'Research Kit Checkout',
+        name: name,
+        email: email,
+        organization: org,
+        intended_use: use,
+        description: desc
+      })
+    });
+    if (resp.ok) {
+      window.location.href = 'download-kit.html';
+    } else {
+      alert('Something went wrong. Please try again or contact us through the site.');
+      btn.textContent = 'Register & Access Downloads →';
+      btn.disabled = false;
+    }
+  } catch (e) {
+    alert('Something went wrong. Please try again or contact us through the site.');
+    btn.textContent = 'Register & Access Downloads →';
+    btn.disabled = false;
+  }
+}
+</script>
 
 </body>
 </html>
