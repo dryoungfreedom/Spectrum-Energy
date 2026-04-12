@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Download Research Kit — Spectrum Energy Research Corp</title>
+<meta name="description" content="Register to download the complete Spectrum Energy Research Framework dataset, charts, and documentation.">
+<link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0A0A14;
+  --surface: #0F0F1E;
+  --surface2: #151528;
+  --border: rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.12);
+  --text: #E0E0F0;
+  --text-mid: #A0A0B8;
+  --text-dim: #777790;
+  --text-faint: #44445A;
+  --accent: #5B8DEE;
+  --gold: #D4AF37;
+  --gold-dim: rgba(212,175,55,0.12);
+  --green: #2A9D8F;
+  --font-head: 'Syncopate', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.75;
+  font-size: 15px;
+  min-height: 100vh;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2.5rem; height: 60px;
+  background: rgba(10,10,20,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: var(--font-head);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  text-decoration: none;
+}
+.nav-logo:hover { color: var(--gold); text-decoration: none; }
+
+.page-wrap {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 7rem 2rem 4rem;
+}
+
+.page-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.page-title {
+  font-family: var(--font-head);
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+.page-desc {
+  color: var(--text-mid);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+
+.kit-contents {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+}
+.kit-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+.kit-item {
+  font-size: 0.9rem;
+  color: var(--text);
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+}
+.kit-item:last-child { border-bottom: none; }
+.kit-item span { color: var(--text-mid); font-family: var(--font-mono); font-size: 0.78rem; }
+
+.license-box {
+  background: rgba(212,175,55,0.06);
+  border: 1px solid rgba(212,175,55,0.2);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+  font-size: 0.85rem;
+  color: var(--text-mid);
+  line-height: 1.7;
+}
+.license-box strong { color: var(--gold); }
+
+label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--text-mid);
+  margin-bottom: 0.4rem;
+}
+input[type="text"], input[type="email"], textarea, select {
+  width: 100%;
+  padding: 0.8rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--border3);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 1.2rem;
+}
+input:focus, textarea:focus, select:focus { border-color: rgba(91,141,238,0.5); }
+::placeholder { color: var(--text-dim); }
+
+.checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.checkbox-row input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  flex-shrink: 0;
+  accent-color: var(--accent);
+}
+.checkbox-row label {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--text-mid);
+  letter-spacing: normal;
+  margin-bottom: 0;
+  cursor: pointer;
+  line-height: 1.6;
+}
+
+.submit-btn {
+  padding: 0.85rem 2.5rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.submit-btn:hover { opacity: 0.85; }
+.submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 3rem;
+  text-align: center;
+}
+.footer-copy {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Spectrum Energy</a>
+</nav>
+
+<div class="page-wrap">
+  <p class="page-eyebrow">Research Kit Checkout</p>
+  <h1 class="page-title">Download the <em style="color:var(--gold); font-style:normal;">Framework</em></h1>
+  <p class="page-desc">
+    The complete Spectrum Energy Research Framework — dataset, interactive charts, research notes, 
+    and documentation. Free for research, education, and non-commercial use under CC BY-NC-SA 4.0. 
+    Register to log out the materials.
+  </p>
+
+  <div class="kit-contents">
+    <p class="kit-label">What you get</p>
+    <div class="kit-item">Complete dataset (spectrum-data.js) <span>118 elements · 79 compounds · 34 isotopes</span></div>
+    <div class="kit-item">All interactive charts (15 HTML files) <span>Dark-theme, self-contained</span></div>
+    <div class="kit-item">Research Notes 001–007 <span>Markdown source</span></div>
+    <div class="kit-item">Glossary and documentation <span>Framework reference</span></div>
+  </div>
+
+  <div class="license-box">
+    <strong>License:</strong> CC BY-NC-SA 4.0 — free for research, education, and non-commercial use with attribution. 
+    Commercial use (products, services, or revenue-generating applications built on this framework) requires 
+    a separate license from Spectrum Energy Research Corp. 
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Read full license →</a>
+  </div>
+
+  <form action="https://formspree.io/f/mbdpnbla" method="POST" id="checkoutForm">
+    <input type="hidden" name="_subject" value="Research Kit Checkout">
+    <input type="hidden" name="_next" value="https://spectrumenergy.one/download-kit.html">
+
+    <label>NAME *</label>
+    <input type="text" name="name" required placeholder="Your full name">
+
+    <label>EMAIL *</label>
+    <input type="email" name="email" required placeholder="your@email.com">
+
+    <label>ORGANIZATION</label>
+    <input type="text" name="organization" placeholder="University, company, or independent">
+
+    <label>INTENDED USE *</label>
+    <select name="intended_use" required>
+      <option value="" disabled selected>Select your primary use</option>
+      <option value="Academic research">Academic research</option>
+      <option value="Engineering / R&D">Engineering / R&D</option>
+      <option value="Education / teaching">Education / teaching</option>
+      <option value="Policy / regulatory">Policy / regulatory</option>
+      <option value="Personal study">Personal study</option>
+      <option value="Journalism / writing">Journalism / writing</option>
+      <option value="Commercial evaluation">Commercial evaluation (license required)</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <label>BRIEF DESCRIPTION</label>
+    <textarea name="description" rows="3" placeholder="What are you working on? (optional but helpful)"></textarea>
+
+    <div class="checkbox-row">
+      <input type="checkbox" id="agree" required>
+      <label for="agree">I understand this material is licensed under CC BY-NC-SA 4.0. I will provide attribution 
+        in any published work and will contact Spectrum Energy Research Corp for commercial licensing.</label>
+    </div>
+
+    <button type="submit" class="submit-btn">Register & Access Downloads →</button>
+  </form>
+</div>
+
+<footer>
+  <p class="footer-copy">© 2026 David R. Young — Spectrum Energy Research Corp · spectrumenergy.one</p>
+</footer>
+
+</body>
+</html>

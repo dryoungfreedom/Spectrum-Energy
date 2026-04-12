@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research Kit — Spectrum Energy Research Corp</title>
+<link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0A0A14;
+  --surface: #0F0F1E;
+  --surface2: #151528;
+  --border: rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.12);
+  --border3: rgba(255,255,255,0.18);
+  --text: #E0E0F0;
+  --text-mid: #A0A0B8;
+  --text-dim: #777790;
+  --text-faint: #44445A;
+  --accent: #5B8DEE;
+  --gold: #D4AF37;
+  --green: #2A9D8F;
+  --font-head: 'Syncopate', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.75;
+  font-size: 15px;
+  min-height: 100vh;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2.5rem; height: 60px;
+  background: rgba(10,10,20,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: var(--font-head);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  text-decoration: none;
+}
+.nav-logo:hover { color: var(--gold); text-decoration: none; }
+
+.page-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 7rem 2rem 4rem;
+}
+
+.page-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--green);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.page-title {
+  font-family: var(--font-head);
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+.page-desc {
+  color: var(--text-mid);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin-bottom: 2.5rem;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  margin-top: 2.5rem;
+}
+.section-label:first-of-type { margin-top: 0; }
+
+.dl-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 0.75rem;
+  transition: border-color 0.2s;
+}
+.dl-card:hover { border-color: var(--border3); }
+.dl-info { flex: 1; }
+.dl-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.2rem;
+}
+.dl-desc {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+.dl-link {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  border: 1px solid rgba(91,141,238,0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.dl-link:hover { background: rgba(91,141,238,0.12); text-decoration: none; }
+
+.repo-box {
+  background: rgba(42,157,143,0.06);
+  border: 1px solid rgba(42,157,143,0.2);
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  margin-top: 2.5rem;
+}
+.repo-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 0.5rem;
+}
+.repo-desc {
+  font-size: 0.85rem;
+  color: var(--text-mid);
+  line-height: 1.7;
+}
+
+.contribute-box {
+  background: rgba(212,175,55,0.06);
+  border: 1px solid rgba(212,175,55,0.2);
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  margin-top: 1.5rem;
+}
+.contribute-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+.contribute-desc {
+  font-size: 0.85rem;
+  color: var(--text-mid);
+  line-height: 1.7;
+}
+.contribute-steps {
+  margin-top: 0.75rem;
+  padding-left: 1.2rem;
+  font-size: 0.85rem;
+  color: var(--text-mid);
+  line-height: 2;
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 3rem;
+  text-align: center;
+  margin-top: 4rem;
+}
+.footer-copy {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+}
+
+@media (max-width: 600px) {
+  .dl-card { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Spectrum Energy</a>
+</nav>
+
+<div class="page-wrap">
+  <p class="page-eyebrow">Registration Complete ✓</p>
+  <h1 class="page-title">Research <em style="color:var(--gold); font-style:normal;">Kit</em></h1>
+  <p class="page-desc">
+    Thank you for registering. All materials below are available for download. 
+    The complete repository — including source files, version history, and issue tracking — 
+    is also available on GitHub.
+  </p>
+
+  <p class="section-label">Core Dataset</p>
+
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">spectrum-data.js</div>
+      <div class="dl-desc">Complete dataset — 118 elements, 79 compounds, 34 isotopes, 15 energy bands, 9+ roles</div>
+    </div>
+    <a href="spectrum-data.js" download class="dl-link">Download ↓</a>
+  </div>
+
+  <p class="section-label">Interactive Charts</p>
+
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">Energy Band Chart</div>
+      <div class="dl-desc">Primary reference — 118 elements classified across all energy bands</div>
+    </div>
+    <a href="spectrum-energy-chart.html" download class="dl-link">Download ↓</a>
+  </div>
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">Control Analysis</div>
+      <div class="dl-desc">Start → Change → Stop mapped across all bands</div>
+    </div>
+    <a href="spectrum-control-chart.html" download class="dl-link">Download ↓</a>
+  </div>
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">Compounds Chart</div>
+      <div class="dl-desc">79 engineered compounds classified by energy band and role</div>
+    </div>
+    <a href="spectrum-compounds-chart.html" download class="dl-link">Download ↓</a>
+  </div>
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">Isotope Chart</div>
+      <div class="dl-desc">34 isotopes — Mössbauer, fission, neutron, contrast categories</div>
+    </div>
+    <a href="spectrum-isotope-chart.html" download class="dl-link">Download ↓</a>
+  </div>
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">Structure Chart</div>
+      <div class="dl-desc">Electron configuration → energy behavior correlation</div>
+    </div>
+    <a href="spectrum-structure-chart.html" download class="dl-link">Download ↓</a>
+  </div>
+
+  <p class="section-label">Deliverables</p>
+
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">SE Cell Design</div>
+      <div class="dl-desc">Spectrum Energy Cell — decay battery, all conversion paths</div>
+    </div>
+    <a href="spectrum-energy-cell.html" download class="dl-link">Download ↓</a>
+  </div>
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">Reactor Schematic</div>
+      <div class="dl-desc">Spectrum Energy Reactor layout with active shielding zones</div>
+    </div>
+    <a href="spectrum-schematic.html" download class="dl-link">Download ↓</a>
+  </div>
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">Active Shielding</div>
+      <div class="dl-desc">Layer-by-layer gamma harvesting architecture</div>
+    </div>
+    <a href="spectrum-active-shielding.html" download class="dl-link">Download ↓</a>
+  </div>
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">Energy Budget</div>
+      <div class="dl-desc">Full-spectrum fission accounting — honest numbers</div>
+    </div>
+    <a href="spectrum-energy-budget.html" download class="dl-link">Download ↓</a>
+  </div>
+
+  <p class="section-label">Concept & Reference</p>
+
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">Framework Overview</div>
+      <div class="dl-desc">What if we could control the photon?</div>
+    </div>
+    <a href="spectrum-overview.html" download class="dl-link">Download ↓</a>
+  </div>
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">The High-Tension Photon</div>
+      <div class="dl-desc">Gamma as high-frequency transmission, not a special threat</div>
+    </div>
+    <a href="spectrum-high-tension.html" download class="dl-link">Download ↓</a>
+  </div>
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">Glossary</div>
+      <div class="dl-desc">Framework terminology — searchable reference</div>
+    </div>
+    <a href="spectrum-glossary.html" download class="dl-link">Download ↓</a>
+  </div>
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">Home Integration</div>
+      <div class="dl-desc">SE Cell residential deployment model</div>
+    </div>
+    <a href="spectrum-home-integration.html" download class="dl-link">Download ↓</a>
+  </div>
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">Data Center Integration</div>
+      <div class="dl-desc">SE Cell data center deployment model</div>
+    </div>
+    <a href="spectrum-datacenter.html" download class="dl-link">Download ↓</a>
+  </div>
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">Waste Pipeline</div>
+      <div class="dl-desc">Activation product → SE Cell fuel pathway</div>
+    </div>
+    <a href="spectrum-waste-pipeline.html" download class="dl-link">Download ↓</a>
+  </div>
+
+  <p class="section-label">Research Notes</p>
+
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">SE-Research-Note-001</div>
+      <div class="dl-desc">Two Distinct Mechanisms for EM Band Angle Control</div>
+    </div>
+    <a href="SE-Research-Note-001.md" download class="dl-link">Download ↓</a>
+  </div>
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">SE-Research-Note-002</div>
+      <div class="dl-desc">The Quantum Field as Base</div>
+    </div>
+    <a href="SE-Research-Note-002.md" download class="dl-link">Download ↓</a>
+  </div>
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">SE-Research-Note-003</div>
+      <div class="dl-desc">The Overbuilt Reactor</div>
+    </div>
+    <a href="SE-Research-Note-003.md" download class="dl-link">Download ↓</a>
+  </div>
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">SE-Research-Note-004</div>
+      <div class="dl-desc">The Sound Analogy</div>
+    </div>
+    <a href="SE-Research-Note-004.md" download class="dl-link">Download ↓</a>
+  </div>
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">SE-Research-Note-006</div>
+      <div class="dl-desc">The Gamma Equalizer</div>
+    </div>
+    <a href="SE-Research-Note-006.md" download class="dl-link">Download ↓</a>
+  </div>
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">SE-Research-Note-007</div>
+      <div class="dl-desc">The Gamma Transformer</div>
+    </div>
+    <a href="SE-Research-Note-007.md" download class="dl-link">Download ↓</a>
+  </div>
+
+  <p class="section-label">Origin</p>
+
+  <div class="dl-card">
+    <div class="dl-info">
+      <div class="dl-name">Sunshine on a Bad Nuclear Day</div>
+      <div class="dl-desc">The creative work that started it all (2019) — coming soon to Amazon</div>
+    </div>
+    <span class="dl-link" style="border-color:rgba(255,255,255,0.1); color:var(--text-faint); cursor:default;">Coming Soon</span>
+  </div>
+
+  <div class="repo-box">
+    <p class="repo-title">Full Repository on GitHub</p>
+    <p class="repo-desc">
+      The complete repository includes all source files, version history, and issue tracking. 
+      Cloning the repo gives you everything in one step:<br>
+      <code style="font-family:var(--font-mono); font-size:0.8rem; color:var(--green); background:rgba(42,157,143,0.1); padding:0.2rem 0.5rem; border-radius:3px; margin-top:0.5rem; display:inline-block;">
+        git clone https://github.com/dryoungfreedom/spectrum-energy.git
+      </code>
+    </p>
+  </div>
+
+  <div class="contribute-box">
+    <p class="contribute-title">Contributing Back</p>
+    <p class="contribute-desc">
+      Found something to improve? Discovered a new material or correction? Contributions are welcome through GitHub:
+    </p>
+    <ol class="contribute-steps">
+      <li><strong>Fork</strong> the repository (creates your own copy)</li>
+      <li><strong>Make your changes</strong> — data additions go in spectrum-data.js</li>
+      <li><strong>Submit a pull request</strong> — describe what you changed and why</li>
+      <li><strong>Review</strong> — all submissions are reviewed before merging</li>
+    </ol>
+    <p class="contribute-desc" style="margin-top:0.75rem;">
+      Questions? Use the <a href="index.html#contact">contact form</a> or 
+      open an issue on <a href="https://github.com/dryoungfreedom/spectrum-energy/issues" target="_blank">GitHub</a>.
+    </p>
+  </div>
+</div>
+
+<footer>
+  <p class="footer-copy">© 2026 David R. Young — Spectrum Energy Research Corp · spectrumenergy.one</p>
+</footer>
+
+</body>
+</html>
