@@ -31,6 +31,15 @@
  *   Thermal (1): thermal
  *   Kinetic Particles (6): electron, neutron, alpha*, proton*, ion*, muon* (*=placeholder)
  *
+ * BAND BASE FIELD (physics mechanism — added April 23, 2026):
+ *   Every band has a `base` field identifying what it propagates through:
+ *     quantum_field — all photon EM bands (radio through gamma, magnetic)
+ *     matter        — thermal (atom-to-atom vibration)
+ *     particle      — kinetic bands (the particle is its own carrier)
+ *   Future electricity band (when added) will use base: "electron_field".
+ *   This field records the physics distinction; category structure is
+ *   still being decided. See SE-Research-Note-011 for full context.
+ *
  * COMPOUND CATEGORIES (11):
  *   scintillator(10) piezoelectric(6) nuclear(5)
  *   shielding(11) oxide(5) ferrite(4) semiconductor(7)
@@ -45,27 +54,27 @@
  */
 
 const EM_BANDS = [
-  { id:"radio", name:"Radio", wavelength:"> 1m", color:"#E63946", freq:"< 300 MHz" },
-  { id:"microwave", name:"Microwave", wavelength:"1mm – 1m", color:"#E76F51", freq:"300 MHz – 300 GHz" },
-  { id:"infrared", name:"Infrared", wavelength:"700nm – 1mm", color:"#F4A261", freq:"300 GHz – 430 THz" },
-  { id:"visible", name:"Visible Light", wavelength:"400 – 700nm", color:"#E9C46A", freq:"430 – 750 THz" },
-  { id:"ultraviolet", name:"Ultraviolet", wavelength:"10 – 400nm", color:"#2A9D8F", freq:"750 THz – 30 PHz" },
-  { id:"xray", name:"X-Ray", wavelength:"0.01 – 10nm", color:"#264653", freq:"30 PHz – 30 EHz" },
-  { id:"gamma", name:"Gamma Ray", wavelength:"< 0.01nm", color:"#6A0572", freq:"> 30 EHz" },
-  { id:"magnetic", name:"Magnetic", color:"#9B59B6", desc:"Magnetic field interaction — the 'M' in electromagnetic" },
+  { id:"radio", name:"Radio", wavelength:"> 1m", color:"#E63946", freq:"< 300 MHz", base:"quantum_field" },
+  { id:"microwave", name:"Microwave", wavelength:"1mm – 1m", color:"#E76F51", freq:"300 MHz – 300 GHz", base:"quantum_field" },
+  { id:"infrared", name:"Infrared", wavelength:"700nm – 1mm", color:"#F4A261", freq:"300 GHz – 430 THz", base:"quantum_field" },
+  { id:"visible", name:"Visible Light", wavelength:"400 – 700nm", color:"#E9C46A", freq:"430 – 750 THz", base:"quantum_field" },
+  { id:"ultraviolet", name:"Ultraviolet", wavelength:"10 – 400nm", color:"#2A9D8F", freq:"750 THz – 30 PHz", base:"quantum_field" },
+  { id:"xray", name:"X-Ray", wavelength:"0.01 – 10nm", color:"#264653", freq:"30 PHz – 30 EHz", base:"quantum_field" },
+  { id:"gamma", name:"Gamma Ray", wavelength:"< 0.01nm", color:"#6A0572", freq:"> 30 EHz", base:"quantum_field" },
+  { id:"magnetic", name:"Magnetic", color:"#9B59B6", desc:"Magnetic field interaction — the 'M' in electromagnetic", base:"quantum_field" },
 ];
 
 const THERMAL_BANDS = [
-  { id:"thermal", name:"Thermal", color:"#FF6B35", desc:"Conductive heat transfer — kinetic at atomic level, transferred through EM interactions" },
+  { id:"thermal", name:"Thermal", color:"#FF6B35", desc:"Conductive heat transfer — kinetic at atomic level, transferred through EM interactions", base:"matter" },
 ];
 
 const KINETIC_BANDS = [
-  { id:"electron", name:"Electron Flow", color:"#4A90D9", desc:"EM field guided by electron flow through conductor (monorail model)", developed:true },
-  { id:"neutron", name:"Neutron Flow", color:"#1ABC9C", desc:"Nuclear trigger carrier — propagates chain reactions between fission events", developed:true },
-  { id:"alpha", name:"Alpha Flow", color:"#D35400", desc:"Helium nuclei emitted from heavy element decay — short range, high energy", developed:false },
-  { id:"proton", name:"Proton Flow", color:"#7F8C8D", desc:"Proton beams — medical therapy, cosmic rays. Exists, not explored.", developed:false },
-  { id:"ion", name:"Ion Flow", color:"#95A5A6", desc:"Charged atoms in motion — plasma, ion beams. Exists, not explored.", developed:false },
-  { id:"muon", name:"Muon Flow", color:"#BDC3C7", desc:"Short-lived lepton — cosmic ray secondary, muon tomography. Exists, not explored.", developed:false },
+  { id:"electron", name:"Electron Flow", color:"#4A90D9", desc:"EM field guided by electron flow through conductor (monorail model)", developed:true, base:"particle" },
+  { id:"neutron", name:"Neutron Flow", color:"#1ABC9C", desc:"Nuclear trigger carrier — propagates chain reactions between fission events", developed:true, base:"particle" },
+  { id:"alpha", name:"Alpha Flow", color:"#D35400", desc:"Helium nuclei emitted from heavy element decay — short range, high energy", developed:false, base:"particle" },
+  { id:"proton", name:"Proton Flow", color:"#7F8C8D", desc:"Proton beams — medical therapy, cosmic rays. Exists, not explored.", developed:false, base:"particle" },
+  { id:"ion", name:"Ion Flow", color:"#95A5A6", desc:"Charged atoms in motion — plasma, ion beams. Exists, not explored.", developed:false, base:"particle" },
+  { id:"muon", name:"Muon Flow", color:"#BDC3C7", desc:"Short-lived lepton — cosmic ray secondary, muon tomography. Exists, not explored.", developed:false, base:"particle" },
 ];
 
 /* Backward compatibility + convenience */
