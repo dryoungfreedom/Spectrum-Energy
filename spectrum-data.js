@@ -11,10 +11,10 @@
  * ═══════════════════════════════════════════════════════
  * SECTION                  EXPECTED COUNT   DEPENDS ON
  * EM_BANDS                 8 bands          — radio thru gamma + magnetic
- * THERMAL_BANDS            1 band           — conductive heat
- * KINETIC_BANDS            6 bands          — electron, neutron (developed); alpha, proton, ion, muon (placeholders)
- * NON_EM_BANDS             (deprecated)     — backward compat alias for thermal + developed kinetic
- * ALL_BANDS                (computed)       — EM + thermal + developed kinetic
+ * THERMAL_BANDS            (deprecated)     — empty; thermal moved to KINETIC_BANDS
+ * KINETIC_BANDS            7 bands          — thermal, electron, neutron (developed); alpha, proton, ion, muon (placeholders)
+ * NON_EM_BANDS             (deprecated)     — backward compat alias for developed kinetic
+ * ALL_BANDS                (computed)       — EM + developed kinetic
  * ROLES                    10 roles        — channel merged into conductor; transformer added for scintillators
  * ROLE_COLORS              10 entries      ROLES
  * CONTROL_GROUPS           4 groups         ROLES — START has no material roles (source only)
@@ -64,11 +64,10 @@ const EM_BANDS = [
   { id:"magnetic", name:"Magnetic", color:"#9B59B6", desc:"Magnetic field interaction — the 'M' in electromagnetic", base:"quantum_field" },
 ];
 
-const THERMAL_BANDS = [
-  { id:"thermal", name:"Thermal", color:"#FF6B35", desc:"Conductive heat transfer — kinetic at atomic level, transferred through EM interactions", base:"matter" },
-];
+const THERMAL_BANDS = []; // deprecated — thermal moved to KINETIC_BANDS (conductive heat is kinetic energy transfer)
 
 const KINETIC_BANDS = [
+  { id:"thermal", name:"Thermal", color:"#FF6B35", desc:"Conductive heat transfer — kinetic energy passed atom-to-atom through direct contact", developed:true, base:"matter" },
   { id:"electron", name:"Electron Flow", color:"#4A90D9", desc:"EM field guided by electron flow through conductor (monorail model)", developed:true, base:"particle" },
   { id:"neutron", name:"Neutron Flow", color:"#1ABC9C", desc:"Nuclear trigger carrier — propagates chain reactions between fission events", developed:true, base:"particle" },
   { id:"alpha", name:"Alpha Flow", color:"#D35400", desc:"Helium nuclei emitted from heavy element decay — short range, high energy", developed:false, base:"particle" },
@@ -79,7 +78,7 @@ const KINETIC_BANDS = [
 
 /* Backward compatibility + convenience */
 const NON_EM_BANDS = [...THERMAL_BANDS, ...KINETIC_BANDS.filter(b=>b.developed)]; // deprecated — use category arrays
-const ALL_BANDS = [...EM_BANDS, ...THERMAL_BANDS, ...KINETIC_BANDS.filter(b=>b.developed)];
+const ALL_BANDS = [...EM_BANDS, ...KINETIC_BANDS.filter(b=>b.developed)];
 
 const ROLES = [
   { id:"conductor", name:"Conductor", desc:"Guides energy from one point to another — the medium that controls direction (electrons for electricity, crystals for gamma, waveguides for radio)", icon:"→", group:"change" },
@@ -846,8 +845,8 @@ const ISOTOPES = [
 (function validateSpectrumData(){
   const EXPECTED = {
     EM_BANDS:              { type:'array', min:8 },
-    THERMAL_BANDS:         { type:'array', min:1 },
-    KINETIC_BANDS:         { type:'array', min:6 },
+    THERMAL_BANDS:         { type:'array', min:0 },
+    KINETIC_BANDS:         { type:'array', min:7 },
     ALL_BANDS:             { type:'array', min:11 },
     ROLES:                 { type:'array', min:11 },
     ROLE_COLORS:           { type:'object', min:11 },

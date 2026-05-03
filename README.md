@@ -2,7 +2,9 @@
 
 **An open research framework for multi-band energy control — from gamma ray to electron flow.**
 
-© 2025 David R. Young — Spectrum Energy Research Corp
+© 2026 David R. Young — Spectrum Energy Research Corp
+
+**→ [Read GETTING-STARTED.md first](GETTING-STARTED.md)** — Download instructions, AI setup guide, license terms, and ethical use provisions.
 
 ---
 
@@ -10,7 +12,7 @@
 
 Can we control gamma radiation as completely as we control electricity?
 
-Electricity has conductors, insulators, resistors, converters, reflectors, and more — nine distinct control roles, all filled. Every band of the electromagnetic spectrum has most of these roles filled, until you reach gamma. There, five of nine roles are open. No conductor. No reflector. No channel. No refractor. No polarizer.
+Electricity has conductors, insulators, resistors, converters, reflectors, and more — nine distinct control roles, all filled. Every band of the electromagnetic spectrum has most of these roles filled, until you reach gamma. There, four of nine roles are open. No conductor. No reflector. No channel. No polarizer.
 
 This framework maps every element, compound, and isotope across every energy band to find where those gaps are, why they exist, and what it would take to close them.
 
@@ -50,8 +52,9 @@ Current nuclear technology captures ~33% of fission energy as heat and discards 
 ### Data & Documentation
 | File | Purpose |
 |------|---------|
-| [spectrum-data.js](spectrum-data.js) | Single source of truth — 118 elements, 79 compounds, 33 isotopes, 15 bands |
-| [Gamma Gap Roadmap](GAMMA-GAP-ROADMAP.md) | Research analysis of the five open gamma control roles |
+| [GETTING-STARTED.md](GETTING-STARTED.md) | **Start here** — download, AI setup, license, ethical use |
+| [spectrum-data.js](spectrum-data.js) | Single source of truth — 118 elements, 79 compounds, 34 isotopes, 15 bands |
+| [Gamma Gap Roadmap](GAMMA-GAP-ROADMAP.md) | Research analysis of the four open gamma control roles |
 | [Project Reference](PROJECT-REFERENCE.md) | Architecture decisions, physics rules, data structure |
 | [Glossary](GLOSSARY.md) | All framework terms and definitions (markdown) |
 
@@ -70,20 +73,26 @@ Current nuclear technology captures ~33% of fission energy as heat and discards 
 
 ## The Gamma Gap
 
-The research frontier. Five gamma control roles remain open:
+The research frontier. Four gamma control roles remain open:
 
 | Role | Status | Priority | Path Forward |
 |------|--------|----------|-------------|
 | Reflector | OPEN | Highest | Laue crystal diffraction, nuclear resonance scattering, extreme grazing incidence |
-| Refractor | OPEN | High | Compound refractive lenses (demonstrated at X-ray), nuclear resonance |
+| Refractor | CLOSED | — | Physically impossible at gamma frequencies (no material has refractive index ≠ 1) |
 | Channel | OPEN | Medium | Depends on solving reflection first |
 | Polarizer | OPEN | Medium | Compton scattering polarimetry, crystal diffraction |
 | Conductor | OPEN | Exploratory | Requires entirely new mechanism — most speculative |
 
-Four roles are filled: absorber (79 elements), converter (79 elements), resistor (6 elements), insulator (2 elements).
+Five roles are filled (56%): absorber, converter, resistor, insulator, transformer.
 
 ## How to Use
 
+**See [GETTING-STARTED.md](GETTING-STARTED.md) for complete instructions**, including:
+- Download options (ZIP or Git clone)
+- Setting up a Claude AI project for research exploration
+- License agreement and ethical use provisions
+
+**Quick start:**
 1. Download or clone this repository
 2. Open `index.html` in any modern browser
 3. All charts load `spectrum-data.js` from the same folder — keep all files together
@@ -94,10 +103,9 @@ No build step. No server. No dependencies. Just HTML, JavaScript, and a browser.
 
 `spectrum-data.js` contains all element, compound, and isotope data in one file. Every chart reads from it. The file includes a self-validation block that checks data integrity on load.
 
-**15 energy bands** in three categories:
+**15 energy bands** in two categories:
 - **EM Spectrum (8):** Radio, Microwave, Infrared, Visible Light, Ultraviolet, X-ray, Gamma, Magnetic
-- **Thermal (1):** Conductive heat transfer
-- **Kinetic Particles (6):** Electron flow, Neutron flow, Alpha flow (+ 3 placeholders)
+- **Kinetic (7):** Thermal (conductive heat), Electron flow, Neutron flow, Alpha flow (+ 3 placeholders)
 
 **9 control roles:** Source, Conductor, Channel, Reflector, Refractor, Resistor, Polarizer, Converter, Insulator — plus Transparent (no interaction) and Absorber (energy capture).
 
@@ -117,13 +125,17 @@ See [PROJECT-REFERENCE.md](PROJECT-REFERENCE.md) for data architecture and physi
 
 The Spectrum Energy Cell involves regulated nuclear materials. Development, possession, and deployment of isotope sources require compliance with NRC, DOE, and applicable international regulations. This framework is a research tool — it does not constitute authorization to handle nuclear materials.
 
-## License
+## License & Ethical Use
+
+**By downloading or using this framework, you agree to the license terms and ethical use provisions in [GETTING-STARTED.md](GETTING-STARTED.md).**
 
 This work is licensed under **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International** ([CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)).
 
-You are free to share and adapt this material for non-commercial purposes, with attribution, under the same license.
+- ✓ **Free** for research, education, and non-commercial use with attribution
+- ✓ **Share alike** — derivatives must use the same license
+- ✗ **Commercial use** requires a separate license from Spectrum Energy Research Corp
 
-**Commercial use** — including incorporation into commercial products, services, or proprietary research — requires a separate commercial license from Spectrum Energy Research Corp. Visit [spectrumenergy.one](https://spectrumenergy.one) for inquiries.
+**Ethical use:** This framework exists to advance peaceful energy research for the benefit of mankind. Use for weapons development or any purpose that harms people is expressly prohibited.
 
 **"Sunshine on a Bad Nuclear Day"** is a separate literary work by David R. Young. All rights reserved.
 
@@ -131,10 +143,10 @@ You are free to share and adapt this material for non-commercial purposes, with 
 
 When referencing this framework in research or publications:
 
-> Young, D. R. (2025). *Spectrum Energy Research Framework*. Spectrum Energy Research Corp. https://spectrumenergy.one
+> Young, D. R. (2026). *Spectrum Energy Research Framework*. Spectrum Energy Research Corp. https://spectrumenergy.one
 
 ## Contact
 
-Questions, collaboration ideas, or licensing inquiries: **SECharts@protonmail.com**
+Questions, collaboration ideas, or licensing inquiries: **secharts@proton.me**
 
 Visit [spectrumenergy.one](https://spectrumenergy.one) for the full interactive experience.
