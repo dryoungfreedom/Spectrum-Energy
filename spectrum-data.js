@@ -70,7 +70,7 @@ const KINETIC_BANDS = [
   { id:"thermal", name:"Thermal", color:"#FF6B35", desc:"Conductive heat transfer — kinetic energy passed atom-to-atom through direct contact", developed:true, base:"matter" },
   { id:"electron", name:"Electron Flow", color:"#4A90D9", desc:"EM field guided by electron flow through conductor (monorail model)", developed:true, base:"particle" },
   { id:"neutron", name:"Neutron Flow", color:"#1ABC9C", desc:"Nuclear trigger carrier — propagates chain reactions between fission events", developed:true, base:"particle" },
-  { id:"alpha", name:"Alpha Flow", color:"#D35400", desc:"Helium nuclei emitted from heavy element decay — short range, high energy", developed:false, base:"particle" },
+  { id:"alpha", name:"Alpha Flow", color:"#D35400", desc:"Helium nuclei emitted from heavy element decay — short range, high kinetic energy", developed:false, base:"particle" },
   { id:"proton", name:"Proton Flow", color:"#7F8C8D", desc:"Proton beams — medical therapy, cosmic rays. Exists, not explored.", developed:false, base:"particle" },
   { id:"ion", name:"Ion Flow", color:"#95A5A6", desc:"Charged atoms in motion — plasma, ion beams. Exists, not explored.", developed:false, base:"particle" },
   { id:"muon", name:"Muon Flow", color:"#BDC3C7", desc:"Short-lived lepton — cosmic ray secondary, muon tomography. Exists, not explored.", developed:false, base:"particle" },
@@ -88,7 +88,7 @@ const ROLES = [
   { id:"resistor", name:"Resistor", desc:"Reduces intensity without full block", icon:"≋", group:"change" },
   { id:"polarizer", name:"Polarizer", desc:"Filters wave orientation", icon:"⫽", group:"change" },
   { id:"converter", name:"Converter", desc:"Transforms into another energy form", icon:"⚡", group:"change" },
-  { id:"transformer", name:"Transformer", desc:"Steps photon frequency up or down (photon in → photon out at different energy level) — like electrical voltage transformer", icon:"⇅", group:"change" },
+  { id:"transformer", name:"Transformer", desc:"Steps photon frequency up or down (photon in → photon out at different frequency) — like electrical voltage transformer", icon:"⇅", group:"change" },
   { id:"insulator", name:"Insulator", desc:"Blocks / stops this energy", icon:"⊘", group:"stop" },
   { id:"absorber", name:"Absorber", desc:"Captures / absorbs this energy", icon:"●", group:"stop" },
   { id:"transparent", name:"Transparent", desc:"Energy passes through unchanged", icon:"◇", group:"other" },
@@ -258,7 +258,7 @@ const ELEMENTS = [
 
 // ── Phase 3: Chemical Compounds ──────────────────────────────────────────
 
-const COMPOUND_CATEGORIES = [{ id:"scintillator",name:"Scintillators",desc:"Convert high-energy radiation (gamma,X-ray) into visible or UV light",color:"#D4AF37" },{ id:"piezoelectric",name:"Piezoelectric / Ferroelectric",desc:"Convert between mechanical,electrical,and optical energy via crystal structure",color:"#5B8DEE" },{ id:"nuclear",name:"Nuclear Ceramics",desc:"Fission fuel,neutron control,and reactor structural materials",color:"#E63946" },{ id:"shielding",name:"Radiation & Field Shielding",desc:"Materials that block,attenuate,or moderate radiation (gamma,X-ray,neutron) and electromagnetic fields — the STOP layer of reactor and SE Cell designs",color:"#9B59B6" },{ id:"oxide",name:"Oxide Insulators / Dielectrics",desc:"Thermal and electrical insulators,IR/visible windows,structural ceramics",color:"#1ABC9C" },{ id:"ferrite",name:"Magnetic Ceramics (Ferrites)",desc:"Absorb,conduct,or block magnetic and radio/microwave energy",color:"#E67E22" },{ id:"semiconductor",name:"Semiconductors",desc:"Direct radiation detectors,photovoltaic converters,and radiation-hard electronics for the gamma→light→electricity chain. SiC also listed under Nuclear Ceramics.",color:"#00BCD4" },{ id:"thermoelectric",name:"Thermoelectrics",desc:"Convert thermal gradients directly to electricity via Seebeck effect — thermal band converters for SE Cell surfaces and reactor waste-heat recovery",color:"#EC407A" },{ id:"ceramic",name:"Structural / Thermal Ceramics",desc:"High-temperature structural,thermal management,and neutron-control ceramics for reactor and SE Cell environments — distinct from piezoelectrics,oxides,and nuclear fuel ceramics",color:"#8BC34A" },{ id:"polymer",name:"Polymers / Plastics",desc:"Radiation-hard organic compounds for electrical insulation,neutron detection,beta/neutron→visible conversion,flexible thermal management,and structural roles in radiation environments",color:"#26C6DA" },{ id:"alloy",name:"Alloys",desc:"Engineered metal alloys for reactor structure,and energy conversion — only alloys with distinct energy control properties vs. their parent elements",color:"#FF8A65" },];
+const COMPOUND_CATEGORIES = [{ id:"scintillator",name:"Scintillators",desc:"Transform high-frequency radiation (gamma,X-ray) into visible or UV light",color:"#D4AF37" },{ id:"piezoelectric",name:"Piezoelectric / Ferroelectric",desc:"Convert between mechanical,electrical,and optical energy via crystal structure",color:"#5B8DEE" },{ id:"nuclear",name:"Nuclear Ceramics",desc:"Fission fuel,neutron control,and reactor structural materials",color:"#E63946" },{ id:"shielding",name:"Radiation & Field Shielding",desc:"Materials that block,attenuate,or moderate radiation (gamma,X-ray,neutron) and electromagnetic fields — the STOP layer of reactor and SE Cell designs",color:"#9B59B6" },{ id:"oxide",name:"Oxide Insulators / Dielectrics",desc:"Thermal and electrical insulators,IR/visible windows,structural ceramics",color:"#1ABC9C" },{ id:"ferrite",name:"Magnetic Ceramics (Ferrites)",desc:"Absorb,conduct,or block magnetic and radio/microwave energy",color:"#E67E22" },{ id:"semiconductor",name:"Semiconductors",desc:"Direct radiation detectors,photovoltaic converters,and radiation-hard electronics for the gamma→light→electricity chain. SiC also listed under Nuclear Ceramics.",color:"#00BCD4" },{ id:"thermoelectric",name:"Thermoelectrics",desc:"Convert thermal gradients directly to electricity via Seebeck effect — thermal band converters for SE Cell surfaces and reactor waste-heat recovery",color:"#EC407A" },{ id:"ceramic",name:"Structural / Thermal Ceramics",desc:"High-temperature structural,thermal management,and neutron-control ceramics for reactor and SE Cell environments — distinct from piezoelectrics,oxides,and nuclear fuel ceramics",color:"#8BC34A" },{ id:"polymer",name:"Polymers / Plastics",desc:"Radiation-hard organic compounds for electrical insulation,neutron detection,beta/neutron→visible conversion,flexible thermal management,and structural roles in radiation environments",color:"#26C6DA" },{ id:"alloy",name:"Alloys",desc:"Engineered metal alloys for reactor structure,and energy conversion — only alloys with distinct energy control properties vs. their parent elements",color:"#FF8A65" },];
 
 /*
  * Compound data structure:
@@ -286,89 +286,128 @@ const COMPOUNDS = [
 // ── Scintillators ────────────────────────────────────────────────────────
 {id:"nai",formula:"NaI(Tl)",name:"Sodium Iodide",category:"scintillator",density:3.67,elements:["Na","I"],p:0,
   notes:"Most widely used gamma scintillator. Tl-doped. Hygroscopic. Emits 415 nm (blue-violet). ~40,000 ph/MeV. 230 ns decay. Energy resolution ~7% at 662 keV.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"xray",to:"visible",mechanism:"Scintillation — Tl⁺ activator emits 415nm blue-violet, ~40,000 photons/MeV"},{from:"gamma",to:"visible",mechanism:"Scintillation — Tl⁺ activator emits 415nm blue-violet, ~40,000 photons/MeV"}]},
 
 {id:"bgo",formula:"Bi₄Ge₃O₁₂",name:"Bismuth Germanate (BGO)",category:"scintillator",density:7.13,elements:["Bi","Ge","O"],p:0,
   notes:"Very high density & Zeff (~75). Non-hygroscopic. Emits 480 nm (green). ~9,000 ph/MeV. 300 ns decay. High stopping power — PET standard before LYSO. Low afterglow.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"xray",to:"visible",mechanism:"Intrinsic scintillation — Bi³⁺ emission at 480nm green, ~9,000 photons/MeV"},{from:"gamma",to:"visible",mechanism:"Intrinsic scintillation — Bi³⁺ emission at 480nm green, ~9,000 photons/MeV"}]},
 
 {id:"lyso",formula:"Lu₁.₈Y₀.₂SiO₅(Ce)",name:"LYSO:Ce",category:"scintillator",density:7.1,elements:["Lu","Y","Si","O"],p:0,
   notes:"Current PET scanner standard. Ce-doped. Non-hygroscopic. Emits 420 nm (blue-violet). ~33,200 ph/MeV. 36 ns decay — 8× faster than BGO. Density rivals BGO.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["resistor"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["resistor"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"xray",to:"visible",mechanism:"Scintillation — Ce³⁺ activator emits 420nm blue-violet, ~33,200 photons/MeV"},{from:"gamma",to:"visible",mechanism:"Scintillation — Ce³⁺ activator emits 420nm blue-violet, ~33,200 photons/MeV"}]},
 
 {id:"labr3",formula:"LaBr₃(Ce)",name:"Lanthanum Bromide",category:"scintillator",density:5.08,elements:["La","Br"],p:0,
   notes:"Best energy resolution of any scintillator. Ce-doped. Hygroscopic. Emits 380 nm (UV-violet). ~63,000 ph/MeV — highest light yield. 16 ns decay — fastest halide.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["resistor"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["resistor"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"xray",to:"ultraviolet",mechanism:"Scintillation — Ce³⁺ activator emits 380nm UV-violet, ~63,000 photons/MeV"},{from:"gamma",to:"ultraviolet",mechanism:"Scintillation — Ce³⁺ activator emits 380nm UV-violet, ~63,000 photons/MeV"}]},
 
 {id:"csi",formula:"CsI(Tl)",name:"Cesium Iodide",category:"scintillator",density:4.51,elements:["Cs","I"],p:0,
   notes:"Rugged, non-hygroscopic. Tl-doped. Emits 550 nm (green). ~54,000 ph/MeV — very high light yield. 1000 ns decay (slow). No cleavage — mechanically robust.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"xray",to:"visible",mechanism:"Scintillation — Tl⁺ activator emits 550nm green, ~54,000 photons/MeV"},{from:"gamma",to:"visible",mechanism:"Scintillation — Tl⁺ activator emits 550nm green, ~54,000 photons/MeV"}]},
 
 {id:"baf2",formula:"BaF₂",name:"Barium Fluoride",category:"scintillator",density:4.89,elements:["Ba","F"],p:0,
   notes:"Fastest inorganic scintillator — 0.7 ns UV component at 220 nm. Slow component at 310 nm, 630 ns. Slightly hygroscopic. Transmits UV through mid-IR. Used for fast timing research.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent"],visible:["transparent"],ultraviolet:["transparent"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent"],visible:["transparent"],ultraviolet:["transparent"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"xray",to:"ultraviolet",mechanism:"Scintillation — fast component 220nm UV (0.7ns) + slow component 310nm UV (630ns)"},{from:"gamma",to:"ultraviolet",mechanism:"Scintillation — fast component 220nm UV (0.7ns) + slow component 310nm UV (630ns)"}]},
 
 {id:"pbwo4",formula:"PbWO₄",name:"Lead Tungstate",category:"scintillator",density:8.28,elements:["Pb","W","O"],p:0,
   notes:"Densest oxide scintillator (8.28 g/cm³). Used in CERN CMS calorimeter. Low light yield (~200 ph/MeV) but ultrafast. Radiation-hard. Short radiation length (0.9 cm). Cherenkov radiator.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","insulator","transformer"],gamma:["absorber","insulator","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","insulator","transformer"],gamma:["absorber","insulator","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"xray",to:"visible",mechanism:"Scintillation — intrinsic emission 420nm blue, ~200 photons/MeV, ultrafast"},{from:"gamma",to:"visible",mechanism:"Scintillation — intrinsic emission 420nm blue, ~200 photons/MeV, ultrafast"}]},
 
 {id:"cdwo4",formula:"CdWO₄",name:"Cadmium Tungstate",category:"scintillator",density:7.9,elements:["Cd","W","O"],p:0,
   notes:"Very low afterglow — ideal for CT scanners. High density. Radiation-hard. Moderate light yield. Used for DC X-ray measurements and photodiode readout.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["insulator"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["insulator"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"xray",to:"visible",mechanism:"Scintillation — intrinsic emission 475nm blue-green, very low afterglow"},{from:"gamma",to:"visible",mechanism:"Scintillation — intrinsic emission 475nm blue-green, very low afterglow"}]},
 
 {id:"gos",formula:"Gd₂O₂S(Tb)",name:"Gadolinium Oxysulfide",category:"scintillator",density:7.32,elements:["Gd","O","S"],p:0,
   notes:"Primary X-ray phosphor screen material. Tb-doped. High density (7.32 g/cm³). Good light output. Used in X-ray imaging, CT screens, and radiography. Also detects gamma.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["insulator"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["insulator"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"xray",to:"visible",mechanism:"Phosphor scintillation — Tb³⁺ activator emits 545nm green"},{from:"gamma",to:"visible",mechanism:"Phosphor scintillation — Tb³⁺ activator emits 545nm green"}]},
 
 {id:"cebr3",formula:"CeBr₃",name:"Cerium Bromide",category:"scintillator",density:5.1,elements:["Ce","Br"],p:0,
   notes:"No intrinsic radioactive background (unlike LaBr₃). Hygroscopic. 20 ns decay. ~4% energy resolution at 662 keV. Sub-nanosecond timing possible. Ideal for low-background gamma spectroscopy.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["absorber","transformer"],gamma:["absorber","transformer"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["transparent"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"xray",to:"visible",mechanism:"Scintillation — Ce³⁺ self-activated emission ~370nm UV-violet"},{from:"gamma",to:"visible",mechanism:"Scintillation — Ce³⁺ self-activated emission ~370nm UV-violet"}]},
 
 // ── Piezoelectric / Ferroelectric Ceramics ───────────────────────────────
 {id:"batio3",formula:"BaTiO₃",name:"Barium Titanate",category:"piezoelectric",density:6.02,elements:["Ba","Ti","O"],p:0,
   notes:"First discovered ferroelectric ceramic (1940s). Piezoelectric, pyroelectric, photorefractive. Dielectric constant up to 7,000–15,000. Bandgap 3.2 eV. Used in capacitors, transducers, microwave absorbers. Converts mechanical↔electrical energy. Non-toxic PZT alternative.",
-  bands:{radio:["insulator","converter"],microwave:["absorber","converter"],infrared:["absorber","refractor"],visible:["transparent","refractor"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["insulator","converter"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator","converter"],microwave:["absorber"],infrared:["absorber","refractor"],visible:["transparent","refractor"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["insulator","converter"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"]},
+  conversions:[{from:"radio",to:"electron",mechanism:"Piezoelectric — mechanical vibration at RF produces electrical signal"},{from:"electron",to:"mechanical",mechanism:"Inverse piezoelectric — electrical signal drives mechanical vibration"}]},
 
 {id:"pzt",formula:"Pb(Zr,Ti)O₃",name:"Lead Zirconate Titanate (PZT)",category:"piezoelectric",density:7.5,elements:["Pb","Zr","Ti","O"],p:0,
   notes:"Highest piezoelectric coefficients of any ceramic. d₃₃ up to 600 pC/N. Ferroelectric. Converts mechanical↔electrical with highest efficiency. Used in sonar, ultrasonic transducers, actuators, sensors. Pb content makes it radiation-dense. Curie temp ~350°C.",
-  bands:{radio:["insulator","converter"],microwave:["absorber","converter"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["insulator","converter"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator","converter"],microwave:["absorber"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["insulator","converter"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"]},
+  conversions:[{from:"radio",to:"electron",mechanism:"Piezoelectric — highest d₃₃ coefficient (600 pC/N), mechanical↔electrical"},{from:"electron",to:"mechanical",mechanism:"Inverse piezoelectric — electrical drive produces ultrasonic/mechanical output"}]},
 
 {id:"linbo3",formula:"LiNbO₃",name:"Lithium Niobate",category:"piezoelectric",density:4.65,elements:["Li","Nb","O"],p:0,
   notes:"'The silicon of photonics.' Transparent 350–5200 nm. Largest electro-optic coefficients. Frequency doubler (1064nm→532nm green). Nonlinear optical, piezoelectric, pyroelectric, photorefractive. Used in optical modulators, SAW filters, Q-switches. Non-hygroscopic.",
-  bands:{radio:["insulator","converter"],microwave:["absorber","converter"],infrared:["transparent","refractor","converter","polarizer"],visible:["transparent","refractor","converter","polarizer"],ultraviolet:["absorber"],xray:["absorber"],gamma:["transparent"],electron:["insulator","converter"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator","converter"],microwave:["absorber"],infrared:["transparent","refractor","transformer","polarizer"],visible:["transparent","refractor","transformer","polarizer"],ultraviolet:["absorber"],xray:["absorber"],gamma:["transparent"],electron:["insulator","converter"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"]},
+  conversions:[{from:"radio",to:"electron",mechanism:"Piezoelectric — SAW filters convert RF mechanical wave to electrical signal"},{from:"infrared",to:"visible",mechanism:"Frequency doubling (SHG) — 1064nm IR → 532nm green via nonlinear χ²"},{from:"visible",to:"visible",mechanism:"Optical parametric oscillation — tunable visible→visible frequency conversion"},{from:"electron",to:"infrared",mechanism:"Electro-optic modulation — applied voltage modulates IR optical signal"}]},
 
 {id:"litao3",formula:"LiTaO₃",name:"Lithium Tantalate",category:"piezoelectric",density:7.46,elements:["Li","Ta","O"],p:0,
   notes:"Pyroelectric IR detector material. Transparent 280–5500 nm — wider UV window than LiNbO₃. Ferroelectric, piezoelectric. Used in thermal IR sensors, SAW filters, electro-optic modulators. Higher damage threshold than LiNbO₃. Curie temp 620°C.",
-  bands:{radio:["insulator","converter"],microwave:["absorber","converter"],infrared:["transparent","refractor","converter"],visible:["transparent","refractor","converter"],ultraviolet:["transparent","absorber"],xray:["absorber"],gamma:["absorber"],electron:["insulator","converter"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor"]}},
+  bands:{radio:["insulator","converter"],microwave:["absorber"],infrared:["transparent","refractor","converter"],visible:["transparent","refractor"],ultraviolet:["transparent","absorber"],xray:["absorber"],gamma:["absorber"],electron:["insulator","converter"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor"]},
+  predicted:{radio:["insulator"]},
+  conversions:[{from:"radio",to:"electron",mechanism:"Piezoelectric — SAW filters for RF signal processing"},{from:"infrared",to:"electron",mechanism:"Pyroelectric — temperature change from IR absorption generates voltage"},{from:"electron",to:"mechanical",mechanism:"Inverse piezoelectric — electrical drive produces mechanical output"}]},
 
 {id:"aln",formula:"AlN",name:"Aluminum Nitride",category:"piezoelectric",density:3.26,elements:["Al","N"],p:0,
   notes:"Piezoelectric semiconductor. Bandgap 6.2 eV — transparent deep into UV (~200 nm). Excellent thermal conductor (170–285 W/mK) despite being electrical insulator. Used in MEMS, BAW/FBAR filters for 5G, UV-C LEDs. Lead-free. Radiation-hard.",
-  bands:{radio:["insulator"],microwave:["insulator","converter"],infrared:["transparent","absorber"],visible:["transparent"],ultraviolet:["transparent","converter"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["conductor"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["insulator","converter"],infrared:["transparent","absorber"],visible:["transparent"],ultraviolet:["transparent","converter"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["conductor"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"microwave",to:"electron",mechanism:"Piezoelectric MEMS — BAW/FBAR resonators convert microwave mechanical↔electrical"},{from:"ultraviolet",to:"electron",mechanism:"UV photodetector — bandgap 6.2 eV absorbs deep UV, generates photocurrent"}]},
 
 {id:"zno",formula:"ZnO",name:"Zinc Oxide",category:"piezoelectric",density:5.61,elements:["Zn","O"],p:0,
   notes:"Piezoelectric semiconductor. Bandgap 3.37 eV. Strong UV absorption/emission — used in UV LEDs, varistors, sunscreen. Transparent in visible. Converts UV→visible (phosphor). Photocatalytic. Used in SAW devices, gas sensors, transparent electrodes.",
-  bands:{radio:["insulator","converter"],microwave:["absorber"],infrared:["absorber","transparent"],visible:["transparent","refractor"],ultraviolet:["absorber","converter"],xray:["transparent"],gamma:["transparent"],electron:["resistor","converter"],thermal:["resistor"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator","converter"],microwave:["absorber"],infrared:["absorber","transparent"],visible:["transparent","refractor"],ultraviolet:["absorber","converter"],xray:["transparent"],gamma:["transparent"],electron:["resistor","converter"],thermal:["resistor"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"]},
+  conversions:[{from:"radio",to:"electron",mechanism:"Piezoelectric — SAW devices convert RF mechanical wave to electrical signal"},{from:"ultraviolet",to:"visible",mechanism:"UV phosphor — absorbs UV, emits broadband visible (photoluminescence)"},{from:"electron",to:"ultraviolet",mechanism:"LED — electron injection produces UV emission at ~380nm"}]},
 
 // ── Nuclear Ceramics ─────────────────────────────────────────────────────
 {id:"uo2",formula:"UO₂",name:"Uranium Dioxide",category:"nuclear",density:10.97,elements:["U","O"],p:0,
   notes:"Primary nuclear reactor fuel worldwide. Ceramic, melting point 2865°C. Semiconductor (bandgap ~2 eV). Very low thermal conductivity — a key reactor limitation. Fission source: converts neutron absorption into heat + radiation. Radiation-hard. Also used as gamma shielding (depleted).",
-  bands:{radio:["insulator"],microwave:["absorber"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber","insulator"],gamma:["absorber","insulator","converter"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["absorber","converter"]}},
+  bands:{radio:["insulator"],microwave:["absorber"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber","insulator"],gamma:["absorber","insulator","converter"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["absorber","converter"]},
+  predicted:{radio:["insulator"]},
+  conversions:[{from:"gamma",to:"xray",mechanism:"Photoelectric absorption — gamma absorbed, characteristic X-rays emitted (U Z=92)"},{from:"neutron",to:"gamma",mechanism:"Fission — neutron capture triggers fission, releasing gamma + kinetic particles + heat"}]},
 
 {id:"b4c",formula:"B₄C",name:"Boron Carbide",category:"nuclear",density:2.52,elements:["B","C"],p:0,
   notes:"Premier neutron absorber — ¹⁰B cross-section ~3840 barns. Used in reactor control rods, spent fuel storage, shielding. Third hardest material known (after diamond, cubic BN). Melting point 2763°C. Low density. Chemically inert. Radiation-stable.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["transparent"],electron:["resistor"],thermal:["resistor"],magnetic:["resistor"],neutron:["insulator"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["transparent"],electron:["resistor"],thermal:["resistor"],magnetic:["resistor"],neutron:["insulator"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]}},
 
 {id:"d2o",formula:"D₂O",name:"Heavy Water",category:"nuclear",density:1.11,elements:["H","O"],p:0,
   notes:"Deuterium oxide — neutron moderator in CANDU reactors. Slows fast neutrons to thermal energies without absorbing them (low capture cross-section). Transparent in visible. Absorbs IR strongly. Enables natural uranium fuel cycle. Also used as neutron source medium.",
-  bands:{radio:["transparent"],microwave:["absorber"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent","refractor"]}},
+  bands:{radio:["transparent"],microwave:["absorber"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent","refractor"]},
+  predicted:{thermal:["insulator"]}},
 
 {id:"zro2",formula:"ZrO₂",name:"Zirconia",category:"nuclear",density:5.68,elements:["Zr","O"],p:0,
   notes:"Reactor cladding material (as Zircaloy). Very low neutron absorption — 'transparent' to neutrons. Melting point 2715°C. Thermal insulator. Used in thermal barrier coatings, oxygen sensors, dental ceramics. Transforms between monoclinic/tetragonal/cubic phases.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber","resistor"],visible:["transparent","refractor"],ultraviolet:["absorber"],xray:["absorber"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber","resistor"],visible:["transparent","refractor"],ultraviolet:["absorber"],xray:["absorber"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]}},
 
 {id:"sic",formula:"SiC",name:"Silicon Carbide",category:"nuclear",density:3.21,elements:["Si","C"],p:0,
   notes:"Next-gen accident-tolerant fuel cladding. Exceptional thermal conductor (490 W/mK). Extremely radiation-hard. Bandgap 3.26 eV — wide-bandgap semiconductor. Operates to 1600°C. Also used in power electronics, EV inverters, LED substrates. Transparent in IR.",
-  bands:{radio:["insulator","resistor"],microwave:["absorber","resistor"],infrared:["transparent","absorber"],visible:["absorber","transparent"],ultraviolet:["absorber"],xray:["transparent","diffractor"],gamma:["transparent","diffractor"],electron:["resistor","converter"],thermal:["conductor"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator","resistor"],microwave:["absorber","resistor"],infrared:["transparent","absorber"],visible:["absorber","transparent"],ultraviolet:["absorber"],xray:["transparent","diffractor"],gamma:["transparent","diffractor"],electron:["resistor","converter"],thermal:["conductor"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"]},
+  conversions:[{from:"electron",to:"ultraviolet",mechanism:"LED — early SiC LEDs produced blue/UV emission from 3.0 eV bandgap"}]},
 
 // ── Radiation Shielding ──────────────────────────────────────────────────
 {id:"leadglass",formula:"PbO·SiO₂",name:"Lead Glass",category:"shielding",density:5.2,elements:["Pb","Si","O"],p:0,
@@ -377,31 +416,39 @@ const COMPOUNDS = [
 
 {id:"baso4",formula:"BaSO₄",name:"Barium Sulfate",category:"shielding",density:4.49,elements:["Ba","S","O"],p:0,
   notes:"Added to plaster/concrete for X-ray room walls. Dense, non-toxic, inexpensive. Used in medical barium swallows (GI imaging contrast). Absorbs X-rays well due to Ba (Z=56). White powder — reflects visible light. Also used as white pigment.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["reflector"],ultraviolet:["absorber","reflector"],xray:["absorber","insulator"],gamma:["absorber"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["reflector"],ultraviolet:["absorber","reflector"],xray:["absorber","insulator"],gamma:["absorber"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]}},
 
 {id:"bi2o3",formula:"Bi₂O₃",name:"Bismuth Oxide",category:"shielding",density:8.9,elements:["Bi","O"],p:0,
   notes:"Non-toxic lead substitute for gamma/X-ray shielding. Highest Zeff among non-toxic oxides (Bi Z=83). Added to glass, concrete, polymers for shielding. Yellow-white powder. Used in varistors, solid oxide fuel cells, catalysis. Density rivals lead compounds.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["insulator","absorber"],gamma:["insulator","absorber"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["insulator","absorber"],gamma:["insulator","absorber"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]}},
 
 {id:"borosilicate",formula:"B₂O₃·SiO₂",name:"Borosilicate Glass",category:"shielding",density:2.23,elements:["B","Si","O"],p:0,
   notes:"Pyrex/Schott type glass. Low thermal expansion. Transparent in visible and near-IR. Boron content provides some neutron absorption. Used in lab glassware, reactor viewports, telescope mirrors. Radiation-resistant. Low density limits gamma shielding.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent","absorber"],visible:["transparent","refractor"],ultraviolet:["absorber"],xray:["absorber"],gamma:["transparent","resistor"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["absorber"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent","absorber"],visible:["transparent","refractor"],ultraviolet:["absorber"],xray:["absorber"],gamma:["transparent","resistor"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["absorber"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]}},
 
 {id:"hdpe",formula:"(C₂H₄)ₙ",name:"High-Density Polyethylene (HDPE)",category:"shielding",density:0.97,elements:["C","H"],p:0,
   notes:"Premier neutron moderator/shield — highest hydrogen density of any solid (~0.13 g H/cm³). Slows fast neutrons to thermal energies via elastic scattering off hydrogen nuclei. Used in spent fuel storage, neutron radiography shielding, spacecraft radiation protection. Transparent to gamma (low Z). Absorbs IR strongly (C-H stretch bands). Melts at 130°C — limits reactor proximity. The outer neutron shield layer in layered reactor shielding designs.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["refractor"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["refractor"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]}},
 
 {id:"bor_hdpe",formula:"(C₂H₄)ₙ + B₄C",name:"Borated Polyethylene",category:"shielding",density:1.12,elements:["C","H","B"],p:0,
   notes:"HDPE loaded with 5–30% B₄C powder. Two-step neutron shield: hydrogen moderates fast→thermal, then ¹⁰B captures thermal neutrons cleanly (α + ⁷Li, minimal gamma). Solves HDPE's weakness — plain HDPE thermalizes neutrons but doesn't capture them, creating a thermal neutron field. Standard in nuclear medicine, spent fuel casks, accelerator shielding. Still gamma-transparent — must be paired with high-Z layers for complete shielding.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["insulator","refractor"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["insulator","refractor"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]}},
 
 {id:"gd2o3",formula:"Gd₂O₃",name:"Gadolinium Oxide",category:"shielding",density:7.41,elements:["Gd","O"],p:0,
   notes:"Extreme neutron absorber — Gd-157 has the highest thermal neutron cross-section of any stable isotope (259,000 barns). Unlike B₄C which captures cleanly, Gd capture emits secondary gamma rays — it's a neutron→gamma CONVERTER at the nuclear level. Also a gamma absorber (Gd Z=64, density 7.41 g/cm³). Used as burnable poison in reactor fuel, MRI contrast agent (Gd³⁺ chelates), neutron imaging screens. Dual nuclear function: absorbs neutrons AND absorbs gamma.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["insulator","converter"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["insulator","converter"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"neutron",to:"gamma",mechanism:"Neutron capture — Gd-157 (259,000 barns) absorbs neutron, emits gamma cascade"}]},
 
 {id:"lih",formula:"LiH",name:"Lithium Hydride",category:"shielding",density:0.78,elements:["Li","H"],p:0,
   notes:"Lightest neutron shield — density only 0.78 g/cm³. Combines hydrogen (neutron moderator) with ⁶Li (neutron absorber, 940 barns). Used in space reactor shielding (SNAP program) where mass is the critical constraint. Melting point 688°C — survives closer to reactor core than HDPE. Reactive with moisture. In the SE Cell: lightweight neutron shielding for portable/space applications. The mass-optimized neutron shield.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["absorber","refractor"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["absorber","refractor"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]}},
 
 {id:"densimet",formula:"W-Ni-Fe",name:"Tungsten Heavy Alloy (Densimet)",category:"shielding",density:17.5,elements:["W","Ni","Fe"],p:0,
   notes:"Non-toxic lead replacement for gamma shielding. 17.0–18.5 g/cm³ (denser than lead at 11.3). 90–97% tungsten with Ni-Fe binder. Machinable, non-brittle (unlike pure W). Used in medical collimators, aerospace counterweights, radioactive source containers, and hot cell windows. W (Z=74) gives excellent gamma attenuation. The reactor-grade structural gamma shield — carries mechanical loads while stopping gamma. More expensive than lead but no toxicity or creep.",
@@ -409,7 +456,8 @@ const COMPOUNDS = [
 
 {id:"baryte_concrete",formula:"BaSO₄ + CaSiO₃",name:"Baryte Concrete",category:"shielding",density:3.5,elements:["Ba","S","O","Ca","Si","Fe"],p:0,
   notes:"High-density concrete using baryte aggregate (BaSO₄) instead of limestone. 3.2–3.8 g/cm³ vs 2.3 for normal concrete. THE biological shield around every power reactor — typically 1.5–2.5 m thick. Ba (Z=56) and Fe provide gamma attenuation; hydrogen in water content moderates neutrons. Combined gamma + neutron shield in one pourable structural material. Also used in medical linear accelerator vaults and hot cells. Cheap, permanent, structural.",
-  bands:{radio:["insulator"],microwave:["absorber"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber","insulator"],gamma:["absorber","resistor"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["resistor","refractor"]}},
+  bands:{radio:["insulator"],microwave:["absorber"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber","insulator"],gamma:["absorber","resistor"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["resistor","refractor"]},
+  predicted:{radio:["insulator"]}},
 
 {id:"mumetal",formula:"Ni₇₇Fe₁₆Cu₅Mo₂",name:"Mu-Metal",category:"shielding",density:8.75,elements:["Ni","Fe","Cu","Mo"],p:0,
   notes:"THE magnetic shielding alloy — permeability up to 100,000 (vs ~5,000 for pure iron). Redirects magnetic field lines around the shielded volume. Used to protect CRT tubes, sensitive electronics, MRI rooms, SQUID detectors, photomultiplier tubes. Does NOT block EM radiation — it provides a low-reluctance path for magnetic flux to bypass the interior. In the reactor: shields sensitive gamma detectors and electronics from stray magnetic fields produced by pumps, motors, and ferromagnetic structural components.",
@@ -418,72 +466,91 @@ const COMPOUNDS = [
 // ── Oxide Insulators / Dielectrics ───────────────────────────────────────
 {id:"al2o3",formula:"Al₂O₃",name:"Alumina (Sapphire)",category:"oxide",density:3.99,elements:["Al","O"],p:0,
   notes:"Most widely used structural ceramic. Single crystal = sapphire. Transparent 150 nm – 5.5 μm (UV through mid-IR). Extremely hard (9 Mohs). Electrical insulator. Excellent thermal conductor for a ceramic. Used as laser host (ruby = Cr-doped), IR windows, substrates.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent","refractor"],visible:["transparent","refractor"],ultraviolet:["transparent"],xray:["absorber"],gamma:["transparent","diffractor"],electron:["insulator"],thermal:["resistor"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent","refractor"],visible:["transparent","refractor"],ultraviolet:["transparent"],xray:["absorber"],gamma:["transparent","diffractor"],electron:["insulator"],thermal:["resistor"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]}},
 
 {id:"mgo",formula:"MgO",name:"Magnesium Oxide",category:"oxide",density:3.58,elements:["Mg","O"],p:0,
   notes:"Refractory oxide, melting point 2852°C. Transparent in visible and IR (0.3–8 μm). Excellent electrical insulator. Used as furnace lining, thermal insulator, IR window, and substrate. Low-Z — transparent to X-rays and gamma. Reflective powder (white).",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent","refractor"],visible:["transparent","refractor","reflector"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["resistor"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent","refractor"],visible:["transparent","refractor","reflector"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["resistor"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]}},
 
 {id:"sio2",formula:"SiO₂",name:"Silica (Quartz)",category:"oxide",density:2.65,elements:["Si","O"],p:0,
   notes:"Foundation of glass and fiber optics. Crystalline quartz is piezoelectric. Transparent 160 nm – 4 μm (deep UV to mid-IR). Used in optical fibers (IR conductor), UV windows, frequency standards. Amorphous form = fused silica. Extremely low thermal expansion.",
-  bands:{radio:["insulator"],microwave:["insulator","transparent"],infrared:["transparent","refractor"],visible:["transparent","refractor"],ultraviolet:["transparent","refractor"],xray:["transparent","diffractor"],gamma:["transparent","diffractor"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["transparent"],infrared:["transparent","refractor"],visible:["transparent","refractor"],ultraviolet:["transparent","refractor"],xray:["transparent","diffractor"],gamma:["transparent","diffractor"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"]}},
 
 {id:"tio2",formula:"TiO₂",name:"Titanium Dioxide",category:"oxide",density:4.23,elements:["Ti","O"],p:0,
   notes:"Highest refractive index of any common oxide (n=2.6). Bandgap 3.0–3.2 eV. Photocatalytic — breaks down organics under UV. Used as white pigment, sunscreen (UV absorber), photocatalyst, dielectric coating. Converts UV to heat.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["reflector","refractor"],ultraviolet:["absorber","converter"],xray:["absorber"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["resistor"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["reflector","refractor"],ultraviolet:["absorber","converter"],xray:["absorber"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["absorber"],neutron:["resistor"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"ultraviolet",to:"electron",mechanism:"Photocatalysis — UV above 3.2 eV bandgap generates electron-hole pairs"}]},
 
 {id:"caf2",formula:"CaF₂",name:"Calcium Fluoride",category:"oxide",density:3.18,elements:["Ca","F"],p:0,
   notes:"Optical window material. Transparent 125 nm – 10 μm — broadest window of any common material (VUV through long-wave IR). Used in UV lithography optics, IR spectroscopy, telescope lenses. Low refractive index (1.43). Slightly soluble in water.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent","refractor"],visible:["transparent","refractor"],ultraviolet:["transparent","refractor"],xray:["transparent","diffractor"],gamma:["transparent","diffractor"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent","refractor"],visible:["transparent","refractor"],ultraviolet:["transparent","refractor"],xray:["transparent","diffractor"],gamma:["transparent","diffractor"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]}},
 
 // ── Magnetic Ceramics (Ferrites) ─────────────────────────────────────────
 {id:"mnzn_ferrite",formula:"(Mn,Zn)Fe₂O₄",name:"MnZn Ferrite",category:"ferrite",density:4.8,elements:["Mn","Zn","Fe","O"],p:0,
   notes:"Soft ferrite — high permeability, low coercivity. Primary transformer core material for frequencies up to ~1 MHz. Strong microwave/radio absorber. Used in EMI suppression, inductors, power electronics. Electrically resistive (unlike metal cores).",
-  bands:{radio:["absorber","conductor"],microwave:["absorber","converter"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["transparent"],electron:["resistor"],thermal:["insulator"],magnetic:["conductor"],neutron:["resistor"]}},
+  bands:{radio:["absorber"],microwave:["absorber"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["transparent"],electron:["resistor"],thermal:["insulator"],magnetic:["conductor"],neutron:["resistor"]}},
 
 {id:"nizn_ferrite",formula:"(Ni,Zn)Fe₂O₄",name:"NiZn Ferrite",category:"ferrite",density:4.5,elements:["Ni","Zn","Fe","O"],p:0,
   notes:"Soft ferrite — higher resistivity than MnZn. Operates at higher frequencies (1–500 MHz). Primary material for RF chokes, antenna cores, EMI filters. Very high radio/microwave absorption. Electrically insulating — no eddy currents at RF.",
-  bands:{radio:["absorber","conductor","insulator"],microwave:["absorber","converter"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["conductor"],neutron:["resistor"]}},
+  bands:{radio:["absorber"],microwave:["absorber"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["conductor"],neutron:["resistor"]}},
 
 {id:"ba_ferrite",formula:"BaFe₁₂O₁₉",name:"Barium Ferrite",category:"ferrite",density:5.3,elements:["Ba","Fe","O"],p:0,
   notes:"Hard ferrite — permanent magnet material. Hexagonal crystal structure. High coercivity, moderate remanence. Used in permanent magnets, magnetic recording media, microwave absorbers. Very inexpensive. Chemically stable. Absorbs microwaves strongly.",
-  bands:{radio:["absorber","resistor"],microwave:["absorber","converter","resistor"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["insulator"],thermal:["insulator"],magnetic:["conductor"],neutron:["transparent"]}},
+  bands:{radio:["absorber","resistor"],microwave:["absorber","resistor"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["insulator"],thermal:["insulator"],magnetic:["conductor"],neutron:["transparent"]}},
 
 {id:"sr_ferrite",formula:"SrFe₁₂O₁₉",name:"Strontium Ferrite",category:"ferrite",density:5.1,elements:["Sr","Fe","O"],p:0,
   notes:"Hard ferrite — similar to barium ferrite but slightly higher coercivity. Used in refrigerator magnets, loudspeakers, motors, magnetic separators. Very low cost. Permanent magnet. Strong microwave absorption.",
-  bands:{radio:["absorber","resistor"],microwave:["absorber","converter","resistor"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["conductor"],neutron:["transparent"]}},
+  bands:{radio:["absorber","resistor"],microwave:["absorber","resistor"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["conductor"],neutron:["transparent"]}},
 
 // ── Semiconductors — Gamma→Light→Electricity Conversion Chain ────────────
 // Tier 1: Direct gamma/xray detectors (skip scintillator step)
 {id:"cdte",formula:"CdTe",name:"Cadmium Telluride",category:"semiconductor",density:5.85,elements:["Cd","Te"],p:0,
   notes:"Room-temperature gamma/X-ray detector. Bandgap 1.44 eV (860nm). Direct conversion — no scintillator needed. CdTe solar cells are also the dominant thin-film PV technology. Medium-high Z gives good stopping power for gamma.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent","converter"],visible:["absorber","converter"],ultraviolet:["absorber","converter"],xray:["absorber","converter"],gamma:["absorber","converter"],electron:["resistor","converter"],thermal:["insulator"],magnetic:["resistor"],neutron:["insulator"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent"],visible:["absorber","converter"],ultraviolet:["absorber","converter"],xray:["absorber","converter"],gamma:["absorber","converter"],electron:["resistor","converter"],thermal:["insulator"],magnetic:["resistor"],neutron:["insulator"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"visible",to:"electron",mechanism:"Photovoltaic — direct bandgap 1.44 eV, dominant thin-film solar cell technology"},{from:"ultraviolet",to:"electron",mechanism:"Photodetector — UV absorption generates electron-hole pairs"},{from:"xray",to:"electron",mechanism:"Direct semiconductor detection — X-ray generates electron-hole pairs, no scintillator needed"},{from:"gamma",to:"electron",mechanism:"Direct semiconductor detection — room-temperature gamma detector"},{from:"electron",to:"infrared",mechanism:"LED — electron injection produces near-IR emission at ~850nm"}]},
 
 {id:"czt",formula:"Cd₀.₉Zn₀.₁Te",name:"Cadmium Zinc Telluride (CZT)",category:"semiconductor",density:5.78,elements:["Cd","Zn","Te"],p:0,
   notes:"Improved CdTe — Zn addition increases resistivity and bandgap (1.57 eV, tunable). Best energy resolution of room-temperature gamma detectors. Used in medical imaging (SPECT), nuclear security, astrophysics. Higher cost than CdTe but superior spectral performance.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent"],visible:["absorber","converter"],ultraviolet:["absorber","converter"],xray:["absorber","converter"],gamma:["absorber","converter"],electron:["resistor"],thermal:["insulator"],magnetic:["resistor"],neutron:["insulator"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent"],visible:["absorber","converter"],ultraviolet:["absorber","converter"],xray:["absorber","converter"],gamma:["absorber","converter"],electron:["resistor"],thermal:["insulator"],magnetic:["resistor"],neutron:["insulator"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"visible",to:"electron",mechanism:"Photovoltaic — tunable bandgap 1.57 eV, photon→electron-hole pair"},{from:"ultraviolet",to:"electron",mechanism:"Photodetector — UV absorbed, generates photocurrent"},{from:"xray",to:"electron",mechanism:"Direct semiconductor detection — best room-temperature X-ray energy resolution"},{from:"gamma",to:"electron",mechanism:"Direct semiconductor detection — SPECT, nuclear security, astrophysics"}]},
 
 {id:"hgi2",formula:"HgI₂",name:"Mercuric Iodide",category:"semiconductor",density:6.36,elements:["Hg","I"],p:0,
   notes:"Highest stopping power of any room-temperature semiconductor detector. Z: Hg=80, I=53. Bandgap 2.13 eV (582nm). Fragile layered crystal — research-grade, not widely deployed. Red crystal, absorbs blue/green, transmits red/yellow. Excellent gamma energy resolution but difficult to grow large crystals.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent"],visible:["absorber","converter","transparent"],ultraviolet:["absorber"],xray:["absorber","converter"],gamma:["absorber","converter"],electron:["resistor"],thermal:["insulator"],magnetic:["resistor"],neutron:["absorber"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent"],visible:["absorber","converter","transparent"],ultraviolet:["absorber"],xray:["absorber","converter"],gamma:["absorber","converter"],electron:["resistor"],thermal:["insulator"],magnetic:["resistor"],neutron:["absorber"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"visible",to:"electron",mechanism:"Photodetector — absorbs blue/green (bandgap 2.13 eV), generates photocurrent"},{from:"xray",to:"electron",mechanism:"Direct semiconductor detection — highest stopping power room-temperature detector"},{from:"gamma",to:"electron",mechanism:"Direct semiconductor detection — excellent energy resolution"}]},
 
 // Tier 2: Scintillator-to-PV bridge (gamma→light→electricity)
 {id:"gaas",formula:"GaAs",name:"Gallium Arsenide",category:"semiconductor",density:5.32,elements:["Ga","As"],p:0,
   notes:"Direct bandgap 1.42 eV (873nm) — highest single-junction solar efficiency. THE microwave semiconductor (MMICs, radar, satellite comms). High electron mobility. Space-grade radiation tolerance. In the gamma chain: converts scintillator visible/near-IR output to electricity.",
-  bands:{radio:["insulator","converter"],microwave:["converter","resistor"],infrared:["transparent","converter"],visible:["absorber","converter"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["resistor","converter"],thermal:["resistor"],magnetic:["resistor"],neutron:["resistor"]}},
+  bands:{radio:["conductor"],microwave:["conductor","resistor"],infrared:["transparent","converter"],visible:["absorber","converter"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["resistor","converter"],thermal:["resistor"],magnetic:["resistor"],neutron:["resistor"]},
+  conversions:[{from:"infrared",to:"electron",mechanism:"Photovoltaic — direct bandgap 1.42 eV (873nm), highest single-junction solar efficiency"},{from:"visible",to:"electron",mechanism:"Photovoltaic — absorbs visible light, converts to electricity"},{from:"electron",to:"infrared",mechanism:"LED/laser — electron injection produces near-IR emission at 850-940nm"}]},
 
 {id:"ingap",formula:"InGaP",name:"Indium Gallium Phosphide",category:"semiconductor",density:4.47,elements:["In","Ga","P"],p:0,
   notes:"Bandgap ~1.9 eV (653nm) — optimized for green/yellow photon conversion. Top cell in multi-junction solar stacks (InGaP/GaAs/Ge). Matches emission wavelength of NaI(Tl) (415nm) and LYSO:Ce (420nm) scintillators. Lattice-matched to GaAs. In the gamma chain: captures scintillator output at peak efficiency.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent"],visible:["absorber","converter"],ultraviolet:["absorber","converter"],xray:["transparent"],gamma:["transparent"],electron:["resistor","converter"],thermal:["insulator"],magnetic:["resistor"],neutron:["absorber"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent"],visible:["absorber","converter"],ultraviolet:["absorber","converter"],xray:["transparent"],gamma:["transparent"],electron:["resistor","converter"],thermal:["insulator"],magnetic:["resistor"],neutron:["absorber"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"visible",to:"electron",mechanism:"Photovoltaic — bandgap 1.9 eV, top cell in multi-junction solar stacks"},{from:"ultraviolet",to:"electron",mechanism:"Photodetector — UV absorbed above bandgap, generates photocurrent"},{from:"electron",to:"visible",mechanism:"LED — electron injection produces red/orange emission at ~650nm"}]},
 
 {id:"gap",formula:"GaP",name:"Gallium Phosphide",category:"semiconductor",density:4.14,elements:["Ga","P"],p:0,
   notes:"Bandgap 2.26 eV (549nm) — green wavelength. Indirect bandgap limits absorption efficiency but matches green-emitting scintillators. Used in green/yellow LEDs. Transparent to red and IR. In the gamma chain: alternative PV converter for green scintillator output.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent"],visible:["converter","transparent"],ultraviolet:["absorber","converter"],xray:["transparent"],gamma:["transparent"],electron:["resistor"],thermal:["conductor"],magnetic:["resistor"],neutron:["resistor"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent"],visible:["converter","transparent"],ultraviolet:["absorber","converter"],xray:["transparent"],gamma:["transparent"],electron:["resistor"],thermal:["conductor"],magnetic:["resistor"],neutron:["resistor"]},
+  predicted:{radio:["insulator"],microwave:["insulator"],visible:["converter"]},
+  conversions:[{from:"visible",to:"electron",mechanism:"Photovoltaic — indirect bandgap 2.26 eV, limited efficiency, green absorption"},{from:"ultraviolet",to:"electron",mechanism:"Photodetector — UV absorbed above bandgap"}]},
 
 // Tier 3: Radiation-hard (survives in gamma environment)
 {id:"gan",formula:"GaN",name:"Gallium Nitride",category:"semiconductor",density:6.15,elements:["Ga","N"],p:0,
   notes:"Wide bandgap 3.4 eV (365nm) — UV converter and detector. Extremely radiation hard. High-power microwave amplifiers (GaN HEMTs replacing GaAs in radar/5G). Blue/UV LED and laser source. Operates at high temperature. In the gamma chain: power electronics that survive the reactor environment + UV detection.",
-  bands:{radio:["insulator"],microwave:["converter","resistor"],infrared:["transparent"],visible:["transparent"],ultraviolet:["absorber","converter"],xray:["transparent"],gamma:["transparent"],electron:["resistor","converter"],thermal:["conductor"],magnetic:["resistor"],neutron:["resistor"]}},
+  bands:{radio:["insulator"],microwave:["conductor","resistor"],infrared:["transparent"],visible:["transparent"],ultraviolet:["absorber","converter"],xray:["transparent"],gamma:["transparent"],electron:["resistor","converter"],thermal:["conductor"],magnetic:["resistor"],neutron:["resistor"]},
+  predicted:{radio:["insulator"]},
+  conversions:[{from:"ultraviolet",to:"electron",mechanism:"UV photodetector — bandgap 3.4 eV, solar-blind UV detection"},{from:"electron",to:"ultraviolet",mechanism:"LED/laser — electron injection produces UV/blue emission at 365nm"}]},
 
 // ── Thermoelectrics — Thermal→Electric Conversion (Seebeck Effect) ───────
 // Role logic:
@@ -497,39 +564,56 @@ const COMPOUNDS = [
 
 {id:"bi2te3",formula:"Bi₂Te₃",name:"Bismuth Telluride",category:"thermoelectric",density:7.86,elements:["Bi","Te"],p:0,
   notes:"THE reference thermoelectric. ZT~1 near 300 K. Seebeck coefficient ~200 μV/K. Used in Peltier coolers and waste-heat generators since the 1950s. Narrow bandgap 0.15 eV. Layered van der Waals crystal — cleavable like mica. Also a topological insulator (surface states conduct without backscattering). High-Z (Bi=83, Te=52) makes it a gamma/X-ray absorber — dual-purpose: thermal conversion + radiation absorption. Primary SE Cell thermal converter at low-to-moderate temperatures.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber","converter"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["resistor","converter"],thermal:["insulator","converter"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["resistor","converter"],thermal:["insulator","converter"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"thermal",to:"electron",mechanism:"Seebeck effect — ZT~1 at 300K, thermal gradient drives electron flow"},{from:"electron",to:"thermal",mechanism:"Peltier effect — current flow produces heating/cooling"}]},
 
 {id:"pbte",formula:"PbTe",name:"Lead Telluride",category:"thermoelectric",density:8.16,elements:["Pb","Te"],p:0,
   notes:"Mid-temperature thermoelectric (500–900 K). ZT~1.5+ with nanostructuring. Bandgap 0.32 eV. Also a sensitive IR photodetector (3–30 μm). Used in RTGs for space missions alongside SiGe. Highest-Z common thermoelectric (Pb=82, Te=52). Rock-salt crystal structure. 8.16 g/cm³ density provides substantial gamma/X-ray shielding — dual-purpose thermal converter + radiation shield. Powers deep-space probes.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber","converter"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber","insulator"],gamma:["absorber"],electron:["resistor","converter"],thermal:["insulator","converter"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber","insulator"],gamma:["absorber"],electron:["resistor","converter"],thermal:["insulator","converter"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"thermal",to:"electron",mechanism:"Seebeck effect — ZT~1.5+ at 500-900K, mid-temperature thermoelectric"},{from:"electron",to:"thermal",mechanism:"Peltier effect — current flow produces heating/cooling"}]},
 
 {id:"sige",formula:"SiGe",name:"Silicon Germanium",category:"thermoelectric",density:3.5,elements:["Si","Ge"],p:0,
   notes:"THE high-temperature thermoelectric (>900 K). Powers Voyager, Curiosity, and Perseverance RTGs — proven 40+ year space heritage in nuclear-decay-powered devices (Pu-238). ZT~0.9 at 1300 K. Bandgap ~0.7–1.1 eV (tunable with Si:Ge ratio). Radiation hard. Low density (3.5 g/cm³). Abundant elements. The only thermoelectric proven in a radioisotope thermal generator — directly relevant to both SE Cell and reactor waste-heat recovery at the highest temperatures.",
-  bands:{radio:["insulator","resistor"],microwave:["resistor"],infrared:["absorber","converter"],visible:["absorber"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["resistor","converter"],thermal:["resistor","converter"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["resistor"],microwave:["resistor"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["resistor","converter"],thermal:["resistor","converter"],magnetic:["resistor"],neutron:["transparent"]},
+  conversions:[{from:"thermal",to:"electron",mechanism:"Seebeck effect — ZT~0.9 at 1300K, powers Voyager/Curiosity/Perseverance RTGs"},{from:"electron",to:"thermal",mechanism:"Peltier effect — current flow produces heating/cooling"}]},
 
 {id:"cosb3",formula:"CoSb₃",name:"Cobalt Antimonide (Skutterudite)",category:"thermoelectric",density:7.64,elements:["Co","Sb"],p:0,
   notes:"Skutterudite crystal structure — open cage that can be 'filled' with rare-earth atoms (La, Ce, Yb) to scatter phonons and boost ZT from ~0.5 to ~1.7. Mid-temperature range (500–800 K). The cage-filling mechanism is unique: guest atoms rattle inside voids, disrupting heat conduction without affecting electrical conduction. Represents an engineered approach — tuning thermal properties by inserting atoms into a crystal cage.",
-  bands:{radio:["insulator"],microwave:["absorber"],infrared:["absorber","converter"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["resistor","converter"],thermal:["insulator","converter"],magnetic:["absorber"],neutron:["resistor"]}},
+  bands:{radio:["insulator"],microwave:["absorber"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["resistor","converter"],thermal:["insulator","converter"],magnetic:["absorber"],neutron:["resistor"]},
+  predicted:{radio:["insulator"]},
+  conversions:[{from:"thermal",to:"electron",mechanism:"Seebeck effect — ZT~1.7 filled skutterudite, 500-800K range"},{from:"electron",to:"thermal",mechanism:"Peltier effect — current flow produces heating/cooling"}]},
 
 {id:"snse",formula:"SnSe",name:"Tin Selenide",category:"thermoelectric",density:6.18,elements:["Sn","Se"],p:0,
   notes:"Record-breaking ZT~2.6 in single crystals at 923 K (2014, Zhao et al.). Earth-abundant, non-toxic. Layered orthorhombic crystal. Ultra-low thermal conductivity from strong anharmonic bonding — phonons scatter against each other rather than carrying heat. Bandgap ~0.86 eV. Also an IR photodetector. Represents a different physics mechanism (anharmonicity) than traditional thermoelectrics. Promising for next-gen SE Cell designs.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber","converter"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["resistor","converter"],thermal:["insulator","converter"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["resistor","converter"],thermal:["insulator","converter"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"thermal",to:"electron",mechanism:"Seebeck effect — record ZT~2.6 in single crystal at 923K"},{from:"electron",to:"thermal",mechanism:"Peltier effect — current flow produces heating/cooling"}]},
 
 {id:"bi2se3",formula:"Bi₂Se₃",name:"Bismuth Selenide",category:"thermoelectric",density:6.82,elements:["Bi","Se"],p:0,
   notes:"Thermoelectric AND topological insulator — surface states conduct electricity without backscattering, protected by time-reversal symmetry. Bandgap 0.3 eV. ZT~0.5–1.0. Layered crystal like Bi₂Te₃ but with wider bandgap. High Z (Bi=83) gives gamma absorption. The topological surface states create dissipationless conduction channels that may enable new energy conversion mechanisms beyond conventional Seebeck effect.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber","converter"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["resistor","converter"],thermal:["insulator","converter"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["resistor","converter"],thermal:["insulator","converter"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"thermal",to:"electron",mechanism:"Seebeck effect — ZT~0.5-1.0, topological insulator surface states"},{from:"electron",to:"thermal",mechanism:"Peltier effect — current flow produces heating/cooling"}]},
 
 {id:"mg2si",formula:"Mg₂Si",name:"Magnesium Silicide",category:"thermoelectric",density:1.99,elements:["Mg","Si"],p:0,
   notes:"Lightest thermoelectric — density only 1.99 g/cm³. Made entirely from earth-abundant, non-toxic elements. ZT~1.0 at 500–800 K. Antifluorite crystal structure. Bandgap 0.78 eV. Best power-to-weight ratio of any thermoelectric. Low Z (Mg=12, Si=14) means X-ray and gamma transparent — not a shielding material, but lightweight for portable or space-constrained SE Cell designs where mass matters more than shielding.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber","converter"],visible:["absorber"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["resistor","converter"],thermal:["insulator","converter"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["resistor","converter"],thermal:["insulator","converter"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"thermal",to:"electron",mechanism:"Seebeck effect — ZT~1.0 at 500-800K, lightest thermoelectric (1.99 g/cm³)"},{from:"electron",to:"thermal",mechanism:"Peltier effect — current flow produces heating/cooling"}]},
 
 {id:"gete",formula:"GeTe",name:"Germanium Telluride",category:"thermoelectric",density:6.14,elements:["Ge","Te"],p:0,
   notes:"High-temperature thermoelectric, ZT~2.0+ at 700 K in GeTe-based alloys. Also a phase-change material — reversible crystal↔amorphous transitions alter all optical and electrical properties. Used in optical data storage and PCM memory. Ferroelectric below 700 K. Bandgap ~0.6 eV. Dual-purpose: thermal conversion + switchable material properties. The phase-change capability means a single material can be toggled between transparent and absorbing states.",
-  bands:{radio:["insulator"],microwave:["insulator","resistor"],infrared:["absorber","converter"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["resistor","converter"],thermal:["insulator","converter"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["insulator","resistor"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["resistor","converter"],thermal:["insulator","converter"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"thermal",to:"electron",mechanism:"Seebeck effect — ZT~2.0+ at 700K in GeTe-based alloys"},{from:"electron",to:"thermal",mechanism:"Peltier effect — current flow produces heating/cooling"}]},
 
 {id:"tinisn",formula:"TiNiSn",name:"Titanium Nickel Tin (Half-Heusler)",category:"thermoelectric",density:7.15,elements:["Ti","Ni","Sn"],p:0,
   notes:"Half-Heusler intermetallic — ordered crystal with natural atomic vacancies that scatter phonons. ZT~1.0–1.5 at 500–900 K. Mechanically robust (unlike layered chalcogenides). Radiation hard. High melting point (~1500 K). Bandgap ~0.5 eV. The structural class has half its atomic sites empty, creating built-in phonon scattering. Survives harsh reactor environments where fragile Bi₂Te₃ or SnSe would fail. The reactor-grade thermoelectric.",
-  bands:{radio:["insulator"],microwave:["absorber"],infrared:["absorber","converter"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["resistor","converter"],thermal:["insulator","converter"],magnetic:["absorber"],neutron:["resistor"]}},
+  bands:{radio:["insulator"],microwave:["absorber"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["resistor","converter"],thermal:["insulator","converter"],magnetic:["absorber"],neutron:["resistor"]},
+  predicted:{radio:["insulator"]},
+  conversions:[{from:"thermal",to:"electron",mechanism:"Seebeck effect — ZT~1.0-1.5 at 500-900K, mechanically robust half-Heusler"},{from:"electron",to:"thermal",mechanism:"Peltier effect — current flow produces heating/cooling"}]},
 
 // ── Structural / Thermal Ceramics — Reactor & SE Cell Infrastructure ─────
 // These are the structural bones and thermal plumbing of both designs.
@@ -542,19 +626,22 @@ const COMPOUNDS = [
 
 {id:"beo",formula:"BeO",name:"Beryllium Oxide",category:"ceramic",density:3.01,elements:["Be","O"],p:0,
   notes:"Exceptional thermal conductor for a ceramic (330 W/mK — rivals metals) while being an electrical insulator. Used as neutron moderator/reflector in research reactors (Be reflects neutrons efficiently). Transparent 200 nm – 8 μm (deep UV through mid-IR). Bandgap 10.6 eV. Microwave window material. Used in high-power electronics substrates and reactor neutron reflectors. TOXIC as dust — handling requires controls. Triple role: thermal conductor + electrical insulator + neutron moderator.",
-  bands:{radio:["insulator"],microwave:["transparent"],infrared:["transparent","refractor"],visible:["transparent","refractor"],ultraviolet:["transparent"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["conductor"],magnetic:["resistor"],neutron:["transparent","reflector","refractor"]}},
+  bands:{radio:["transparent"],microwave:["transparent"],infrared:["transparent","refractor"],visible:["transparent","refractor"],ultraviolet:["transparent"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["conductor"],magnetic:["resistor"],neutron:["transparent","reflector","refractor"]}},
 
 {id:"hbn",formula:"h-BN",name:"Hexagonal Boron Nitride",category:"ceramic",density:2.1,elements:["B","N"],p:0,
   notes:"'White graphite' — layered crystal with extreme anisotropy. In-plane thermal conductivity up to 400 W/mK (rivals copper); through-plane ~30 W/mK. Electrical insulator in all directions. Neutron absorber via ¹⁰B content. Lubricant to 900°C in air, 2000°C in inert atmosphere. Bandgap ~6 eV. Transparent to microwave. Cubic phase (c-BN) is the second hardest material after diamond. In the reactor: thermal conductor that also absorbs stray neutrons — dual function.",
-  bands:{radio:["insulator"],microwave:["transparent"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["resistor"],magnetic:["resistor"],neutron:["absorber"]}},
+  bands:{radio:["transparent"],microwave:["transparent"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["resistor"],magnetic:["resistor"],neutron:["absorber"]}},
 
 {id:"si3n4",formula:"Si₃N₄",name:"Silicon Nitride",category:"ceramic",density:3.17,elements:["Si","N"],p:0,
   notes:"Premier structural ceramic for extreme environments. Exceptional thermal shock resistance (survives rapid heating/cooling that shatters Al₂O₃). Fracture toughness 6–8 MPa·m½ — toughest non-composite ceramic. Low thermal expansion (3.3 ppm/K). Used in turbine blades, bearings, cutting tools, engine components. Bandgap ~5 eV. Transparent to near-IR in thin films. Low-Z = radiation-transparent. The reactor structural material where thermal shock is the dominant failure mode.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["resistor"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["absorber"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["resistor"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]}},
 
 {id:"yag",formula:"Y₃Al₅O₁₂",name:"Yttrium Aluminum Garnet (YAG)",category:"ceramic",density:4.56,elements:["Y","Al","O"],p:0,
   notes:"THE laser host crystal. Nd:YAG converts pump light (808 nm) to coherent 1064 nm IR — the most widely used solid-state laser. Ce:YAG converts blue (460 nm) to broadband yellow — the phosphor in white LEDs. Undoped: transparent 210 nm – 5.5 μm. Garnet crystal structure = mechanically tough, thermally stable. Used in laser surgery, industrial cutting, defense, LED lighting. The material that makes lasers work. In the SE framework: optical-band converter host.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent","refractor","converter"],visible:["transparent","refractor","converter"],ultraviolet:["transparent"],xray:["absorber"],gamma:["transparent","diffractor"],electron:["insulator"],thermal:["resistor"],magnetic:["absorber"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent","refractor","transformer"],visible:["transparent","refractor","transformer"],ultraviolet:["transparent"],xray:["absorber"],gamma:["transparent","diffractor"],electron:["insulator"],thermal:["resistor"],magnetic:["absorber"],neutron:["transparent"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"infrared",to:"infrared",mechanism:"Nd:YAG laser — 808nm pump light converted to coherent 1064nm IR"},{from:"visible",to:"visible",mechanism:"Ce:YAG phosphor — blue 460nm converted to broadband yellow for white LEDs"}]},
 
 {id:"wc",formula:"WC",name:"Tungsten Carbide",category:"ceramic",density:15.63,elements:["W","C"],p:0,
   notes:"Densest common engineering ceramic (15.63 g/cm³ — denser than uranium metal). Electrically conductive (metallic behavior). Extremely hard (9–9.5 Mohs). Melting point 2870°C. W (Z=74) gives powerful gamma/X-ray absorption — comparable stopping power to lead at half the toxicity. Used in cutting tools, armor-piercing rounds, drilling. In the reactor: structural gamma shielding that carries mechanical loads — shielding and structure in one material.",
@@ -562,7 +649,8 @@ const COMPOUNDS = [
 
 {id:"hfo2",formula:"HfO₂",name:"Hafnium Oxide (Hafnia)",category:"ceramic",density:9.68,elements:["Hf","O"],p:0,
   notes:"Hafnium: the reactor control element. Hf thermal neutron capture cross-section ~104 barns — used in Navy submarine reactor control rods. HfO₂ melting point 2758°C. Bandgap 5.7 eV — transparent in visible, used as high-refractive-index optical coating (n≈2.0). Highest dielectric constant of any binary oxide (high-k gate dielectric in every modern CPU). Density 9.68 g/cm³. In the reactor: neutron absorber + gamma absorber (Z=72) + thermal barrier. Triple nuclear function.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent","refractor"],ultraviolet:["absorber"],xray:["absorber","insulator"],gamma:["absorber"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["absorber"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent","refractor"],ultraviolet:["absorber"],xray:["absorber","insulator"],gamma:["absorber"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["absorber"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]}},
 
 {id:"zrb2",formula:"ZrB₂",name:"Zirconium Diboride",category:"ceramic",density:6.09,elements:["Zr","B"],p:0,
   notes:"Ultra-high temperature ceramic (UHTC) — melting point 3246°C, highest of any boride. Electrically conductive (metallic). Oxidation resistant at extreme temperatures. Used in hypersonic vehicle leading edges, rocket nozzles, next-gen nuclear thermal protection. Combines Zr (neutron-transparent) with B (neutron-absorbing via ¹⁰B). Very hard. Low thermal expansion. In the reactor: extreme-temperature structural ceramic for regions near the core where nothing else survives.",
@@ -570,7 +658,8 @@ const COMPOUNDS = [
 
 {id:"spinel",formula:"MgAl₂O₄",name:"Magnesium Aluminate Spinel",category:"ceramic",density:3.58,elements:["Mg","Al","O"],p:0,
   notes:"Transparent ceramic armor — ballistic protection while allowing optical transmission. Transparent 200 nm – 5.5 μm (UV through mid-IR). Harder than glass, tougher than sapphire. Cubic crystal = optically isotropic (no birefringence). Used in military vehicle windows, spacecraft optics, IR domes. Radiation hard — maintains transparency under neutron and gamma irradiation. Low-Z = X-ray/gamma transparent. In the SE Cell: optical window material that survives the radiation environment without darkening.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent","refractor"],visible:["transparent","refractor"],ultraviolet:["transparent"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["resistor"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["transparent","refractor"],visible:["transparent","refractor"],ultraviolet:["transparent"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["resistor"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]}},
 
 // ── Polymers / Plastics — Radiation-Environment Organic Materials ─────────
 // Role logic:
@@ -583,27 +672,35 @@ const COMPOUNDS = [
 
 {id:"kapton",formula:"C₂₂H₁₀N₂O₅",name:"Kapton (Polyimide Film)",category:"polymer",density:1.42,elements:["C","H","N","O"],p:0,
   notes:"THE radiation-hard polymer — survives >10 MGy (10,000× typical polymer limit). Flexible electrical insulator from -269°C to +400°C. Used in every nuclear and space application requiring flexible wiring insulation, circuit substrates, thermal blankets. Amber-colored = absorbs blue/UV, transmits yellow-red. Thermal conductivity only 0.12 W/mK — excellent thermal insulator. In the SE Cell: flexible wiring insulation and circuit substrate that survives the radiation environment indefinitely. In the reactor: instrument wiring insulation.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent","absorber"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor","refractor"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent","absorber"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor","refractor"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]}},
 
 {id:"peek",formula:"C₁₉H₁₂O₃",name:"PEEK (Polyether Ether Ketone)",category:"polymer",density:1.30,elements:["C","H","O"],p:0,
   notes:"Highest-performance engineering thermoplastic. Continuous service to 260°C. Radiation resistant to ~1 MGy. Mechanically strong (tensile 100 MPa), self-lubricating, chemically inert. Replaces metal in bearings, seals, structural bushings in radiation environments. Semi-crystalline — properties degrade gracefully rather than catastrophically under radiation. In the reactor: structural seals, valve seats, bearing surfaces where metal-on-metal friction generates particles that contaminate coolant.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor","refractor"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor","refractor"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]}},
 
 {id:"pvt_scint",formula:"C₉H₁₀ + fluors",name:"Plastic Scintillator (PVT)",category:"polymer",density:1.03,elements:["C","H"],p:0,
   notes:"Polyvinyltoluene base + wavelength-shifting fluors. Converts beta particles and fast neutrons to visible light (typically 425 nm blue). Response time 2–3 ns — fastest scintillator class. Can be cast into any shape: sheets, fibers, large-area panels. Fiber form pipes scintillation light via total internal reflection to remote photovoltaics. Used in portal monitors, neutrino detectors, health physics. Low-Z means gamma-transparent (poor gamma detection) — but excellent for beta and fast neutrons. In the SE Cell: beta→visible converter layer.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["transparent","converter"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["refractor"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["transparent","transformer"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["refractor"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"xray",to:"visible",mechanism:"Plastic scintillation — fluor dopants absorb X-ray energy, emit visible light"}]},
 
 {id:"pvdf",formula:"(CH₂CF₂)ₙ",name:"PVDF (Polyvinylidene Fluoride)",category:"polymer",density:1.78,elements:["C","H","F"],p:0,
   notes:"Piezoelectric polymer — d₃₃ ~30 pC/N (lower than PZT's 600 but flexible). Converts mechanical stress↔electricity and thermal changes→electricity (pyroelectric). Can be formed into thin flexible films, coatings, fibers. Used in hydrophones, ultrasonic transducers, vibration energy harvesters, IR motion sensors. The flexible version of BaTiO₃ — wraps around curved surfaces where ceramics crack. Moderate radiation tolerance. In the SE Cell: flexible thermal→electrical converter film on non-flat surfaces.",
-  bands:{radio:["insulator","converter"],microwave:["insulator"],infrared:["absorber","converter"],visible:["transparent"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator","converter"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]}},
+  bands:{radio:["insulator","converter"],microwave:["insulator"],infrared:["absorber","converter"],visible:["transparent"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator","converter"],thermal:["insulator"],magnetic:["resistor"],neutron:["transparent"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]},
+  conversions:[{from:"radio",to:"electron",mechanism:"Piezoelectric — PVDF film converts mechanical vibration to electrical signal"},{from:"infrared",to:"electron",mechanism:"Pyroelectric — IR-induced temperature change generates voltage"},{from:"electron",to:"mechanical",mechanism:"Inverse piezoelectric — electrical signal drives film deformation"}]},
 
 {id:"silicone",formula:"(SiO(CH₃)₂)ₙ",name:"Silicone Rubber (PDMS)",category:"polymer",density:1.15,elements:["Si","O","C","H"],p:0,
   notes:"Flexible thermal insulator and sealant, -60°C to +300°C. Si-O backbone more radiation-resistant than C-C polymers (~1 MGy). Used in reactor gaskets, O-rings, electrical potting, conformal coatings, flexible thermal insulation. Optically transparent to visible and near-IR when unfilled. Thermal conductivity 0.15–0.30 W/mK. Conforms to complex geometries. In the reactor: flexible seals that maintain integrity under radiation. In the SE Cell: encapsulant and thermal management layer between conversion surfaces.",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor","refractor"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["resistor","refractor"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]}},
 
 {id:"parylene",formula:"(C₈H₈)ₙ",name:"Parylene (Poly-p-xylylene)",category:"polymer",density:1.11,elements:["C","H"],p:0,
   notes:"Vapor-deposited conformal coating — coats every surface uniformly including inside crevices, sharp edges, and porous substrates. Pinhole-free at 1 μm thickness. Excellent moisture barrier, electrical insulator, chemical inert. Radiation tolerant to ~10 MGy (rivals Kapton). Used to protect sensitive electronics, MEMS, implanted medical devices, and detector assemblies from corrosion and moisture. In the SE Cell: protects photovoltaic and semiconductor surfaces from environmental degradation without blocking incoming radiation (thin enough to be transparent to gamma, X-ray, and most visible light).",
-  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["refractor"]}},
+  bands:{radio:["insulator"],microwave:["insulator"],infrared:["absorber"],visible:["transparent"],ultraviolet:["absorber"],xray:["transparent"],gamma:["transparent"],electron:["insulator"],thermal:["insulator"],magnetic:["resistor"],neutron:["refractor"]},
+  predicted:{radio:["insulator"],microwave:["insulator"]}},
 
 // ── Alloys — Engineered Metals for Reactor & SE Cell ─────────────────────
 // Role logic:
@@ -628,7 +725,8 @@ const COMPOUNDS = [
 
 {id:"nichrome",formula:"Ni₈₀Cr₂₀",name:"Nichrome",category:"alloy",density:8.4,elements:["Ni","Cr"],p:0,
   notes:"THE resistive heating alloy — converts electricity→thermal energy at any desired power level. Resistivity 1.1 μΩ·m (60× copper). Survives continuous operation at 1200°C in air. Forms stable Cr₂O₃ protective oxide. Used in heating elements, resistors, thermocouples. In the framework: a dedicated electrical→thermal CONVERTER — the reverse direction of thermoelectrics. Combined with thermoelectrics, creates a bidirectional thermal↔electrical bridge. Not a reactor structural material — an energy conversion tool.",
-  bands:{radio:["conductor","resistor"],microwave:["reflector","resistor"],infrared:["absorber","converter"],visible:["reflector"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["conductor","converter"],thermal:["resistor"],magnetic:["absorber"],neutron:["resistor"]}},
+  bands:{radio:["conductor","resistor"],microwave:["reflector","resistor"],infrared:["absorber"],visible:["reflector"],ultraviolet:["absorber"],xray:["absorber"],gamma:["absorber"],electron:["conductor","converter"],thermal:["resistor"],magnetic:["absorber"],neutron:["resistor"]},
+  conversions:[{from:"electron",to:"thermal",mechanism:"Resistive heating — designed for efficient electricity→heat conversion in heating elements"}]},
 
 {id:"nitinol",formula:"NiTi",name:"Nitinol (Shape Memory Alloy)",category:"alloy",density:6.45,elements:["Ni","Ti"],p:0,
   notes:"Shape memory effect: deforms below transition temperature, snaps back to original shape when heated past it (50–80°C, tunable). Converts thermal energy→mechanical motion directly with no external power source. Also superelastic — 8% recoverable strain (10× steel). Used in medical stents, actuators, satellite deployment mechanisms, thermal valves. In the SE Cell: passive thermal→mechanical actuator for self-regulating louvers, thermal switches, and deployment mechanisms. Operates without electronics — pure thermal control.",
