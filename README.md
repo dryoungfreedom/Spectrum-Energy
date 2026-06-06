@@ -53,7 +53,7 @@ Current nuclear technology allows all fission energy to thermalize into heat, th
 |------|---------|
 | [GETTING-STARTED.md](GETTING-STARTED.md) | **Start here** — download, AI setup, license, ethical use |
 | [spectrum-data.js](spectrum-data.js) | Single source of truth — 118 elements, 79 compounds, 34 isotopes, 15 bands |
-| [Gamma Gap Roadmap](GAMMA-GAP-ROADMAP.md) | Research analysis of the four open gamma control roles |
+| [Gamma Gap Roadmap](GAMMA-GAP-ROADMAP.md) | Research analysis of the five open gamma control roles |
 | [Project Reference](PROJECT-REFERENCE.md) | Architecture decisions, physics rules, data structure |
 | [Glossary](GLOSSARY.md) | All research terms and definitions (markdown) |
 
@@ -72,13 +72,13 @@ Current nuclear technology allows all fission energy to thermalize into heat, th
 
 ## The Gamma Gap
 
-The research frontier. Four gamma control roles remain open:
+The research frontier. Five gamma control roles remain open:
 
 | Role | Status | Priority | Path Forward |
 |------|--------|----------|-------------|
-| Reflector | OPEN | Highest | Laue crystal diffraction, nuclear resonance scattering, extreme grazing incidence |
-| Refractor | CLOSED | — | Physically impossible at gamma frequencies (no material has refractive index ≠ 1) |
-| Channel | OPEN | Medium | Depends on solving reflection first |
+| Reflector | OPEN | Highest | Three approaches under investigation: (1) **Crystal diffraction** — Laue/Bragg diffraction in silicon and germanium crystals, nuclear resonance scattering in Mössbauer isotopes, extreme grazing-incidence optics. (2) **Photon-on-photon interaction** — ATLAS/LHC confirmed light-by-light scattering in 2017 (γγ → γγ); Delbrück scattering measured at gamma energies below 7 GeV; SLAC E-144 demonstrated gamma-range photons interacting with laser fields (1997). (3) **Laser-engineered quantum states** — Washington State University (2025) used laser pulses to create a Bose-Einstein condensate that accelerates opposite to an applied force (negative effective mass); if applicable at gamma frequencies, this could enable steerable reflection by modifying a medium's response to incoming energy. |
+| Refractor | OPEN | Low | No known material refracts gamma. However, photon-on-photon scattering and laser-engineered quantum states (see Reflector) suggest energy-based approaches may achieve deflection at arbitrary angles without requiring a refractive material. Research also indicates the refractive index of polarized vacuum does not depend on wavelength — intense fields may make the vacuum itself refractive at gamma frequencies. |
+| Channel | OPEN | Medium | Depends on solving reflection or refraction first |
 | Polarizer | OPEN | Medium | Compton scattering polarimetry, crystal diffraction |
 | Conductor | OPEN | Exploratory | Requires entirely new mechanism — most speculative |
 
