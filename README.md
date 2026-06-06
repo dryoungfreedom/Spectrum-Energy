@@ -1,8 +1,8 @@
-# Spectrum Energy Research Framework
+# Spectrum Energy Research
 
-**An open research framework for multi-band energy control — from gamma ray to electron flow.**
+**Open research into multi-band energy control — from gamma ray to electron flow.**
 
-© 2026 David R. Young — Spectrum Energy Research Corp
+© 2026 David R. Young — Spectrum Energy Research Foundation
 
 **→ [Read GETTING-STARTED.md first](GETTING-STARTED.md)** — Download instructions, AI setup guide, license terms, and ethical use provisions.
 
@@ -12,15 +12,15 @@
 
 Can we control gamma radiation as completely as we control electricity?
 
-Electricity has conductors, insulators, resistors, converters, reflectors, and more — nine distinct control roles, all filled. Every band of the electromagnetic spectrum has most of these roles filled, until you reach gamma. There, four of nine roles are open. No conductor. No reflector. No channel. No polarizer.
+Electricity has conductors, insulators, resistors, converters, reflectors, and more — every control role filled. Most bands of the electromagnetic spectrum have the same coverage, until you reach gamma. There, key roles remain open. No conductor. No reflector. No channel. No polarizer.
 
-This framework maps every element, compound, and isotope across every energy band to find where those gaps are, why they exist, and what it would take to close them.
+This research maps every element, compound, and isotope across every energy band to find where those gaps are, why they exist, and what it would take to close them.
 
 ## The Core Principle
 
 **Every energy band gets its own optimal conversion pathway.**
 
-Current nuclear technology captures ~33% of fission energy as heat and discards the rest — gamma, X-ray, neutron kinetic energy, and more — as "waste" to be shielded against. The Spectrum Energy approach treats each of those bands as recoverable energy with its own converter materials and control chain.
+Current nuclear technology allows all fission energy to thermalize into heat, then converts roughly a third of that heat to electricity through a steam cycle — the rest is waste heat. The Spectrum Energy approach harvests each energy band — gamma, X-ray, neutron kinetic, thermal — through its own optimal conversion pathway before it becomes heat.
 
 ## What's Here
 
@@ -28,11 +28,11 @@ Current nuclear technology captures ~33% of fission energy as heat and discards 
 | Chart | What It Shows |
 |-------|--------------|
 | [Energy Chart](spectrum-energy-chart.html) | 118 elements across 15 energy bands — general reference |
-| [Control Chart](spectrum-control-chart.html) | Start → Change → Stop control analysis per band |
+| [Control Chart](spectrum-control-chart.html) | Control analysis per band |
 | [Structure Chart](spectrum-structure-chart.html) | Electron configuration vs. energy band behavior — why elements do what they do |
 | [Compounds Chart](spectrum-compounds-chart.html) | 79 compounds across 11 categories with gap analysis |
-| [Isotope Chart](spectrum-isotope-chart.html) | 33 isotopes — nuclear properties, decay sources, Mössbauer candidates |
-| [Glossary](spectrum-glossary.html) | Interactive definitions for all framework terms |
+| [Isotope Chart](spectrum-isotope-chart.html) | 34 isotopes — nuclear properties, decay sources, Mössbauer candidates |
+| [Glossary](spectrum-glossary.html) | Interactive definitions for all research terms |
 
 ### Design Schematics
 | Schematic | What It Shows |
@@ -46,7 +46,6 @@ Current nuclear technology captures ~33% of fission energy as heat and discards 
 | Schematic | What It Shows |
 |-----------|--------------|
 | [Home Integration](spectrum-home-integration.html) | SE Cell powering a 2,000 sq ft Florida home — all utilities |
-| [Data Center Integration](spectrum-datacenter.html) | Edge to hyperscale — SE Cell solves the AI power/cooling bottleneck |
 | [Waste Pipeline](spectrum-waste-pipeline.html) | Reactor spent fuel → processed isotope → completed SE Cell |
 
 ### Data & Documentation
@@ -56,17 +55,17 @@ Current nuclear technology captures ~33% of fission energy as heat and discards 
 | [spectrum-data.js](spectrum-data.js) | Single source of truth — 118 elements, 79 compounds, 34 isotopes, 15 bands |
 | [Gamma Gap Roadmap](GAMMA-GAP-ROADMAP.md) | Research analysis of the four open gamma control roles |
 | [Project Reference](PROJECT-REFERENCE.md) | Architecture decisions, physics rules, data structure |
-| [Glossary](GLOSSARY.md) | All framework terms and definitions (markdown) |
+| [Glossary](GLOSSARY.md) | All research terms and definitions (markdown) |
 
 ## Two Deliverables
 
-**Spectrum Energy Reactor** — A fission reactor with active shielding. Instead of blocking waste-stream gamma and converting it to heat, the shielding layers harvest it through scintillation, photovoltaic conversion, and thermoelectric recovery. The reactor is the proof of concept and the fuel factory.
+**Warm Fission Reactor** — Critical fission at low temperature. Boron carbide control rods provide the on/off switch. Thin porous uranium coating on replaceable fuel rods allows fission fragments to escape into a selenium-sulfur semiconductor for direct electrical conversion. Heavy water provides neutron moderation and cooling. All energy bands are harvested through their optimal conversion pathways.
 
-**Spectrum Energy Cell** — A decay battery with no fission, no moving parts, and no chain reaction. A sealed isotope source (like Co-60 or Am-241) surrounded by concentric converter layers — each tuned to a specific energy band. Inner layers convert gamma and X-ray. Middle layers harvest thermal energy. The outer shell is radiologically safe. Three output modes: electrical, direct thermal, and direct light. The cell is the product.
+**Spectrum Energy Cell** — A decay battery with no fission, no moving parts, and no chain reaction. A sealed isotope source surrounded by concentric converter layers — each tuned to a specific energy band. Inner layers convert gamma and X-ray. Middle layers harvest thermal energy. The outer shell is radiologically safe. Three output modes: electrical, direct thermal, and direct light. The omnidirectional cell is the product. A directional variant — the Directed Cell — produces a beam for medical therapy, industrial radiography, and sterilization.
 
 ## Design Principles
 
-1. **Harvest from waste, never steal from thermal** — Don't divert energy from the steam cycle to a lower-efficiency converter. Only harvest energy currently at 0% utilization.
+1. **Never divert energy from a working conversion pathway to a less efficient one** — For conventional reactors: harvest from waste, never steal from thermal. For the Warm Fission Reactor: reduce thermal output by harvesting as much of the available spectrum as possible through dedicated converters. The SE Cell has no thermal cycle — all paths are active.
 2. **Filter by layer, not by containment** — Convert dangerous bands in the inner layers, pass safe bands to the surface. Shielding IS the converter.
 3. **Don't convert energy already in useful form** — If it's already heat, use it as heat. If it's already light, pipe it as light. Every conversion step has losses.
 4. **Cascade, don't discard** — Decay is gradual. Step units down to smaller applications as power drops. End products are stable commodity metals, not waste.
@@ -83,7 +82,7 @@ The research frontier. Four gamma control roles remain open:
 | Polarizer | OPEN | Medium | Compton scattering polarimetry, crystal diffraction |
 | Conductor | OPEN | Exploratory | Requires entirely new mechanism — most speculative |
 
-Five roles are filled (56%): absorber, converter, resistor, insulator, transformer.
+Five roles are filled: absorber, converter, resistor, insulator, transformer.
 
 ## How to Use
 
@@ -103,47 +102,51 @@ No build step. No server. No dependencies. Just HTML, JavaScript, and a browser.
 
 `spectrum-data.js` contains all element, compound, and isotope data in one file. Every chart reads from it. The file includes a self-validation block that checks data integrity on load.
 
-**15 energy bands** in two categories:
+**15 energy bands** in three categories:
 - **EM Spectrum (8):** Radio, Microwave, Infrared, Visible Light, Ultraviolet, X-ray, Gamma, Magnetic
-- **Kinetic (7):** Thermal (conductive heat), Electron flow, Neutron flow, Alpha flow (+ 3 placeholders)
+- **Thermal (1):** Conductive heat transfer
+- **Kinetic Particles (6):** Electron flow, Neutron flow (+ 4 placeholders: Alpha, Proton, Ion, Muon)
 
-**9 control roles:** Source, Conductor, Channel, Reflector, Refractor, Resistor, Polarizer, Converter, Insulator — plus Transparent (no interaction) and Absorber (energy capture).
+**11 control roles** in three groups:
+- **Change (8):** Conductor, Reflector, Refractor, Diffractor, Resistor, Polarizer, Converter, Transformer
+- **Stop (2):** Insulator, Absorber
+- **Passive (1):** Transparent (no interaction)
 
 ## Origin
 
-This framework grew from a question asked over forty years ago: *what if we treated every energy band from a nuclear reaction the way we treat electricity — with dedicated materials for every control function?*
+This research grew from a question asked over forty years ago: *what if we treated every energy band from a nuclear reaction the way we treat electricity — with dedicated materials for every control function?*
 
-The origin story — *Sunshine on a Bad Nuclear Day* — is a creative work that traces how a childhood near a nuclear plant became a lifetime of thinking about energy control. It is available on the website.
+The origin story — *Sunshine on a Bad Nuclear Day* — is a short work of fiction that illustrates the Spectrum Energy concept through narrative. Set in a future where a nuclear plant disaster exposes the fragility of conventional reactor design, it follows a researcher whose ideas about multi-band energy control are brought to life by a team that has been quietly building the technology. It is available on the website.
 
 ## Contributing
 
-This is open research. If you have data, corrections, or insights — especially regarding the gamma gap — contributions are welcome. The framework uses a quality control process: every addition must specify which energy bands it interacts with and what control roles it fills.
+This is open research. If you have data, corrections, or insights — especially regarding the gamma gap — contributions are welcome. The research uses a quality control process: every addition must specify which energy bands it interacts with and what control roles it fills.
 
 See [PROJECT-REFERENCE.md](PROJECT-REFERENCE.md) for data architecture and physics decisions.
 
 ## Regulatory Notice
 
-The Spectrum Energy Cell involves regulated nuclear materials. Development, possession, and deployment of isotope sources require compliance with NRC, DOE, and applicable international regulations. This framework is a research tool — it does not constitute authorization to handle nuclear materials.
+The Warm Fission Reactor and Spectrum Energy Cell involve regulated nuclear materials. Development, possession, and deployment of fissile materials and isotope sources require compliance with NRC, DOE, and applicable international regulations. This is a research tool — it does not constitute authorization to handle nuclear materials.
 
 ## License & Ethical Use
 
-**By downloading or using this framework, you agree to the license terms and ethical use provisions in [GETTING-STARTED.md](GETTING-STARTED.md).**
+**By downloading or using this research, you agree to the license terms and ethical use provisions in [GETTING-STARTED.md](GETTING-STARTED.md).**
 
 This work is licensed under **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International** ([CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)).
 
 - ✓ **Free** for research, education, and non-commercial use with attribution
 - ✓ **Share alike** — derivatives must use the same license
-- ✗ **Commercial use** requires a separate license from Spectrum Energy Research Corp
+- ✗ **Commercial use** requires a separate license from Spectrum Energy Research Foundation
 
-**Ethical use:** This framework exists to advance peaceful energy research for the benefit of mankind. Use for weapons development or any purpose that harms people is expressly prohibited.
+**Ethical use:** This research exists to advance peaceful energy development for the benefit of mankind. Use for weapons development or any purpose that harms people is expressly prohibited.
 
 **"Sunshine on a Bad Nuclear Day"** is a separate literary work by David R. Young. All rights reserved.
 
 ## Citation
 
-When referencing this framework in research or publications:
+When referencing this research in publications:
 
-> Young, D. R. (2026). *Spectrum Energy Research Framework*. Spectrum Energy Research Corp. https://spectrumenergy.one
+> Young, D. R. (2026). *Spectrum Energy Research*. Spectrum Energy Research Foundation. https://spectrumenergy.one
 
 ## Contact
 
