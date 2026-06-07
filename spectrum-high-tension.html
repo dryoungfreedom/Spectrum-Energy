@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The High-Tension Photon — Spectrum Energy Research</title>
+<title>Gamma — The Abandoned Energy Band — Spectrum Energy Research</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600;700;800&display=swap');
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -17,7 +17,6 @@
   .content{max-width:900px;}
   
   h2{font-size:20px;font-weight:800;color:#E9C46A;margin:36px 0 16px 0;padding-bottom:8px;border-bottom:1px solid rgba(233,196,106,0.2);}
-  h3{font-size:15px;font-weight:700;color:#2A9D8F;margin:24px 0 12px 0;}
   
   p{margin-bottom:16px;color:#BCBCCC;}
   
@@ -28,36 +27,12 @@
   .analogy-box{background:rgba(42,157,143,0.08);border:1px solid rgba(42,157,143,0.25);border-radius:12px;padding:24px;margin:24px 0;}
   .analogy-title{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#2A9D8F;margin-bottom:12px;font-weight:700;}
   
-  .comparison{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:24px 0;}
-  @media(max-width:700px){.comparison{grid-template-columns:1fr;}}
+  .correction-box{background:rgba(230,57,70,0.06);border:1px solid rgba(230,57,70,0.2);border-radius:12px;padding:24px;margin:24px 0;}
+  .correction-title{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#E63946;margin-bottom:12px;font-weight:700;}
   
-  .compare-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px;}
-  .compare-card h4{font-size:14px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
-  .compare-card.transformer h4{color:#0E9D90;}
-  .compare-card.converter h4{color:#B7950B;}
-  .compare-card ul{list-style:none;font-size:13px;color:#999;}
-  .compare-card li{padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
-  .compare-card li:last-child{border-bottom:none;}
-  .icon{font-size:18px;}
-  
-  .chain-diagram{background:rgba(106,5,114,0.08);border:1px solid rgba(106,5,114,0.25);border-radius:12px;padding:28px;margin:28px 0;text-align:center;}
-  .chain-step{display:inline-block;padding:12px 20px;margin:4px;border-radius:8px;font-size:13px;font-weight:600;}
-  .chain-arrow{color:#9999B0;font-size:20px;margin:0 4px;}
-  .chain-source{background:rgba(230,57,70,0.2);color:#E63946;border:1px solid rgba(230,57,70,0.4);}
-  .chain-gamma{background:rgba(106,5,114,0.3);color:#D4A5D9;border:1px solid rgba(106,5,114,0.5);}
-  .chain-transform{background:rgba(14,157,144,0.2);color:#2A9D8F;border:1px solid rgba(14,157,144,0.4);}
-  .chain-visible{background:rgba(233,196,106,0.2);color:#E9C46A;border:1px solid rgba(233,196,106,0.4);}
-  .chain-convert{background:rgba(183,149,11,0.2);color:#D4AF37;border:1px solid rgba(183,149,11,0.4);}
-  .chain-elec{background:rgba(74,144,217,0.2);color:#4A90D9;border:1px solid rgba(74,144,217,0.4);}
-  .chain-label{display:block;font-size:10px;color:#9999B0;margin-top:4px;font-weight:400;}
-  .chain-row{margin:16px 0;}
-  
-  .uses-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin:20px 0;}
-  .use-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:16px;}
-  .use-card h4{font-size:13px;font-weight:700;color:#E9C46A;margin-bottom:8px;}
-  .use-card p{font-size:12px;color:#A0A0B8;margin:0;}
-  
-  .equation{font-family:'JetBrains Mono',monospace;font-size:14px;color:#E9C46A;background:rgba(0,0,0,0.3);padding:12px 20px;border-radius:8px;margin:16px 0;display:inline-block;}
+  .term{position:relative;color:#E9C46A;border-bottom:1px dotted rgba(233,196,106,0.5);cursor:help;}
+  .term .def{visibility:hidden;opacity:0;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1A1A2E;border:1px solid rgba(233,196,106,0.3);border-radius:8px;padding:10px 14px;font-size:12px;color:#BCBCCC;width:260px;line-height:1.5;z-index:10;transition:opacity 0.2s;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,0.4);}
+  .term:hover .def{visibility:visible;opacity:1;}
   
   .footer{margin-top:48px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.06);font-size:11px;color:#8888A0;}
   .footer a{color:#4A90D9;text-decoration:none;}
@@ -70,135 +45,96 @@
 <body>
 
 <div class="header">
-  <h1>The High-Tension Photon</h1>
-  <div class="subtitle">Controlling electromagnetic energy the same way we control electrons</div>
-  <div class="copyright">© 2026 David R. Young — Spectrum Energy Research Corp · v1.1</div>
+  <h1>Gamma — The Abandoned Energy Band</h1>
+  <div class="subtitle">Why nuclear energy's highest-frequency band has been neglected</div>
+  <div class="copyright">© 2026 David R. Young — Spectrum Energy Research Foundation · v2.0</div>
 </div>
 
 <div class="content">
 
 <div class="highlight">
-  <p><strong>The core insight:</strong> Gamma radiation is to the electromagnetic spectrum what high-voltage transmission is to electricity. It's not dangerous waste to be buried — it's abundant energy at a level too intense for direct use, waiting to be stepped down to useful forms. We control the electron completely. We can do the same with the photon.</p>
+  <p><strong>The core insight:</strong> Gamma is electromagnetic energy at a frequency too high for conventional energy systems to use or convert, the same way ultraviolet light is too high a frequency for the human eye to see. A fluorescent light solves this. Its phosphor coating converts UV to visible light. Gamma conversion could work the same way. Convert it to a frequency that couples with a conversion material and the energy becomes usable. The energy was always there. The coupling wasn't.</p>
 </div>
-
-<p style="font-size:13px;color:#A0A0B8;margin-bottom:28px;"><em>Note: Electromagnetic energy IS photon energy. Gamma rays, X-rays, visible light, radio waves — all photons, the same particle at different frequencies. "Electromagnetic spectrum" is just the full range of photon frequencies.</em></p>
-
-<h2>The Electrical Analogy</h2>
-
-<p>We solved electricity. Not by avoiding high voltage, but by learning to <em>transform</em> it.</p>
-
-<p>A power plant generates electricity at 20,000 volts. That's too dangerous to run through your house. But we don't throw it away — we step it up to 500,000 volts for efficient long-distance transmission, then step it back down through a series of transformers: 500kV → 69kV → 13kV → 240V at your outlet.</p>
-
-<p>At each step, the energy stays electrical. The transformer changes voltage and current, but the fundamental nature of the energy is unchanged — an electromagnetic field surrounding the wire, with electrons responding to the field and propagating it forward.</p>
 
 <div class="analogy-box">
-  <div class="analogy-title">The Parallel</div>
-  <p>Gamma rays are photons at the highest frequency — the nuclear "high voltage" level. Visible light is photons at the biological "outlet" level. <strong>Same energy type. Different frequency — different packet size.</strong></p>
-  <p style="margin-top:12px;">A scintillator crystal does for gamma what a transformer does for electricity: it steps down the frequency while preserving the electromagnetic nature of the energy. The difference: electrical transformers are 95%+ efficient; current scintillators are ~12% efficient. This is an engineering gap, not a physics limit — better crystal design or cascade architectures could improve it.</p>
+  <div class="analogy-title">A Note on Terms</div>
+  <p>Electromagnetic energy travels as a wave and is detected as a photon. These are two descriptions of the same phenomenon — "wave" describes how it behaves in motion, "photon" describes what is observed when it arrives. Gamma waves, X-ray waves, visible light, radio waves are all the same phenomenon at different frequencies. "Electromagnetic spectrum" is just the full range of frequencies.</p>
 </div>
 
-<h2>Transformer vs Converter</h2>
+<h2>What Is Coupling?</h2>
 
-<p>This distinction matters. They're not the same thing.</p>
+<p>Coupling is the single most important concept in understanding how energy works, or more accurately how it is put to work. And this concept has been most consistently overlooked in the engineering of nuclear energy.</p>
 
-<div class="comparison">
-  <div class="compare-card transformer">
-    <h4><span class="icon">⇅</span> Transformer</h4>
-    <ul>
-      <li><strong>Photon in → Photon out</strong></li>
-      <li>Changes frequency (packet size per photon)</li>
-      <li>Energy TYPE stays the same (EM radiation)</li>
-      <li>Like voltage transformer in electricity</li>
-      <li>Example: Scintillator — 1 gamma photon → 40,000 visible photons</li>
-      <li>Current efficiency ~12% to light; the other 88% converts to heat</li>
-      <li>Scintillator acts as BOTH transformer (γ→light) and converter (γ→heat)</li>
-      <li>Smaller band steps are more efficient — cascade designs could improve this</li>
-    </ul>
-  </div>
-  <div class="compare-card converter">
-    <h4><span class="icon">⚡</span> Converter</h4>
-    <ul>
-      <li><strong>Energy crosses a type boundary</strong></li>
-      <li>Photon → electron flow, or thermal → electrical</li>
-      <li>Energy TYPE changes</li>
-      <li>Like a motor (electrical → mechanical)</li>
-      <li>Example: Photovoltaic — photons → electron current</li>
-      <li>Efficiency losses at type boundary</li>
-    </ul>
-  </div>
+<p>Every frequency band has engineers who already understand coupling — they just use different words for it. A radio engineer calls it <em>tuning</em>. An audio engineer calls it <em>resonance</em>. An electrical engineer calls it <em>impedance matching</em>. An optical engineer calls it <em>absorption spectrum</em>. In every case, the principle is the same: a wave interacts with a structure only when the wave's frequency matches the scale of that structure. When the frequency matches, energy transfers. When it doesn't, the wave bounces off or passes right through as though the structure isn't there. <em>Coupling</em> is the universal word for this.</p>
+
+<p>You already know this. Sing a note into an open piano and only the string that couples with your pitch vibrates — the others sit still, no matter how loudly you sing. A microwave oven heats the water in your food because its frequency couples with water molecules, while the ceramic plate stays cool — same waves passing right through, no coupling. In both cases, <strong>frequency determines what responds</strong>.</p>
+
+<p>The amount of energy received once coupling occurs is determined by a second variable — <strong>amplitude</strong>. Amplitude is the strength of the wave — the difference between a whisper and a shout at the same pitch, or a dim light and a bright light at the same color. Frequency is what couples. Amplitude is how strongly. They are always independent.</p>
+
+<h2>The Problem</h2>
+
+<p>With coupling understood, a question follows: what happens when we apply it to nuclear energy?</p>
+
+<p>When a nuclear fuel atom splits, it doesn't produce just one kind of energy. It produces energy across multiple frequency bands simultaneously — gamma waves, X-ray waves, visible light, kinetic energy (fast-moving particles), and heat, all at once. The same is true of radioactive decay — the spent fuel and waste products from reactors continue to emit energy across multiple bands long after they leave the reactor. Every nuclear energy source is a multi-band emitter. This is why we call it <em>Spectrum Energy</em> — the full spectrum is active, not just one band.</p>
+
+<p>Conventional nuclear engineering ignores this. The entire industry was built around one band: heat — because nuclear power was designed to replace coal and oil as the heat source in a system that already ran on steam. The reactor took the place of the furnace. It uses the heat to boil water, spin a turbine, and generate electricity. Everything else the fuel produces is treated as a problem to be contained. Thick concrete walls, steel vessels, and lead shielding absorb that energy and discard it.</p>
+
+<p>The electromagnetic bands — gamma and X-ray waves — represent over a tenth of all the energy released when an atom splits. No one converts any of it. Some of it is absorbed inside the fuel and coolant, where it becomes heat — captured, but only as heat, lumped in with everything else. The rest travels outward and is absorbed by the shielding walls with no conversion at all. Not because it can't be converted, but because no one built the conversion tools. The engineering was never attempted.</p>
+
+<p>That is what Spectrum Energy Research is solving. Not a new heat source for an old steam system — a new approach where every frequency band gets its own optimal conversion pathway. The electromagnetic bands are the abandoned part of the spectrum. Understanding how to convert them is the key that unlocks the rest.</p>
+
+<p>Conventional reactors are capped at roughly 33% efficiency — two thirds of all energy lost as waste heat. But that ceiling is a property of the steam system, not the fuel. A system designed from the start to convert every band through its own pathway isn't bound by it. Each band contributes independently. Energy that exits as light or direct electricity never becomes waste heat at all.</p>
+
+<h2>The Equation That Closed a Door</h2>
+
+<p>There is an equation at the center of how gamma has been understood for over a century. It is worth examining carefully, because the way it has been read shaped every engineering decision that followed.</p>
+
+<div class="correction-box">
+  <div class="correction-title">The Equation</div>
+  <p style="margin-bottom:12px;"><strong>E = hf</strong> — energy equals Planck's constant times frequency. Planck's constant is a fixed number — a fundamental constant of nature that never changes.</p>
+  <p style="margin-bottom:0;">This equation has been read as: <em>higher frequency means more energy.</em> From that reading, a conclusion followed: gamma has the highest frequency, therefore it has the highest energy, therefore it is the most dangerous and the hardest to control. That conclusion deserves a closer look.</p>
 </div>
 
-<h3>The Math</h3>
+<p>At every other frequency band, amplitude and frequency are observably independent — and amplitude is a product of the source. A more powerful radio transmitter produces a stronger wave at the same frequency. A brighter light source produces a more intense beam at the same color. A louder speaker produces a higher-amplitude sound at the same pitch. In every case, increasing the energy at the source increases the amplitude of the wave without changing its frequency. They are separate variables.</p>
 
-<p>Planck's equation governs photon energy:</p>
+<p>Once the wave is in motion, it maintains both its frequency and its amplitude. It will continue unchanged until one of two things happens: something in its medium resists it and reduces its amplitude, or it reaches a receipt point where it couples with a structure and its energy is converted to another form.</p>
 
-<div class="equation">E = hν</div>
+<p>For gamma, each nuclear event produces gamma at a consistent amplitude because each event is the same — the source is consistent. The question is whether gamma amplitude can be modified independently, either at the source or in the medium the wave travels through.</p>
 
-<p>E=hf describes the packet size — the energy per individual photon at a given frequency. Higher frequency = larger packet. Gamma rays have frequencies above 10¹⁹ Hz. Visible light is around 10¹⁴ Hz. That's 100,000× difference in frequency — and therefore in packet size. But packet size is not total power. Total power depends on how many packets per second are flowing (see SE-Research-Note-004).</p>
+<p>Individual photon interactions can be detected and measured at optical, X-ray, and gamma frequencies. Every such measurement shows that a photon at a specific frequency always deposits the same amount of energy — a gamma photon from cobalt-60 always delivers the same energy, and a lower-frequency photon always delivers less.</p>
 
-<p>When a scintillator absorbs one gamma photon (large packet) and emits 40,000 visible photons (small packets) at ~3 eV each, it's doing what a step-down transformer does: reducing the "voltage" (packet size per quantum) while increasing the "current" (number of quanta). About 12% of the energy becomes visible light; the rest (~88%) becomes heat in the crystal lattice. Less efficient than electrical transformers, but the heat is still useful — the Spectrum Energy Cell captures it thermally.</p>
+<p>Every one of those photon measurements came from an atomic event — a nuclear decay or transition. These are fixed events. A cobalt-60 atom always emits gamma at the same two frequencies. A cesium-137 atom always emits at the same single frequency. Each specific atomic event always produces the same frequency and the same energy, every time, because the event itself is always the same. The consistency is real — but it is a property of the origin, not necessarily a law linking frequency to energy.</p>
 
-<h2>The Step-Down Chain</h2>
+<p>Compare this to radio. At radio frequencies, we build the transmitter. We control the origin event. We set the frequency with the circuit design, and we set the amplitude with the input power — independently. A more powerful transmitter produces a stronger wave at the same frequency. We can turn the amplitude up or down without touching the frequency because we control the source. At gamma frequencies, we have no such control. Each nuclear event happens on its own terms, at a fixed rate, with fixed conditions. We have never had control over the input, so we have never seen the output change. The appearance of energy and frequency being locked at gamma may be a consequence of our inability to control the source, not a fundamental property of the wave.</p>
 
-<div class="chain-diagram">
-  <div class="chain-row">
-    <span class="chain-step chain-source">Nuclear Source<span class="chain-label">Fission / Decay</span></span>
-    <span class="chain-arrow">→</span>
-    <span class="chain-step chain-gamma">Gamma Ray<span class="chain-label">~1 MeV photons</span></span>
-    <span class="chain-arrow">→</span>
-    <span class="chain-step chain-transform">TRANSFORMER<span class="chain-label">Scintillator crystal</span></span>
-  </div>
-  <div class="chain-row">
-    <span class="chain-arrow">↓</span>
-  </div>
-  <div class="chain-row">
-    <span class="chain-step chain-visible">Visible Light<span class="chain-label">~3 eV photons × 40,000</span></span>
-    <span class="chain-arrow">→</span>
-    <span class="chain-step chain-convert">CONVERTER<span class="chain-label">Photovoltaic (if needed)</span></span>
-    <span class="chain-arrow">→</span>
-    <span class="chain-step chain-elec">Electricity<span class="chain-label">Electron flow</span></span>
-  </div>
-</div>
+<h2>Amplitude Across the Spectrum</h2>
 
-<p>The key insight: <strong>if you need light, stop at the transformer stage.</strong> Converting to electricity and back to light loses energy twice. The Spectrum Energy Cell's "direct light" output mode skips the photovoltaic entirely — visible light from the scintillator goes straight to fiber optic distribution.</p>
+<p>When a gamma photon loses energy passing through matter (a process called Compton scattering), its frequency shifts — energy and frequency change together. No photon at these frequencies has been observed losing energy while staying at the same frequency. By all measured evidence at these frequencies, energy and frequency appear locked together.</p>
 
-<h2>What Gamma Does Directly</h2>
+<p>Look more closely at what happened in that Compton interaction. The gamma photon coupled with an electron. Some of its energy was converted into the electron's kinetic motion. The photon that continued was the remainder of that conversion — a different photon at a lower frequency. That is a coupling event followed by a conversion. It shows that when a wave couples and converts, the output has different properties than the input. It does not show that a wave's amplitude cannot be reduced independently of its frequency through a different mechanism — such as resistance in its medium.</p>
 
-<p>Before we transform it, gamma radiation already does useful work:</p>
+<p>So could the amplitude be modified independently? Look at how amplitude reduction works for every other wave type. In every case, the answer is the same — resistance in the medium. Sound passes through fiberglass and comes out quieter because the fiberglass resists the motion of the air molecules carrying the wave. Water waves pass over a shallow bottom and lose height because friction in the water resists the motion. The medium is dampened, the wave continues through at lower amplitude, and the frequency doesn't change. In every case, amplitude is reduced when the medium the wave travels through resists its motion.</p>
 
-<div class="uses-grid">
-  <div class="use-card">
-    <h4>Kill / Sterilize</h4>
-    <p>Destroys DNA. Used for cancer treatment (Gamma Knife), medical equipment sterilization, food irradiation. The penetrating power that makes gamma dangerous also makes it effective.</p>
-  </div>
-  <div class="use-card">
-    <h4>Penetrate / Image</h4>
-    <p>Passes through materials to reveal internal structure. Industrial radiography inspects welds, castings, pipelines. Security scanners check shipping containers. Same principle as X-ray imaging, higher frequency.</p>
-  </div>
-  <div class="use-card">
-    <h4>Transmute / Create Isotopes</h4>
-    <p>Photodisintegration: gamma above ~8 MeV knocks neutrons out of nuclei, changing one isotope to another. Can convert long-lived radioactive waste to stable elements. This is gamma doing direct nuclear work.</p>
-  </div>
-  <div class="use-card">
-    <h4>Measure / Gauge</h4>
-    <p>Gamma attenuation varies with density. Industrial gauges using Co-60 or Cs-137 measure fluid levels, material density, pipe wall thickness — without contact or intrusion.</p>
-  </div>
-  <div class="use-card">
-    <h4>Trigger Neutrons</h4>
-    <p>Photoneutron sources: Sb-124 gamma + Be-9 → neutrons. Used for reactor startups and laboratory neutron generation. Gamma creates the trigger particle for fission.</p>
-  </div>
-</div>
+<p>For electromagnetic waves, the same thing happens. In the wave description of light, passing through glass or atmosphere or tinted film IS amplitude reduction. The material's electrical and magnetic properties interact with the wave and reduce the oscillation. The wave comes out the other side dimmer but at the same frequency. This is routine for visible light — it happens every time light passes through anything partially transparent.</p>
 
-<h2>The High-Frequency Carrier Band</h2>
+<p>For gamma, conventional materials don't provide that resistance. Gamma's frequency doesn't couple with the electron-scale structures — the electron orbits in atoms — that resist visible light. The materials that do interact with gamma — lead, tungsten, concrete — tend to remove whole photons rather than dampening the wave. They are filters, not dampeners.</p>
 
-<p>In the Spectrum Energy Framework, gamma serves as the <strong>high-frequency carrier band</strong> — the transmission-level pathway from nuclear source to conversion layers.</p>
+<p>But gamma does travel through a medium — the <span class="term">quantum field<span class="def">The underlying energy field that fills all of space. Electromagnetic waves travel through it the way sound travels through air. It is the medium for all electromagnetic energy.</span></span>. And there is evidence that the quantum field's properties can be modified by magnetic fields. Strong magnetic fields alter how photons move through otherwise empty space. This has been confirmed by observation near neutron stars and predicted by laboratory experiments. The magnetic field changes the medium — and when you change the medium, you change what the wave does when it passes through.</p>
 
-<p>Just as high-voltage transmission lines carry electrical energy efficiently over distance (fewer electrons, larger packet per electron), gamma carries nuclear energy through the conversion stack using fewer photons, each a larger packet. The scintillator layer is the first "substation" — stepping the frequency down to a level the next layer can handle.</p>
+<p>When a medium changes, the wave's behavior in that medium changes. Light slows and dims passing through glass. Sound weakens passing through fiberglass. The medium's properties determine what the wave does. If the quantum field is the medium for gamma, and magnetic fields can modify that medium's properties, then gamma's behavior in a modified field should change too — including how it carries energy. That is the same principle at work, applied to a medium no one has tried to engineer.</p>
 
-<p>The atmospheric model works the same way: Earth's upper atmosphere absorbs gamma and X-rays, middle layers handle UV, and only safe bands (visible, infrared, radio) reach the surface. Each layer transforms, not just blocks. The Spectrum Energy Cell follows the same principle — transform dangerous bands, output safe energy — but the geometry reflects the physics: beta stops first, gamma penetrates deepest into a bulk scintillator, and heat flows outward through conversion layers.</p>
+<h2>What Spectrum Energy Research Has Found</h2>
+
+<p>This raises a deeper question. If Planck's constant is itself a property of the quantum field — the way the speed of sound is a property of air — then modifying the field might shift that constant locally, changing the relationship between frequency and energy at that point. That possibility has not been investigated, because the interpretation of E=hf said the question didn't need to be asked.</p>
+
+<p>If frequency and energy are not permanently locked — if their apparent connection is a property of the medium under current conditions and the origin event that sets both frequency and amplitude — then E=hf does not mean what it has been read to mean. It may describe a coupling threshold: the minimum energy required for an interaction at a given frequency, determined by the medium the wave travels through. Gamma's high E=hf value would mean it couples with high-threshold structures — not that it carries more energy than other frequencies. "Gamma <em>couples with</em> nuclear-scale structures" is a very different statement from "gamma <em>is</em> high energy."</p>
+
+<p>This coupling interpretation explains several different phenomena with one mechanism, where the conventional reading needs a separate explanation for each. It explains why the photoelectric effect — where light shining on a metal surface like copper knocks electrons free — peaks at an optimal frequency and drops off above it. If higher frequency meant more energy, the effect should get stronger as frequency increases. Instead it follows a coupling curve: peak response where the frequency matches the structure, falling off when it no longer matches well. It explains why gamma passes through materials that block visible light — not because it is too energetic to be stopped, but because it doesn't couple at that frequency. It explains why specific frequencies pass through fiber optics while others are absorbed. And it unifies electromagnetic and acoustic behavior under one framework: frequency determines coupling, amplitude determines energy, and the medium determines propagation. The same architecture at every scale.</p>
+
+<p>This distinction matters because it determines what questions get asked. If gamma is high energy, the engineering response is to shield against it. If gamma is a high-frequency wave that couples with specific structures, the engineering response is to find the right conversion materials — the same approach that works at every other frequency. That question was never asked, because the reading of E=hf closed it before it opened. And the search for amplitude control was never pursued, because the equation said frequency and energy were the same variable. If they are not, then learning to manipulate the quantum field through magnetic fields may be the path to full electromagnetic control at every frequency, including the ones we have never been able to touch. (See <a href="research-notes.html" style="color:#4A90D9;">SE-Research-Note-004</a> for the full analysis.)</p>
 
 <div class="highlight">
-  <p><strong>Bottom line:</strong> We don't need to discover new physics to use gamma. We need to apply the same engineering pattern that tamed electricity — systematic transformation through materials with known, predictable behaviors at each frequency level.</p>
+  <p><strong>Bottom line:</strong> Gamma was abandoned because an equation was read as saying frequency equals energy. If frequency and energy are independent — if frequency determines coupling and amplitude determines energy — then gamma is not a hazard to be shielded. It is a frequency band to be engineered. The path forward is learning to control the quantum field through magnetic fields, building the control system for the upper electromagnetic bands the same way earlier generations built control systems for electricity, light, and sound.</p>
 </div>
 
 </div>
@@ -206,12 +142,12 @@
 <div class="footer">
   <div class="nav-links">
     <a href="index.html" class="nav-link">← Home</a>
-    <a href="spectrum-overview.html" class="nav-link">Framework Overview</a>
+    <a href="spectrum-overview.html" class="nav-link">Overview</a>
     <a href="spectrum-energy-cell.html" class="nav-link">SE Cell Design</a>
     <a href="spectrum-compounds-chart.html" class="nav-link">Compounds Chart</a>
     <a href="spectrum-glossary.html" class="nav-link">Glossary</a>
   </div>
-  <strong>Spectrum Energy Research Framework</strong> v1.1 · © 2026 David R. Young — Spectrum Energy Research Corp · All Rights Reserved
+  © 2026 David R. Young — Spectrum Energy Research Foundation · Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> · Contact: <a href="mailto:secharts@proton.me">secharts@proton.me</a>
 </div>
 
 </body>
